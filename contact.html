@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — 3w</title>
+<meta name="description" content="Tell us about the project. A quote within two working days.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=3">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">3<span>w</span></a>
+    <nav class="main-nav">
+      <a href="#">Services</a>
+      <a href="case-study.html">Work</a>
+      <a href="#">About</a>
+      <a href="index.html#pricing">Pricing</a>
+    </nav>
+    <div class="header-actions">
+      <a href="contact.html" class="btn btn-primary" aria-current="page">Get a quote</a>
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav">
+    <a href="#">Services</a>
+    <a href="case-study.html">Work</a>
+    <a href="#">About</a>
+    <a href="index.html#pricing">Pricing</a>
+  </nav>
+</header>
+
+<section style="padding:96px var(--pad) 96px">
+  <div class="container">
+    <div class="eyebrow" style="margin-bottom:24px">Contact</div>
+    <h1 style="margin-bottom:24px">Tell us about the project</h1>
+    <p class="body-lg" style="color:var(--slate);margin-bottom:40px;max-width:56ch">The more specific you are, the more specific our quote can be. A rough budget helps us tell you quickly whether we're the right fit.</p>
+
+    <div class="contact-grid">
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="field-row">
+          <label class="field">Name
+            <input type="text" name="name" placeholder="Your name" required>
+          </label>
+          <label class="field">Email
+            <input type="email" name="email" placeholder="you@company.com" required>
+          </label>
+        </div>
+        <div class="field-row">
+          <label class="field">Company
+            <input type="text" name="company" placeholder="Company name">
+          </label>
+          <label class="field">Budget
+            <select name="budget">
+              <option>Under £5,000</option>
+              <option>£5,000 – £10,000</option>
+              <option>£10,000 – £25,000</option>
+              <option>£25,000+</option>
+              <option>Not sure yet</option>
+            </select>
+          </label>
+        </div>
+        <label class="field">Project description
+          <textarea name="description" rows="6" placeholder="What does the site need to do? What isn't working now?" required></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start">Send the brief</button>
+        <p class="small" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="contact-aside">
+        <div>
+          <div class="mono-label">Prefer email?</div>
+          <a href="mailto:hello@3w.studio" class="email-link">hello@3w.studio</a>
+        </div>
+        <div>
+          <div class="mono-label">Response time</div>
+          <p class="body-lg">We reply within one working day, and quote within two. If we're not the right fit, we'll say so and suggest who is.</p>
+        </div>
+        <div>
+          <div class="mono-label">What happens next</div>
+          <div class="next-steps">
+            <div>
+              <div class="mono-label">01 — Read</div>
+              <p class="small">We read your brief and look at your current site, if you have one.</p>
+            </div>
+            <div>
+              <div class="mono-label">02 — Quote</div>
+              <p class="small">You get a fixed price and a timeline in writing. No call required.</p>
+            </div>
+            <div>
+              <div class="mono-label">03 — Start</div>
+              <p class="small">Say yes and we book you in. Most projects start within two weeks.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <a href="index.html" class="logo">3w</a>
+        <p class="footer-tagline">Websites that work.</p>
+      </div>
+      <div class="footer-col">
+        <div class="mono-label">Services</div>
+        <a href="#">Website Design</a>
+        <a href="#">UX/UI Design</a>
+        <a href="#">SEO</a>
+        <a href="#">Web Hosting</a>
+        <a href="#">Website Security</a>
+        <a href="#">Care Plans</a>
+      </div>
+      <div class="footer-col">
+        <div class="mono-label">Work</div>
+        <a href="case-study.html">Oak Lane Dental</a>
+        <a href="#">Fieldnote</a>
+        <a href="#">All work</a>
+      </div>
+      <div class="footer-col">
+        <div class="mono-label">Company</div>
+        <a href="#">About</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="#">Journal</a>
+      </div>
+      <div class="footer-col">
+        <div class="mono-label">Contact</div>
+        <a href="contact.html">Get a quote</a>
+        <a href="mailto:hello@3w.studio">hello@3w.studio</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 3w Ltd. All rights reserved.</span>
+      <span>Hosted and secured by 3w</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -253,7 +253,9 @@ h4 {
 @media (hover: hover) and (pointer: fine) {
   .card-hover:hover {
     border-color: #D6D5D0;
-    transform: translateY(-4px);
+    /* A touch of scale alongside the lift reads as "toward you," not
+       just "up" — more dimensional than a pure translate. */
+    transform: translateY(-4px) scale(1.008);
     box-shadow: 0 2px 4px rgba(17, 19, 21, 0.04), 0 16px 32px -8px rgba(17, 19, 21, 0.12);
   }
 }
@@ -334,14 +336,20 @@ a.card-hover:active { transform: scale(0.98); }
 .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
 
 .mobile-nav {
-  display: none;
+  /* Always in flow — JS springs max-height/opacity open and closed
+     (see js/main.js) so the panel animates like a real sheet instead
+     of an instant display:none/flex cut. box-sizing:border-box means
+     padding is fully clipped away at max-height:0, so no separate
+     "closed" padding state is needed. */
+  display: flex;
   flex-direction: column;
   gap: 4px;
   background: var(--bone);
   border-top: 1px solid var(--mist);
   padding: 16px var(--pad) 24px;
+  overflow: hidden;
+  max-height: 0;
 }
-.mobile-nav.is-open { display: flex; }
 @media (min-width: 768px) { .mobile-nav { display: none !important; } }
 .mobile-nav a {
   padding: 12px 0;

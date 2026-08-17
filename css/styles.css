@@ -41,7 +41,24 @@ body {
   -webkit-font-smoothing: antialiased;
   font-size: 16px;
   line-height: 1.65;
+  position: relative;
 }
+
+/* Fixed film-grain overlay — barely perceptible on its own, but it's
+   the difference between "flat vector" and "material" across every
+   solid-color section. Fixed + pointer-events:none keeps it out of
+   layout and interaction entirely. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-transparency: reduce) { body::after { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -89,32 +106,35 @@ h1, h2, h3, h4, p { margin: 0; }
 }
 @media (min-width: 768px) { .eyebrow { font-size: 12px; } }
 
+/* Fluid sizing instead of a hard jump at 768px — large display text
+   also wants tighter tracking as it grows (Apple's optical-sizing
+   discipline), so letter-spacing scales alongside font-size here too. */
 .display {
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
-  font-size: 40px;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  font-size: clamp(40px, 8vw + 8px, 64px);
+  line-height: 1.05;
+  /* Tighter tracking as size grows: ~-1px at the small end (375px
+     viewport), ~-1.9px at the large end (1280px) — solved in px to
+     avoid ordering mistakes mixing vw with em. */
+  letter-spacing: clamp(-1.9px, -0.627px - 0.1vw, -1px);
 }
-@media (min-width: 768px) { .display { font-size: 64px; line-height: 1.05; } }
 
 .display-serif {
   font-family: 'Instrument Serif', serif;
   font-weight: 400;
-  font-size: 40px;
-  line-height: 1.08;
+  font-size: clamp(40px, 8vw + 8px, 64px);
+  line-height: 1.05;
   letter-spacing: -0.01em;
 }
-@media (min-width: 768px) { .display-serif { font-size: 64px; line-height: 1.05; } }
 
 h1 {
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
-  font-size: 34px;
+  font-size: clamp(34px, 6vw + 8px, 48px);
   line-height: 1.08;
   letter-spacing: -0.025em;
 }
-@media (min-width: 768px) { h1 { font-size: 48px; line-height: 1.08; } }
 
 h2 {
   font-family: 'Instrument Sans', sans-serif;
@@ -188,7 +208,11 @@ h4 {
    correctly on touch too. */
 .btn:active { transform: scale(0.97); }
 
-.btn-primary { background: var(--cobalt); color: #fff; }
+.btn-primary {
+  background: var(--cobalt);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(47, 75, 255, 0.2), 0 8px 20px -6px rgba(47, 75, 255, 0.4);
+}
 .btn-secondary { background: transparent; border: 1px solid var(--ink); color: var(--ink); }
 .btn-on-ink { background: var(--bone); color: var(--ink); }
 
@@ -216,7 +240,16 @@ h4 {
 .section-tight > .container { padding-left: 0; padding-right: 0; }
 
 .bg-white { background: var(--white); }
-.bg-ink { background: var(--ink); color: var(--bone); }
+.bg-ink {
+  /* A flat solid fill reads as a paint swatch. A faint cobalt glow
+     bleeding from one corner gives every dark section real depth —
+     stays well under the "no cobalt wash" ceiling at 8% peak opacity,
+     fully faded by the section's midpoint. */
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -15%, rgba(47, 75, 255, 0.08), transparent 60%),
+    var(--ink);
+  color: var(--bone);
+}
 .bg-ink .small { color: var(--slate-on-ink); }
 
 .border-top { border-top: 1px solid var(--mist); }
@@ -227,16 +260,19 @@ h4 {
   background: var(--white);
   border: 1px solid var(--mist);
   border-radius: 12px;
+  /* Resting depth — the flat "border only" look reads as paper cutouts.
+     A soft two-layer shadow lifts every card off the page even at rest. */
+  box-shadow: 0 1px 2px rgba(17, 19, 21, 0.04), 0 6px 16px -4px rgba(17, 19, 21, 0.05);
 }
 
 .card-hover {
-  transition: border-color 160ms var(--ease), transform 160ms var(--ease-out), box-shadow 160ms var(--ease);
+  transition: border-color 160ms var(--ease), transform 160ms var(--ease-out), box-shadow 200ms var(--ease-out);
 }
 @media (hover: hover) and (pointer: fine) {
   .card-hover:hover {
     border-color: #D6D5D0;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(17, 19, 21, 0.08);
+    transform: translateY(-4px);
+    box-shadow: 0 2px 4px rgba(17, 19, 21, 0.04), 0 16px 32px -8px rgba(17, 19, 21, 0.12);
   }
 }
 /* Only actual links press — service cards aren't interactive, so they
@@ -246,10 +282,18 @@ a.card-hover:active { transform: scale(0.98); }
 /* ── Header ─────────────────────────────────────────────────────── */
 
 .site-header {
-  background: var(--bone);
+  /* Translucent material, not a flat opaque bar — content scrolls
+     underneath and the blur/edge gives the chrome real thickness. */
+  background: rgba(246, 245, 242, 0.72);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
   position: sticky;
   top: 0;
   z-index: 50;
+  box-shadow: 0 1px 0 rgba(17, 19, 21, 0.06), 0 12px 24px -16px rgba(17, 19, 21, 0.15);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .site-header { background: var(--bone); backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 
 .site-header .container {
@@ -368,7 +412,9 @@ a.card-hover:active { transform: scale(0.98); }
 /* ── Footer ─────────────────────────────────────────────────────── */
 
 .site-footer {
-  background: var(--ink);
+  background:
+    radial-gradient(ellipse 900px 500px at 85% 0%, rgba(47, 75, 255, 0.06), transparent 60%),
+    var(--ink);
   color: var(--bone);
   padding: 96px var(--pad) 40px;
 }
@@ -503,8 +549,21 @@ a.card-hover:active { transform: scale(0.98); }
 }
 @media (min-width: 768px) { .service-card .index { top: 32px; right: 32px; font-size: 12px; } }
 
-.service-card svg { margin-bottom: 16px; }
-@media (min-width: 768px) { .service-card svg { margin-bottom: 24px; } }
+.service-card .icon-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--fog);
+  margin-bottom: 16px;
+}
+@media (min-width: 768px) { .service-card .icon-chip { width: 48px; height: 48px; margin-bottom: 24px; } }
+/* The one accented service (SEO) gets a tinted chip to match its cobalt
+   icon — everything else stays neutral so the accent still reads as
+   singular, per the ≤5% cobalt-coverage rule. */
+.service-card .icon-chip.accent { background: rgba(47, 75, 255, 0.08); }
 
 .service-card h4 { margin-bottom: 6px; }
 @media (min-width: 768px) { .service-card h4 { margin-bottom: 8px; } }
@@ -575,7 +634,13 @@ a.card-hover:active { transform: scale(0.98); }
 
 .price-card { position: relative; padding: 24px; }
 @media (min-width: 768px) { .price-card { padding: 32px; } }
-.price-card.featured { border-color: var(--cobalt); }
+.price-card.featured {
+  border-color: var(--cobalt);
+  /* The "recommended" tier should visibly sit above its neighbors, not
+     just wear a different border color. */
+  box-shadow: 0 0 0 1px var(--cobalt), 0 20px 40px -12px rgba(47, 75, 255, 0.25);
+}
+@media (min-width: 768px) { .price-card.featured { transform: translateY(-8px); } }
 .price-card .badge {
   position: absolute;
   top: -10px;

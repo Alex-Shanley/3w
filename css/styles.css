@@ -18,6 +18,9 @@
   --slate-on-ink: #9B9EA3;
 
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Stronger ease-out for press/hover feedback — the standard curve above
+     is too weak to feel intentional on transform-based interactions. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --container: 1200px;
   --pad: 20px;
 }
@@ -175,18 +178,28 @@ h4 {
   border: none;
   cursor: pointer;
   transition: background 160ms var(--ease), color 160ms var(--ease),
-    opacity 160ms var(--ease), border-color 160ms var(--ease);
+    opacity 160ms var(--ease), border-color 160ms var(--ease),
+    transform 120ms var(--ease-out);
 }
 @media (min-width: 768px) { .btn { height: 48px; } }
 
+/* Press feedback on every button, every input type — buttons must feel
+   like they're listening. Not gated behind (hover:hover): :active fires
+   correctly on touch too. */
+.btn:active { transform: scale(0.97); }
+
 .btn-primary { background: var(--cobalt); color: #fff; }
-.btn-primary:hover { background: var(--cobalt-dark); color: #fff; }
-
 .btn-secondary { background: transparent; border: 1px solid var(--ink); color: var(--ink); }
-.btn-secondary:hover { background: var(--ink); color: var(--bone); }
-
 .btn-on-ink { background: var(--bone); color: var(--ink); }
-.btn-on-ink:hover { opacity: 0.9; color: var(--ink); }
+
+/* Hover-only feedback gated to real pointers — touch devices fire :hover
+   on tap, which would otherwise leave buttons stuck in their hover state
+   until the next unrelated tap. */
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover { background: var(--cobalt-dark); color: #fff; }
+  .btn-secondary:hover { background: var(--ink); color: var(--bone); }
+  .btn-on-ink:hover { opacity: 0.9; color: var(--ink); }
+}
 
 .btn-block { width: 100%; }
 @media (min-width: 768px) { .btn-block { width: auto; } }
@@ -216,12 +229,19 @@ h4 {
   border-radius: 12px;
 }
 
-.card-hover { transition: border-color 160ms var(--ease), transform 160ms var(--ease), box-shadow 160ms var(--ease); }
-.card-hover:hover {
-  border-color: #D6D5D0;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(17, 19, 21, 0.08);
+.card-hover {
+  transition: border-color 160ms var(--ease), transform 160ms var(--ease-out), box-shadow 160ms var(--ease);
 }
+@media (hover: hover) and (pointer: fine) {
+  .card-hover:hover {
+    border-color: #D6D5D0;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(17, 19, 21, 0.08);
+  }
+}
+/* Only actual links press — service cards aren't interactive, so they
+   shouldn't visually react to a tap that does nothing. */
+a.card-hover:active { transform: scale(0.98); }
 
 /* ── Header ─────────────────────────────────────────────────────── */
 
@@ -401,6 +421,25 @@ h4 {
 @media (min-width: 768px) { .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); } }
 
 .stack { display: flex; flex-direction: column; }
+
+/* ── Scroll-reveal stagger ──────────────────────────────────────── */
+/* First-impression only: each grid reveals once as it scrolls into
+   view, cards staggered so they cascade rather than pop in as a block.
+   JS toggles .is-visible via IntersectionObserver (js/main.js); this
+   degrades gracefully to fully-visible content if JS never runs. */
+
+.reveal > * {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
+}
+.reveal.is-visible > * { opacity: 1; transform: translateY(0); }
+.reveal.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.reveal.is-visible > *:nth-child(2) { transition-delay: 50ms; }
+.reveal.is-visible > *:nth-child(3) { transition-delay: 100ms; }
+.reveal.is-visible > *:nth-child(4) { transition-delay: 150ms; }
+.reveal.is-visible > *:nth-child(5) { transition-delay: 200ms; }
+.reveal.is-visible > *:nth-child(6) { transition-delay: 250ms; }
 
 /* ── Hero ───────────────────────────────────────────────────────── */
 

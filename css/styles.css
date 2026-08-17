@@ -41,24 +41,7 @@ body {
   -webkit-font-smoothing: antialiased;
   font-size: 16px;
   line-height: 1.65;
-  position: relative;
 }
-
-/* Fixed film-grain overlay — barely perceptible on its own, but it's
-   the difference between "flat vector" and "material" across every
-   solid-color section. Fixed + pointer-events:none keeps it out of
-   layout and interaction entirely. */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  pointer-events: none;
-  opacity: 0.03;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-@media (prefers-reduced-transparency: reduce) { body::after { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -211,7 +194,9 @@ h4 {
 .btn-primary {
   background: var(--cobalt);
   color: #fff;
-  box-shadow: 0 1px 2px rgba(47, 75, 255, 0.2), 0 8px 20px -6px rgba(47, 75, 255, 0.4);
+  /* Neutral ink-tinted lift, not a colored glow — reads as a precise
+     enterprise button rather than a consumer-app effect. */
+  box-shadow: 0 1px 2px rgba(17, 19, 21, 0.08), 0 4px 10px -4px rgba(17, 19, 21, 0.18);
 }
 .btn-secondary { background: transparent; border: 1px solid var(--ink); color: var(--ink); }
 .btn-on-ink { background: var(--bone); color: var(--ink); }
@@ -241,13 +226,10 @@ h4 {
 
 .bg-white { background: var(--white); }
 .bg-ink {
-  /* A flat solid fill reads as a paint swatch. A faint cobalt glow
-     bleeding from one corner gives every dark section real depth —
-     stays well under the "no cobalt wash" ceiling at 8% peak opacity,
-     fully faded by the section's midpoint. */
-  background:
-    radial-gradient(ellipse 900px 500px at 15% -15%, rgba(47, 75, 255, 0.08), transparent 60%),
-    var(--ink);
+  /* A near-black gradient (not tinted cobalt) — a flat fill reads as a
+     paint swatch, but a colored glow reads as a marketing-site trick.
+     A neutral tonal shift is the restrained middle ground. */
+  background: linear-gradient(160deg, #1a1d20, var(--ink) 55%);
   color: var(--bone);
 }
 .bg-ink .small { color: var(--slate-on-ink); }
@@ -412,9 +394,7 @@ a.card-hover:active { transform: scale(0.98); }
 /* ── Footer ─────────────────────────────────────────────────────── */
 
 .site-footer {
-  background:
-    radial-gradient(ellipse 900px 500px at 85% 0%, rgba(47, 75, 255, 0.06), transparent 60%),
-    var(--ink);
+  background: linear-gradient(160deg, #1a1d20, var(--ink) 55%);
   color: var(--bone);
   padding: 96px var(--pad) 40px;
 }
@@ -512,24 +492,29 @@ a.card-hover:active { transform: scale(0.98); }
 .hero-shot { height: 240px; }
 @media (min-width: 768px) { .hero-shot { height: 420px; } }
 
-/* ── Trust band ─────────────────────────────────────────────────── */
+/* ── Trust strip ────────────────────────────────────────────────── */
 
-.trust-band {
-  padding: 24px var(--pad);
+.trust-strip { padding: 20px var(--pad); }
+@media (min-width: 768px) { .trust-strip { padding: 24px var(--pad); } }
+.trust-strip .container {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 24px;
   justify-content: center;
-  opacity: 0.4;
-  font-family: 'Instrument Sans', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
+  gap: 12px 32px;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.02em;
   color: var(--slate);
 }
-@media (min-width: 768px) {
-  .trust-band { padding: 32px var(--pad); justify-content: center; font-size: 17px; }
-}
-.trust-band .container { display: flex; flex-wrap: inherit; justify-content: inherit; gap: inherit; width: 100%; }
+.trust-item svg { flex-shrink: 0; opacity: 0.7; }
+.trust-item a { color: var(--slate); text-decoration-color: var(--mist); }
+.trust-item a:hover { color: var(--cobalt); }
 
 /* ── Service cards ──────────────────────────────────────────────── */
 
@@ -636,9 +621,9 @@ a.card-hover:active { transform: scale(0.98); }
 @media (min-width: 768px) { .price-card { padding: 32px; } }
 .price-card.featured {
   border-color: var(--cobalt);
-  /* The "recommended" tier should visibly sit above its neighbors, not
-     just wear a different border color. */
-  box-shadow: 0 0 0 1px var(--cobalt), 0 20px 40px -12px rgba(47, 75, 255, 0.25);
+  /* A crisp cobalt ring plus a neutral lift — precise emphasis, not a
+     colored glow. The ring alone already reads as "chosen." */
+  box-shadow: 0 0 0 1px var(--cobalt), 0 16px 32px -12px rgba(17, 19, 21, 0.16);
 }
 @media (min-width: 768px) { .price-card.featured { transform: translateY(-8px); } }
 .price-card .badge {
@@ -803,11 +788,79 @@ a.card-hover:active { transform: scale(0.98); }
 .next-case .arrow { font-family: 'Instrument Sans', sans-serif; font-weight: 600; font-size: 32px; }
 @media (min-width: 768px) { .next-case .arrow { font-size: 48px; } }
 
-/* ── Pull quote ─────────────────────────────────────────────────── */
+/* ── Testimonial ────────────────────────────────────────────────── */
 
-.pull-quote {
+.testimonial-card {
   margin: 0;
-  padding-left: 24px;
-  border-left: 3px solid var(--cobalt);
+  padding: 32px;
 }
-.pull-quote footer { color: var(--slate); font-style: normal; }
+@media (min-width: 768px) { .testimonial-card { padding: 48px; } }
+
+.testimonial-mark { color: var(--mist); margin-bottom: 16px; }
+
+.testimonial-quote {
+  font-size: 22px;
+  line-height: 1.4;
+}
+@media (min-width: 768px) { .testimonial-quote { font-size: 26px; } }
+
+.testimonial-attribution {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  font-style: normal;
+}
+
+.testimonial-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--fog);
+  flex-shrink: 0;
+}
+
+.testimonial-name {
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+/* ── FAQ ────────────────────────────────────────────────────────── */
+
+.faq-list { border-top: 1px solid var(--mist); }
+
+.faq-item { border-bottom: 1px solid var(--mist); }
+
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-item summary::after {
+  content: '+';
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  color: var(--slate);
+  transition: transform 200ms var(--ease-out);
+}
+.faq-item[open] summary::after { content: '−'; }
+
+.faq-item p { padding-bottom: 24px; margin: 0; max-width: 56ch; }

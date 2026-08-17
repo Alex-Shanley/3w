@@ -88,11 +88,11 @@
   // this script doesn't run, the hero stays exactly as authored.
   if (wantsMotion) {
     const heroItems = [
-      ['.hero-eyebrow', 0],
-      ['.hero-headline', 70],
-      ['.hero-sub', 130],
-      ['.hero-ctas', 190],
-      ['.hero-art', 140],
+      ['.hero-bg img', 0],
+      ['.hero-eyebrow', 120],
+      ['.hero-headline', 180],
+      ['.hero-sub', 240],
+      ['.hero-ctas', 300],
     ];
     heroItems.forEach(([selector, delay]) => {
       const el = document.querySelector(selector);

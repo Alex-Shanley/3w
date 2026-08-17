@@ -458,31 +458,46 @@ a.card-hover:active { transform: scale(0.98); }
 .reveal.is-visible > *:nth-child(6) { transition-delay: 250ms; }
 
 /* ── Hero ───────────────────────────────────────────────────────── */
-/* Centered, oversized, sequenced — headline and subhead first, then a
-   full-bleed art panel below. Apple's product pages almost never run
-   a two-column "text left, screenshot right" layout; they state the
-   claim big and alone, then let a large image carry the proof. */
+/* Immersive, not stacked: the gradient art fills the section as a
+   full-bleed background and the headline sits directly on top of it,
+   the way apple.com's own product pages work (a dark scrim carries
+   contrast, not a separate panel below the text). */
 
 .hero-section {
-  padding: 88px 0 0;
-  text-align: center;
+  position: relative;
+  min-height: calc(100svh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  text-align: center;
+  padding: 96px 0 64px;
 }
-@media (min-width: 768px) { .hero-section { padding: 140px 0 0; } }
+@media (min-width: 768px) { .hero-section { min-height: calc(100svh - 72px); padding: 96px 0; } }
+
+.hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(17, 19, 21, 0.32) 0%, rgba(17, 19, 21, 0.55) 55%, rgba(17, 19, 21, 0.8) 100%);
+}
 
 .hero-content {
+  position: relative;
+  z-index: 1;
   max-width: 760px;
   margin: 0 auto;
   padding: 0 var(--pad);
 }
 
-.hero-eyebrow { margin-bottom: 20px; }
+.hero-eyebrow { color: rgba(246, 245, 242, 0.75); margin-bottom: 20px; }
 @media (min-width: 768px) { .hero-eyebrow { margin-bottom: 24px; } }
 
-.hero-headline { margin: 0 auto 24px; max-width: 15ch; }
+.hero-headline { color: var(--bone); margin: 0 auto 24px; max-width: 15ch; }
 @media (min-width: 768px) { .hero-headline { margin-bottom: 28px; } }
 
-.hero-sub { color: var(--slate); margin: 0 auto 40px; max-width: 46ch; }
+.hero-sub { color: rgba(246, 245, 242, 0.85); margin: 0 auto 40px; max-width: 46ch; }
 @media (min-width: 768px) { .hero-sub { margin-bottom: 48px; } }
 
 .hero-ctas {
@@ -490,32 +505,28 @@ a.card-hover:active { transform: scale(0.98); }
   flex-direction: column;
   gap: 12px;
   max-width: 300px;
-  margin: 0 auto 64px;
+  margin: 0 auto;
 }
 @media (min-width: 480px) { .hero-ctas { flex-direction: row; justify-content: center; max-width: none; } }
-@media (min-width: 768px) { .hero-ctas { margin-bottom: 96px; } }
 
-.hero-art {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
+/* The outline CTA needs a light variant here — .btn-secondary's
+   ink-on-bone styling would be invisible against a dark hero. */
+.hero-ctas .btn-secondary { border-color: rgba(246, 245, 242, 0.45); color: var(--bone); }
+@media (hover: hover) and (pointer: fine) {
+  .hero-ctas .btn-secondary:hover { background: var(--bone); color: var(--ink); }
 }
-@media (min-width: 640px) { .hero-art { aspect-ratio: 16 / 9; } }
-@media (min-width: 768px) {
-  .hero-art {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 var(--pad);
-    aspect-ratio: 21 / 9;
-  }
+
+.hero-scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  z-index: 1;
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, rgba(246, 245, 242, 0.7), transparent);
+  transform: translateX(-50%);
 }
-.hero-art img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-@media (min-width: 768px) { .hero-art img { border-radius: 32px; } }
+@media (max-height: 700px) { .hero-scroll-cue { display: none; } }
 
 /* ── Trust strip ────────────────────────────────────────────────── */
 
@@ -542,6 +553,40 @@ a.card-hover:active { transform: scale(0.98); }
 .trust-item a:hover { color: var(--cobalt); }
 
 /* ── Service cards ──────────────────────────────────────────────── */
+/* A bento grid, not a uniform 3x2 — one large featured card anchors
+   the layout and everything else arranges around it, breaking the
+   "every card is the same size" rhythm the rest of the page has. */
+
+.services-bento {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .services-bento {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      "big  big  ux"
+      "big  big  seo"
+      "host security care";
+    gap: 24px;
+  }
+  #website-design { grid-area: big; }
+  #ux-ui-design { grid-area: ux; }
+  #seo { grid-area: seo; }
+  #web-hosting { grid-area: host; }
+  #website-security { grid-area: security; }
+  #care-plans { grid-area: care; }
+}
+
+.service-card--lg { display: flex; flex-direction: column; }
+@media (min-width: 768px) {
+  /* Specificity bumped to beat the general .service-card .icon-chip
+     rule regardless of source order (both are two-class selectors). */
+  .service-card.service-card--lg .icon-chip { width: 56px; height: 56px; border-radius: 18px; }
+  .service-card--lg h4 { font-size: 28px; }
+  .service-card--lg p { max-width: 34ch; font-size: 15px; }
+}
 
 .service-card {
   position: relative;

@@ -89,10 +89,10 @@
   if (wantsMotion) {
     const heroItems = [
       ['.hero-eyebrow', 0],
-      ['.hero h1', 70],
+      ['.hero-headline', 70],
       ['.hero-sub', 130],
       ['.hero-ctas', 190],
-      ['.browser-frame', 120],
+      ['.hero-art', 140],
     ];
     heroItems.forEach(([selector, delay]) => {
       const el = document.querySelector(selector);

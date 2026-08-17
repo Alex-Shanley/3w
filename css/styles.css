@@ -95,12 +95,15 @@ h1, h2, h3, h4, p { margin: 0; }
 .display {
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
-  font-size: clamp(40px, 8vw + 8px, 64px);
-  line-height: 1.05;
-  /* Tighter tracking as size grows: ~-1px at the small end (375px
-     viewport), ~-1.9px at the large end (1280px) — solved in px to
-     avoid ordering mistakes mixing vw with em. */
-  letter-spacing: clamp(-1.9px, -0.627px - 0.1vw, -1px);
+  /* Apple-scale confidence: 48px on a phone, up to 112px on a large
+     desktop — the old 64px cap read as "SaaS landing page," not a
+     statement. */
+  font-size: clamp(48px, 6vw + 24px, 112px);
+  line-height: 1.02;
+  /* Tighter tracking as size grows: ~-1px at 375px viewport, ~-3.9px
+     at 1280px — large display type needs real negative tracking or
+     the letters read too far apart. */
+  letter-spacing: clamp(-3.9px, 0.2px - 0.32vw, -1px);
 }
 
 .display-serif {
@@ -122,11 +125,11 @@ h1 {
 h2 {
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
-  font-size: 28px;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-size: 30px;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
 }
-@media (min-width: 768px) { h2 { font-size: 36px; } }
+@media (min-width: 768px) { h2 { font-size: 44px; } }
 
 h3 {
   font-family: 'Instrument Sans', sans-serif;
@@ -170,9 +173,11 @@ h4 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
-  padding: 0 24px;
-  border-radius: 8px;
+  height: 46px;
+  padding: 0 28px;
+  /* Full capsule, not a rounded rectangle — the shape of Apple's own
+     "Buy" / "Learn more" CTAs. */
+  border-radius: 999px;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 16px;
@@ -184,7 +189,7 @@ h4 {
     opacity 160ms var(--ease), border-color 160ms var(--ease),
     transform 120ms var(--ease-out);
 }
-@media (min-width: 768px) { .btn { height: 48px; } }
+@media (min-width: 768px) { .btn { height: 50px; padding: 0 32px; } }
 
 /* Press feedback on every button, every input type — buttons must feel
    like they're listening. Not gated behind (hover:hover): :active fires
@@ -241,7 +246,9 @@ h4 {
 .card {
   background: var(--white);
   border: 1px solid var(--mist);
-  border-radius: 12px;
+  /* Generous, continuous-feeling corners rather than a sharp rounded
+     rectangle — the softer surface language Apple uses everywhere. */
+  border-radius: 20px;
   /* Resting depth — the flat "border only" look reads as paper cutouts.
      A soft two-layer shadow lifts every card off the page even at rest. */
   box-shadow: 0 1px 2px rgba(17, 19, 21, 0.04), 0 6px 16px -4px rgba(17, 19, 21, 0.05);
@@ -374,31 +381,6 @@ a.card-hover:active { transform: scale(0.98); }
   object-fit: cover;
 }
 
-.browser-frame {
-  background: var(--white);
-  border: 1px solid var(--mist);
-  border-radius: 12px;
-  overflow: hidden;
-}
-.browser-frame .chrome {
-  height: 36px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 0 14px;
-  border-bottom: 1px solid var(--mist);
-}
-@media (min-width: 768px) { .browser-frame .chrome { height: 40px; padding: 0 16px; } }
-.browser-frame .dot { width: 7px; height: 7px; border-radius: 999px; background: var(--mist); }
-@media (min-width: 768px) { .browser-frame .dot { width: 8px; height: 8px; } }
-.browser-frame .url {
-  margin-left: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--slate);
-}
-@media (min-width: 768px) { .browser-frame .url { margin-left: 12px; font-size: 11px; } }
-
 /* ── Footer ─────────────────────────────────────────────────────── */
 
 .site-footer {
@@ -476,29 +458,64 @@ a.card-hover:active { transform: scale(0.98); }
 .reveal.is-visible > *:nth-child(6) { transition-delay: 250ms; }
 
 /* ── Hero ───────────────────────────────────────────────────────── */
+/* Centered, oversized, sequenced — headline and subhead first, then a
+   full-bleed art panel below. Apple's product pages almost never run
+   a two-column "text left, screenshot right" layout; they state the
+   claim big and alone, then let a large image carry the proof. */
 
-.hero {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  align-items: center;
+.hero-section {
+  padding: 88px 0 0;
+  text-align: center;
+  overflow: hidden;
 }
-@media (min-width: 768px) { .hero { grid-template-columns: minmax(0,6fr) minmax(0,6fr); gap: 64px; } }
+@media (min-width: 768px) { .hero-section { padding: 140px 0 0; } }
 
-.hero-eyebrow { margin-bottom: 24px; }
-@media (min-width: 768px) { .hero-eyebrow { margin-bottom: 32px; } }
+.hero-content {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
 
-.hero h1 { margin-bottom: 24px; max-width: 12ch; }
-@media (min-width: 768px) { .hero h1 { margin-bottom: 32px; } }
+.hero-eyebrow { margin-bottom: 20px; }
+@media (min-width: 768px) { .hero-eyebrow { margin-bottom: 24px; } }
 
-.hero-sub { color: var(--slate); margin-bottom: 32px; max-width: 44ch; }
+.hero-headline { margin: 0 auto 24px; max-width: 15ch; }
+@media (min-width: 768px) { .hero-headline { margin-bottom: 28px; } }
+
+.hero-sub { color: var(--slate); margin: 0 auto 40px; max-width: 46ch; }
 @media (min-width: 768px) { .hero-sub { margin-bottom: 48px; } }
 
-.hero-ctas { display: flex; flex-direction: column; gap: 12px; margin-bottom: 64px; }
-@media (min-width: 768px) { .hero-ctas { flex-direction: row; gap: 16px; margin-bottom: 0; } }
+.hero-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 300px;
+  margin: 0 auto 64px;
+}
+@media (min-width: 480px) { .hero-ctas { flex-direction: row; justify-content: center; max-width: none; } }
+@media (min-width: 768px) { .hero-ctas { margin-bottom: 96px; } }
 
-.hero-shot { height: 240px; }
-@media (min-width: 768px) { .hero-shot { height: 420px; } }
+.hero-art {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+@media (min-width: 640px) { .hero-art { aspect-ratio: 16 / 9; } }
+@media (min-width: 768px) {
+  .hero-art {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--pad);
+    aspect-ratio: 21 / 9;
+  }
+}
+.hero-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (min-width: 768px) { .hero-art img { border-radius: 32px; } }
 
 /* ── Trust strip ────────────────────────────────────────────────── */
 
@@ -548,11 +565,11 @@ a.card-hover:active { transform: scale(0.98); }
   justify-content: center;
   width: 44px;
   height: 44px;
-  border-radius: 10px;
+  border-radius: 14px;
   background: var(--fog);
   margin-bottom: 16px;
 }
-@media (min-width: 768px) { .service-card .icon-chip { width: 48px; height: 48px; margin-bottom: 24px; } }
+@media (min-width: 768px) { .service-card .icon-chip { width: 48px; height: 48px; border-radius: 16px; margin-bottom: 24px; } }
 /* The one accented service (SEO) gets a tinted chip to match its cobalt
    icon — everything else stays neutral so the accent still reads as
    singular, per the ≤5% cobalt-coverage rule. */
@@ -575,12 +592,12 @@ a.card-hover:active { transform: scale(0.98); }
 .stat-band .num {
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
-  font-size: 48px;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  font-size: clamp(48px, 9vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.03em;
   color: var(--bone);
 }
-@media (min-width: 768px) { .stat-band .num { font-size: 64px; } }
+@media (min-width: 768px) { .stat-band .num { font-size: clamp(64px, 6vw, 96px); } }
 .stat-band .num.accent { color: var(--cobalt); }
 .stat-band .unit { margin-top: 12px; }
 @media (min-width: 768px) { .stat-band .unit { margin-top: 16px; } }
@@ -687,7 +704,7 @@ a.card-hover:active { transform: scale(0.98); }
 .contact-form {
   background: var(--white);
   border: 1px solid var(--mist);
-  border-radius: 16px;
+  border-radius: 24px;
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -704,7 +721,7 @@ a.card-hover:active { transform: scale(0.98); }
   height: 48px;
   padding: 0 16px;
   border: 1px solid var(--mist);
-  border-radius: 8px;
+  border-radius: 12px;
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   color: var(--ink);
@@ -744,7 +761,7 @@ a.card-hover:active { transform: scale(0.98); }
 .cs-meta .label { color: var(--slate-on-ink); }
 .cs-meta .value { color: var(--bone); margin-left: 8px; }
 
-.cs-hero-shot { height: 280px; border-radius: 12px 12px 0 0; }
+.cs-hero-shot { height: 280px; border-radius: 24px 24px 0 0; }
 @media (min-width: 768px) { .cs-hero-shot { height: 560px; } }
 
 .cs-narrative { max-width: 720px; margin: 0 auto; }
@@ -764,14 +781,14 @@ a.card-hover:active { transform: scale(0.98); }
 .device-phone {
   background: var(--bone);
   border: 1px solid var(--mist);
-  border-radius: 24px;
+  border-radius: 36px;
   overflow: hidden;
   padding: 12px;
   max-width: 240px;
   justify-self: center;
 }
 @media (min-width: 768px) { .device-phone { max-width: 280px; } }
-.device-phone .shot { border-radius: 16px; overflow: hidden; height: 300px; }
+.device-phone .shot { border-radius: 24px; overflow: hidden; height: 300px; }
 @media (min-width: 768px) { .device-phone .shot { height: 452px; } }
 
 .next-case {

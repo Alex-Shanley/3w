@@ -13,6 +13,9 @@
   --success: #147A5C;
   --success-on-ink: #4ADE9E;
   --border-on-ink: rgba(246, 245, 242, 0.12);
+  /* --slate is 3.3:1 on --ink — fails WCAG AA for normal text. This
+     lighter tint (6.9:1) is the dark-background equivalent. */
+  --slate-on-ink: #9B9EA3;
 
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --container: 1200px;
@@ -201,7 +204,7 @@ h4 {
 
 .bg-white { background: var(--white); }
 .bg-ink { background: var(--ink); color: var(--bone); }
-.bg-ink .small { color: var(--slate); }
+.bg-ink .small { color: var(--slate-on-ink); }
 
 .border-top { border-top: 1px solid var(--mist); }
 .border-bottom { border-bottom: 1px solid var(--mist); }
@@ -362,7 +365,8 @@ h4 {
 }
 .footer-top .logo { color: var(--bone); grid-column: 1 / -1; }
 @media (min-width: 768px) { .footer-top .logo { grid-column: auto; } }
-.footer-tagline { font-size: 14px; color: var(--slate); margin-top: 12px; }
+.footer-tagline { font-size: 14px; color: var(--slate-on-ink); margin-top: 12px; }
+.site-footer .mono-label { color: var(--slate-on-ink); }
 @media (min-width: 768px) { .footer-tagline { margin-top: 16px; } }
 
 .footer-col { display: flex; flex-direction: column; gap: 10px; }
@@ -379,10 +383,10 @@ h4 {
   flex-direction: column;
   gap: 6px;
   font-size: 12px;
-  color: var(--slate);
+  color: var(--slate-on-ink);
 }
 @media (min-width: 768px) {
-  .footer-bottom { flex-direction: row; justify-content: space-between; padding-top: 32px; font-size: 13px; }
+  .footer-bottom { flex-direction: row; flex-wrap: wrap; row-gap: 8px; justify-content: space-between; padding-top: 32px; font-size: 13px; }
 }
 
 /* ── Grid utilities ─────────────────────────────────────────────── */
@@ -438,7 +442,7 @@ h4 {
   color: var(--slate);
 }
 @media (min-width: 768px) {
-  .trust-band { padding: 32px var(--pad); justify-content: space-between; flex-wrap: nowrap; font-size: 17px; }
+  .trust-band { padding: 32px var(--pad); justify-content: center; font-size: 17px; }
 }
 .trust-band .container { display: flex; flex-wrap: inherit; justify-content: inherit; gap: inherit; width: 100%; }
 
@@ -489,7 +493,7 @@ h4 {
 .stat-band .num.accent { color: var(--cobalt); }
 .stat-band .unit { margin-top: 12px; }
 @media (min-width: 768px) { .stat-band .unit { margin-top: 16px; } }
-.stat-band .mono-label { color: var(--slate); }
+.stat-band .mono-label { color: var(--slate-on-ink); }
 
 /* ── Process ────────────────────────────────────────────────────── */
 
@@ -640,7 +644,7 @@ h4 {
   margin-bottom: 32px;
 }
 @media (min-width: 768px) { .cs-meta { gap: 48px; margin-bottom: 48px; } }
-.cs-meta .label { color: var(--slate); }
+.cs-meta .label { color: var(--slate-on-ink); }
 .cs-meta .value { color: var(--bone); margin-left: 8px; }
 
 .cs-hero-shot { height: 280px; border-radius: 12px 12px 0 0; }
@@ -694,3 +698,12 @@ h4 {
 @media (min-width: 768px) { .next-case .name { font-size: 48px; } }
 .next-case .arrow { font-family: 'Instrument Sans', sans-serif; font-weight: 600; font-size: 32px; }
 @media (min-width: 768px) { .next-case .arrow { font-size: 48px; } }
+
+/* ── Pull quote ─────────────────────────────────────────────────── */
+
+.pull-quote {
+  margin: 0;
+  padding-left: 24px;
+  border-left: 3px solid var(--cobalt);
+}
+.pull-quote footer { color: var(--slate); font-style: normal; }

@@ -13,23 +13,4 @@
       });
     });
   }
-
-  const form = document.getElementById('contact-form');
-  const status = document.getElementById('form-status');
-  if (form && status) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = form.elements.name.value.trim();
-      const email = form.elements.email.value.trim();
-      const description = form.elements.description.value.trim();
-      if (!name || !email || !description) {
-        status.textContent = 'Please fill in your name, email and project description.';
-        status.style.color = '#b3261e';
-        return;
-      }
-      status.textContent = 'Thanks — we\'ll reply within one working day.';
-      status.style.color = 'var(--slate)';
-      form.reset();
-    });
-  }
 })();

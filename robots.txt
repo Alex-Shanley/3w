@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /thanks.html
+Disallow: /case-study.html
+
+Sitemap: https://alex-shanley.github.io/3w/sitemap.xml

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IE">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Contact — 3w</title>
-<meta name="description" content="Tell us about the project. A quote within two working days.">
+<title>Contact — 3w, Dublin</title>
+<meta name="description" content="Tell us about the project. A quote within two working days, from a Dublin web studio.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=5">
+<link rel="stylesheet" href="css/styles.css?v=6">
 </head>
 <body>
 
@@ -16,9 +16,9 @@
   <div class="container">
     <a href="index.html" class="logo">3<span>w</span></a>
     <nav class="main-nav">
-      <a href="#">Services</a>
-      <a href="case-study.html">Work</a>
-      <a href="#">About</a>
+      <a href="index.html#services">Services</a>
+      <a href="work-oak-lane-dental.html">Work</a>
+      <!-- TODO: restore About link when page exists -->
       <a href="index.html#pricing">Pricing</a>
     </nav>
     <div class="header-actions">
@@ -29,9 +29,9 @@
     </div>
   </div>
   <nav id="mobile-nav" class="mobile-nav">
-    <a href="#">Services</a>
-    <a href="case-study.html">Work</a>
-    <a href="#">About</a>
+    <a href="index.html#services">Services</a>
+    <a href="work-oak-lane-dental.html">Work</a>
+    <!-- TODO: restore About link when page exists -->
     <a href="index.html#pricing">Pricing</a>
   </nav>
 </header>
@@ -43,34 +43,36 @@
     <p class="body-lg" style="color:var(--slate);margin-bottom:40px;max-width:56ch">The more specific you are, the more specific our quote can be. A rough budget helps us tell you quickly whether we're the right fit.</p>
 
     <div class="contact-grid">
-      <form class="contact-form" id="contact-form" novalidate>
+      <form class="contact-form" id="contact-form" action="https://formspree.io/f/[TODO: Formspree form ID]" method="POST">
+        <input type="hidden" name="_next" value="https://alex-shanley.github.io/3w/thanks.html">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
         <div class="field-row">
-          <label class="field">Name
-            <input type="text" name="name" placeholder="Your name" required>
+          <label class="field" for="name">Name
+            <input type="text" id="name" name="name" placeholder="Your name" required>
           </label>
-          <label class="field">Email
-            <input type="email" name="email" placeholder="you@company.com" required>
+          <label class="field" for="email">Email
+            <input type="email" id="email" name="email" placeholder="you@company.com" required>
           </label>
         </div>
         <div class="field-row">
-          <label class="field">Company
-            <input type="text" name="company" placeholder="Company name">
+          <label class="field" for="company">Company
+            <input type="text" id="company" name="company" placeholder="Company name">
           </label>
-          <label class="field">Budget
-            <select name="budget">
-              <option>Under £5,000</option>
-              <option>£5,000 – £10,000</option>
-              <option>£10,000 – £25,000</option>
-              <option>£25,000+</option>
+          <label class="field" for="budget">Budget
+            <select id="budget" name="budget">
+              <option>Under €6,000</option>
+              <option>€6,000 – €12,000</option>
+              <option>€12,000 – €30,000</option>
+              <option>€30,000+</option>
               <option>Not sure yet</option>
             </select>
           </label>
         </div>
-        <label class="field">Project description
-          <textarea name="description" rows="6" placeholder="What does the site need to do? What isn't working now?" required></textarea>
+        <label class="field" for="description">Project description
+          <textarea id="description" name="description" rows="6" placeholder="What does the site need to do? What isn't working now?" required></textarea>
         </label>
         <button type="submit" class="btn btn-primary" style="align-self:flex-start">Send the brief</button>
-        <p class="small" id="form-status" role="status" aria-live="polite"></p>
+        <p class="small">By sending this brief you agree to our <a href="privacy.html">privacy policy</a>.</p>
       </form>
 
       <div class="contact-aside">
@@ -110,27 +112,29 @@
       <div>
         <a href="index.html" class="logo">3w</a>
         <p class="footer-tagline">Websites that work.</p>
+        <p class="footer-tagline">Dublin, Ireland — [TODO: full registered address]</p>
       </div>
       <div class="footer-col">
         <div class="mono-label">Services</div>
-        <a href="#">Website Design</a>
-        <a href="#">UX/UI Design</a>
-        <a href="#">SEO</a>
-        <a href="#">Web Hosting</a>
-        <a href="#">Website Security</a>
-        <a href="#">Care Plans</a>
+        <a href="index.html#website-design">Website Design</a>
+        <a href="index.html#ux-ui-design">UX/UI Design</a>
+        <a href="index.html#seo">SEO</a>
+        <a href="index.html#web-hosting">Web Hosting</a>
+        <a href="index.html#website-security">Website Security</a>
+        <a href="index.html#care-plans">Care Plans</a>
       </div>
       <div class="footer-col">
         <div class="mono-label">Work</div>
-        <a href="case-study.html">Oak Lane Dental</a>
-        <a href="#">Fieldnote</a>
-        <a href="#">All work</a>
+        <a href="work-oak-lane-dental.html">Oak Lane Dental</a>
+        <!-- TODO: restore Fieldnote link when page exists -->
+        <!-- TODO: restore All work link when page exists -->
       </div>
       <div class="footer-col">
         <div class="mono-label">Company</div>
-        <a href="#">About</a>
+        <!-- TODO: restore About link when page exists -->
         <a href="index.html#pricing">Pricing</a>
-        <a href="#">Journal</a>
+        <!-- TODO: restore Journal link when page exists -->
+        <a href="privacy.html">Privacy</a>
       </div>
       <div class="footer-col">
         <div class="mono-label">Contact</div>
@@ -139,7 +143,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 3w Ltd. All rights reserved.</span>
+      <span>© 2026 3w Ltd · Registered in Ireland · Company No. [TODO: CRO number] · Registered office: [TODO: registered office address]</span>
       <span>Hosted and secured by 3w</span>
     </div>
   </div>

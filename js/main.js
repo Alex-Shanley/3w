@@ -206,10 +206,12 @@
   // ── Hero entrance ────────────────────────────────────────────────
   // Occasional, first-impression motion only — this runs once per page
   // load, never on repeat interaction, per the "how often will users
-  // see this" rule. The spring drives the reveal via rAF, but rAF is
-  // suspended in hidden/backgrounded tabs — so each item also gets a
-  // hard timeout fallback that snaps it to its final visible state,
-  // guaranteeing the hero can never be stuck invisible.
+  // see this" rule. The spring drives the reveal via rAF, but rAF (and,
+  // once a tab is backgrounded long enough, even setTimeout) can be
+  // fully suspended — so every item also gets a visibilitychange
+  // fallback that snaps it to its final visible state the instant the
+  // tab is actually looked at, guaranteeing the hero can never be
+  // stuck invisible regardless of how long it sat backgrounded.
   if (wantsMotion) {
     const heroItems = [
       ['.hero-bg img', 0],
@@ -218,6 +220,7 @@
       ['.hero-sub', 240],
       ['.hero-ctas', 300],
     ];
+    const finishers = [];
     heroItems.forEach(([selector, delay]) => {
       const el = document.querySelector(selector);
       if (!el) return;
@@ -230,6 +233,7 @@
         el.style.opacity = '1';
         el.style.transform = '';
       };
+      finishers.push(finish);
       setTimeout(() => {
         spring({
           from: 0, to: 1, damping: 1, response: 0.55, epsilon: 0.003,
@@ -242,6 +246,9 @@
         });
       }, delay);
       setTimeout(finish, delay + 1500);
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') finishers.forEach((fn) => fn());
     });
   }
 

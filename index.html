@@ -5,10 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>3w — Web design & SEO studio, Dublin</title>
 <meta name="description" content="3w is a Dublin web studio. We design, build, host, secure and rank websites for Irish businesses. One team, one invoice, no handoffs.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=14">
+<meta name="theme-color" content="#F7F5F1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#08080A" media="(prefers-color-scheme: dark)">
+<script>(function(){try{var t=sessionStorage.getItem('3w-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/sections.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -24,10 +27,7 @@
     "postalCode": "[TODO: Eircode]",
     "addressCountry": "IE"
   },
-  "areaServed": {
-    "@type": "City",
-    "name": "Dublin, Ireland"
-  },
+  "areaServed": { "@type": "City", "name": "Dublin, Ireland" },
   "makesOffer": [
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website Design" } },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "UX/UI Design" } },
@@ -41,323 +41,85 @@
 </head>
 <body>
 
+<a href="#main" class="skip-link">Skip to content</a>
+
 <header class="site-header">
-  <div class="container">
-    <a href="index.html" class="logo">3<span>w</span></a>
-    <nav class="main-nav">
-      <a href="#services" aria-current="page">Services</a>
+  <div class="container nav-row">
+    <a href="index.html" class="wordmark">3<span class="accent">w</span></a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="index.html#services">Services</a>
       <a href="work.html">Work</a>
       <a href="about.html">About</a>
-      <a href="#pricing">Pricing</a>
+      <a href="index.html#pricing">Pricing</a>
     </nav>
-    <div class="header-actions">
-      <a href="contact.html" class="btn btn-primary">Get a quote</a>
-      <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
-        <span></span><span></span>
-      </button>
+    <div class="nav-actions">
+      <a href="contact.html" class="btn btn-solid">Get a quote</a>
+      <details class="mobile-menu">
+        <summary aria-label="Menu"><span class="icon"><span></span><span></span><span></span></span></summary>
+        <nav class="mobile-menu-panel" aria-label="Mobile">
+          <a href="index.html#services">Services</a>
+          <a href="work.html">Work</a>
+          <a href="about.html">About</a>
+          <a href="index.html#pricing">Pricing</a>
+          <a href="contact.html" class="btn btn-solid" style="margin-top:var(--sp-6);align-self:flex-start;">Get a quote</a>
+        </nav>
+      </details>
     </div>
   </div>
-  <nav id="mobile-nav" class="mobile-nav">
-    <a href="#services" aria-current="page">Services</a>
-    <a href="work.html">Work</a>
-    <a href="about.html">About</a>
-    <a href="#pricing">Pricing</a>
-  </nav>
 </header>
 
-<section class="hero-section">
-  <div class="hero-bg">
-    <img src="assets/img/hero-art.jpg?v=1" width="2400" height="1400" alt="" role="presentation">
-    <div class="hero-scrim"></div>
-  </div>
-  <div class="hero-content">
-    <div class="eyebrow hero-eyebrow">A Dublin web studio.</div>
-    <h1 class="display hero-headline">Websites that earn their keep.</h1>
-    <p class="body-lg hero-sub">We design, build, host, secure and rank websites. One team, one invoice, no handoffs.</p>
-    <div class="hero-ctas">
-      <a href="contact.html" class="btn btn-primary">Get a quote</a>
-      <a href="work-oak-lane-dental.html" class="btn btn-secondary">See our work</a>
-    </div>
-  </div>
-  <div class="hero-scroll-cue" aria-hidden="true"></div>
-</section>
+<main id="main">
 
-<!-- TODO: restore additional client logos (Meridian, Halvorsen & Co, Fieldnote, Porterhouse, Arno Legal) once their case studies exist -->
-<section class="trust-strip border-top border-bottom">
+<section class="hero">
   <div class="container">
-    <div class="trust-item">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>
-      <span>Dublin, Ireland</span>
-    </div>
-    <div class="trust-item">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"></path><path d="m9 12 2 2 4-4"></path></svg>
-      <span><a href="privacy.html">GDPR compliant</a></span>
-    </div>
-    <div class="trust-item">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg>
-      <span>SLA-backed hosting</span>
-    </div>
-    <div class="trust-item">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m8 12.5 2.5 2.5L16 9"></path></svg>
-      <span>Trusted by <a href="work-oak-lane-dental.html">Oak Lane Dental</a></span>
-    </div>
-  </div>
-</section>
-
-<section id="services" class="section bg-white">
-  <div class="container">
-    <div class="eyebrow" style="margin-bottom:16px">Services</div>
-    <h2 style="margin-bottom:40px;max-width:20ch">Everything your site needs, from one team</h2>
-    <div class="services-bento js-reveal">
-
-      <div id="website-design" class="card card-hover service-card service-card--lg">
-        <span class="index">01</span>
-        <span class="icon-chip"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111315" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
-        <h4>Website Design</h4>
-        <p class="small">Designed around what your visitors need to do, then built to load in under a second.</p>
-      </div>
-
-      <div id="ux-ui-design" class="card card-hover service-card">
-        <span class="index">02</span>
-        <span class="icon-chip"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111315" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4l7 16 2.2-6.8L21 11z"></path></svg></span>
-        <h4>UX/UI Design</h4>
-        <p class="small">Clear journeys and interfaces people don't have to think about. Tested, not guessed.</p>
-      </div>
-
-      <div id="seo" class="card card-hover service-card">
-        <span class="index">03</span>
-        <span class="icon-chip accent"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2F4BFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.8-4.8"></path></svg></span>
-        <h4>SEO</h4>
-        <p class="small">We fix what's stopping Google indexing you, then build the pages that rank. First results in 60–90 days, for most sites.</p>
-      </div>
-
-      <div id="web-hosting" class="card card-hover service-card">
-        <span class="index">04</span>
-        <span class="icon-chip"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111315" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="1.5"></rect><rect x="3" y="13" width="18" height="7" rx="1.5"></rect><path d="M7 7.5h.01M7 16.5h.01"></path></svg></span>
-        <h4>Web Hosting</h4>
-        <p class="small">Fast servers we run ourselves, monitored around the clock. 99.9% uptime, in writing (SLA in every Care plan).</p>
-      </div>
-
-      <div id="website-security" class="card card-hover service-card">
-        <span class="index">05</span>
-        <span class="icon-chip"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111315" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"></path></svg></span>
-        <h4>Website Security</h4>
-        <p class="small">SSL, firewalls, daily scans and patching. Your site stays up and stays yours.</p>
-      </div>
-
-      <div id="care-plans" class="card card-hover service-card">
-        <span class="index">06</span>
-        <span class="icon-chip"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111315" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg></span>
-        <h4>Care Plans</h4>
-        <p class="small">Updates, backups, small changes and a person who answers. From €190 a month.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="section-tight bg-ink">
-  <div class="container stat-band">
-    <div class="figure">
-      <div class="num tabular">0.9s</div>
-      <div class="mono-label unit">Average load time</div>
-    </div>
-    <div class="figure">
-      <div class="num tabular">99.9%</div>
-      <div class="mono-label unit">Uptime monitored</div>
-    </div>
-    <div class="figure">
-      <div class="num tabular accent">3x</div>
-      <div class="mono-label unit">Average traffic in 6 months</div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="eyebrow" style="margin-bottom:16px">Process</div>
-    <h2 style="margin-bottom:40px">Four steps, no surprises</h2>
-    <div class="process-list">
-      <div class="step">
-        <div class="mono-label">01 — Scope</div>
-        <h4>Understand the job</h4>
-        <p class="small">What the site must do, who it's for, and a fixed price for doing it.</p>
-      </div>
-      <div class="step">
-        <div class="mono-label">02 — Design</div>
-        <h4>Design the pages</h4>
-        <p class="small">Real content, real screens. You see the actual site before we build it.</p>
-      </div>
-      <div class="step">
-        <div class="mono-label">03 — Build</div>
-        <h4>Build and test</h4>
-        <p class="small">Built for speed and search from day one. Launch in 4–8 weeks.</p>
-      </div>
-      <div class="step">
-        <div class="mono-label">04 — Run</div>
-        <h4>Host and look after it</h4>
-        <p class="small">Hosting, security and updates handled by the people who built it.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section bg-white">
-  <div class="container">
-    <div class="eyebrow" style="margin-bottom:16px">Featured work</div>
-    <h2 style="margin-bottom:40px">Recent launches</h2>
-    <!-- TODO: restore Fieldnote featured-work card when its case study exists -->
-    <div class="grid grid-2 js-reveal" style="max-width:560px">
-      <a href="work-oak-lane-dental.html" class="card card-hover work-card">
-        <div class="shot work-shot"><img src="assets/img/oaklane-home.jpg?v=3" width="800" height="600" loading="lazy" alt="Placeholder art — Oak Lane Dental case study slot"></div>
-        <div class="work-body">
-          <h3>Oak Lane Dental</h3>
-          <p class="body-lg">Online bookings up 42% in the first quarter.</p>
-          <div class="tag-row"><span>Design</span><span>·</span><span>SEO</span><span>·</span><span>Hosting</span></div>
+    <div class="hero-grid">
+      <div class="hero-main">
+        <div class="mono-label hero-eyebrow">A Dublin web studio</div>
+        <h1 class="hero-headline">
+          <span class="line"><span>Websites that</span></span>
+          <span class="line"><span>earn their keep.</span></span>
+        </h1>
+        <p class="hero-sub">We design, build, host, secure and rank websites. One team, one invoice, no handoffs.</p>
+        <div class="hero-ctas">
+          <a href="contact.html" class="btn btn-solid">Get a quote</a>
+          <a href="work.html" class="link-arrow">See our work <span class="arrow">→</span></a>
         </div>
-      </a>
-    </div>
-    <a href="work.html" class="link-arrow" style="margin-top:32px">See all work</a>
-  </div>
-</section>
-
-<section class="section bg-white">
-  <div class="container">
-    <div class="eyebrow" style="margin-bottom:16px">Who you're working with</div>
-    <h2 style="margin-bottom:40px">No account managers, no outsourcing</h2>
-    <div class="grid grid-2 js-reveal" style="max-width:560px">
-      <div class="card" style="padding:32px">
-        <div class="shot" style="width:96px;height:96px;border-radius:999px;margin-bottom:16px" role="img" aria-label="[TODO: founder photo]"></div>
-        <h4>[TODO: founder name]</h4>
-        <p class="small">[TODO: one-line bio]</p>
-      </div>
-      <div class="card" style="padding:32px">
-        <div class="shot" style="width:96px;height:96px;border-radius:999px;margin-bottom:16px" role="img" aria-label="[TODO: team member photo]"></div>
-        <h4>[TODO: name]</h4>
-        <p class="small">[TODO: one-line bio]</p>
-      </div>
-    </div>
-    <a href="about.html" class="link-arrow" style="margin-top:32px">Meet the team</a>
-  </div>
-</section>
-
-<section id="pricing" class="section">
-  <div class="container">
-    <div class="eyebrow" style="margin-bottom:16px">Pricing</div>
-    <h2 style="margin-bottom:12px">Plain numbers, no "contact us"</h2>
-    <p class="body-lg" style="color:var(--slate);margin-bottom:40px;max-width:56ch">Every project is quoted before it starts. These are the ranges most work lands in.</p>
-    <div class="grid grid-3 js-reveal">
-
-      <div class="card price-card">
-        <h4>Launch</h4>
-        <p class="small" style="margin-bottom:16px">A focused site for a business that needs to be found and trusted.</p>
-        <div class="amount tabular">€5,400</div>
-        <div class="mono-label qualifier">One-off · up to 6 pages</div>
-        <div class="features">Design and build<br>Hosting for year one, then Care from €190/mo (optional)<br>SSL and daily backups</div>
+        <p class="mono-label hero-meta">Dublin, IE · Available for new projects</p>
       </div>
 
-      <div class="card price-card featured">
-        <span class="badge">Most popular</span>
-        <h4>Grow</h4>
-        <p class="small" style="margin-bottom:16px">A larger site with SEO built in, for businesses that live on enquiries.</p>
-        <div class="amount tabular">€10,800</div>
-        <div class="mono-label qualifier">One-off · up to 15 pages</div>
-        <div class="features">Everything in Launch<br>SEO research and page build<br>90 days of rank tracking</div>
+      <div class="proof-rail" aria-label="Track record">
+        <div class="proof-row">
+          <div class="proof-value tabular">0.9s</div>
+          <div class="proof-label">Load time</div>
+          <div class="proof-rule"></div>
+        </div>
+        <div class="proof-row">
+          <div class="proof-value tabular">99.9%</div>
+          <div class="proof-label">Uptime</div>
+          <div class="proof-rule"></div>
+        </div>
+        <div class="proof-row">
+          <div class="proof-value tabular">3×</div>
+          <div class="proof-label">Traffic growth, avg. 6 months</div>
+          <div class="proof-rule"></div>
+        </div>
+        <div class="proof-row">
+          <div class="proof-value tabular">+42%</div>
+          <div class="proof-label">Online bookings — Oak Lane Dental</div>
+          <div class="proof-rule"></div>
+        </div>
+        <div class="proof-row">
+          <div class="proof-value tabular">4–8 wks</div>
+          <div class="proof-label">To launch</div>
+          <div class="proof-rule"></div>
+        </div>
       </div>
-
-      <div class="card price-card">
-        <h4>Care</h4>
-        <p class="small" style="margin-bottom:16px">Ongoing hosting, security and updates for a site we run.</p>
-        <div class="amount tabular">€190<span class="period">/mo</span></div>
-        <div class="mono-label qualifier">Monthly · cancel any time</div>
-        <div class="features">Hosting and monitoring<br>Security patches and scans<br>Two hours of changes a month</div>
-      </div>
-
-    </div>
-    <p class="small" style="margin-top:32px">After year one, sites either move onto a Care plan or we hand over cleanly — your choice.</p>
-  </div>
-</section>
-
-<section class="section bg-white">
-  <div class="container" style="max-width:720px">
-    <div class="eyebrow" style="margin-bottom:16px">FAQ</div>
-    <h2 style="margin-bottom:40px">Common questions</h2>
-    <div class="faq-list">
-      <details class="faq-item" name="faq-group">
-        <summary>How long does a project take?</summary>
-        <p class="small">Most sites launch in 4–8 weeks — built for speed and search from day one.</p>
-      </details>
-      <details class="faq-item" name="faq-group">
-        <summary>Is hosting included?</summary>
-        <p class="small">Yes. Every build includes hosting for the first year. After that, sites either move onto a Care plan or we hand over cleanly — your choice.</p>
-      </details>
-      <details class="faq-item" name="faq-group">
-        <summary>What if you're not the right fit for my project?</summary>
-        <p class="small">We'll say so, and suggest who is — no point taking on work we're not suited to.</p>
-      </details>
-      <details class="faq-item" name="faq-group">
-        <summary>How quickly will I get a quote?</summary>
-        <p class="small">Within two working days of sending your brief, in writing.</p>
-      </details>
-      <details class="faq-item" name="faq-group">
-        <summary>How is my data handled?</summary>
-        <p class="small">We collect only what's needed to quote your project, under GDPR. See our <a href="privacy.html">privacy policy</a> for the full detail.</p>
-      </details>
     </div>
   </div>
 </section>
 
-<section class="section-tight bg-ink cta-band">
-  <div class="container">
-    <h2>Tell us what your site needs to do</h2>
-    <p class="body-lg">A quote within two working days. No discovery calls unless you want one.</p>
-    <a href="contact.html" class="btn btn-on-ink">Get a quote</a>
-  </div>
-</section>
+</main>
 
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-top">
-      <div>
-        <a href="index.html" class="logo">3w</a>
-        <p class="footer-tagline">Websites that work.</p>
-        <p class="footer-tagline">Dublin, Ireland — [TODO: full registered address]</p>
-      </div>
-      <div class="footer-col">
-        <div class="mono-label">Services</div>
-        <a href="#website-design">Website Design</a>
-        <a href="#ux-ui-design">UX/UI Design</a>
-        <a href="#seo">SEO</a>
-        <a href="#web-hosting">Web Hosting</a>
-        <a href="#website-security">Website Security</a>
-        <a href="#care-plans">Care Plans</a>
-      </div>
-      <div class="footer-col">
-        <div class="mono-label">Work</div>
-        <a href="work.html">All work</a>
-        <a href="work-oak-lane-dental.html">Oak Lane Dental</a>
-        <!-- TODO: restore Fieldnote link when page exists -->
-      </div>
-      <div class="footer-col">
-        <div class="mono-label">Company</div>
-        <a href="about.html">About</a>
-        <a href="#pricing">Pricing</a>
-        <!-- TODO: restore Journal link when page exists -->
-        <a href="privacy.html">Privacy</a>
-      </div>
-      <div class="footer-col">
-        <div class="mono-label">Contact</div>
-        <a href="contact.html">Get a quote</a>
-        <a href="mailto:hello@3w.studio">hello@3w.studio</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 3w Ltd · Registered in Ireland · Company No. [TODO: CRO number] · Registered office: [TODO: registered office address]</span>
-      <span>Hosted and secured by 3w</span>
-    </div>
-  </div>
-</footer>
-
-<script src="js/main.js"></script>
+<script src="js/nav.js"></script>
 </body>
 </html>

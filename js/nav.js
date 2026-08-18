@@ -18,6 +18,83 @@
     document.body.append(cols, baseline);
   }
 
+  // ── Header scroll hairline ───────────────────────────────────────
+  const header = document.querySelector('.site-header');
+  if (header) {
+    let ticking = false;
+    const update = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 40);
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    update();
+  }
+
+  // ── Mobile menu — native <details> already handles open/close and
+  // every link with zero JS. This only layers on the focus trap,
+  // Escape-to-close, closing on link click, and locking background
+  // scroll while open. ─────────────────────────────────────────────
+  document.querySelectorAll('.mobile-menu').forEach((details) => {
+    const panel = details.querySelector('.mobile-menu-panel');
+    const summary = details.querySelector('summary');
+    if (!panel || !summary) return;
+
+    details.addEventListener('toggle', () => {
+      if (details.open) {
+        document.body.style.overflow = 'hidden';
+        panel.querySelector('a')?.focus();
+      } else {
+        document.body.style.overflow = '';
+      }
+    });
+
+    panel.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => { details.open = false; });
+    });
+
+    details.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        details.open = false;
+        summary.focus();
+        return;
+      }
+      if (e.key !== 'Tab' || !details.open) return;
+      const focusable = Array.from(panel.querySelectorAll('a, button'));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+  });
+
+  // ── Hero entrance ─────────────────────────────────────────────────
+  // Default CSS state (no js-anim class) is already the final, fully
+  // visible layout — js-anim opts the hero INTO a hidden starting
+  // point, then is-revealed animates it back to that same default.
+  // If this never runs, the hero is simply static, never invisible.
+  const wantsMotion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (wantsMotion) {
+    const hero = document.querySelector('.hero');
+    const headline = document.querySelector('.hero-headline');
+    const proofRail = document.querySelector('.proof-rail');
+    [hero, headline, proofRail].forEach((el) => el?.classList.add('js-anim'));
+    if (hero || headline || proofRail) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          [hero, headline, proofRail].forEach((el) => el?.classList.add('is-revealed'));
+        });
+      });
+    }
+  }
+
   // ── Theme toggle ─────────────────────────────────────────────────
   // The FOUC-preventing inline snippet in <head> already set data-theme
   // from sessionStorage/system preference before first paint. This just

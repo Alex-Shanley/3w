@@ -1,0 +1,327 @@
+/* 3w — section-level styles. Depends on tokens.css + base.css.
+
+   Cross-cutting safety pattern used everywhere below: the DEFAULT CSS
+   state of any animated element is its final, fully-visible state. JS
+   opts an element INTO a hidden starting state (by adding a class)
+   before animating it back to that same default — never the reverse.
+   If JS fails to run, or fails partway through, nothing is ever stuck
+   invisible; the page is simply static instead of animated. */
+
+/* ── Nav ──────────────────────────────────────────────────────────── */
+
+/* backdrop-filter lives on ::before, not the header itself — filter and
+   backdrop-filter both create a new containing block for any
+   position:fixed descendant, which would trap the full-screen mobile
+   menu panel inside the header's own 72px box instead of the
+   viewport. A pseudo-element gets the same visual blur without being
+   a real DOM ancestor of that panel. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 150;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-base) var(--ease-out);
+}
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, var(--canvas) 80%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.site-header.is-scrolled { border-bottom-color: var(--hairline-color); }
+@media (prefers-reduced-transparency: reduce) {
+  .site-header::before { background: var(--canvas); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+.nav-row {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-1);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: var(--text);
+}
+.wordmark .accent { color: var(--signal); }
+
+.main-nav {
+  display: none;
+  align-items: center;
+  gap: var(--sp-6);
+}
+@media (min-width: 1024px) { .main-nav { display: flex; } }
+.main-nav a {
+  font-size: var(--step--1);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.main-nav a:hover, .main-nav a[aria-current="page"] { color: var(--text); }
+
+.nav-actions { display: flex; align-items: center; gap: var(--sp-4); }
+.nav-actions .btn { display: none; }
+@media (min-width: 600px) { .nav-actions .btn { display: inline-flex; } }
+
+/* ── Buttons ──────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 var(--sp-6);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--step--1);
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.btn:active { transform: translateY(1px); }
+.btn-solid { background: var(--signal); color: var(--paper); }
+@media (min-width: 1024px) { .btn-solid:hover { background: var(--signal-hover); } }
+.btn-outline { border-color: var(--hairline-color); color: var(--text); }
+@media (min-width: 1024px) { .btn-outline:hover { border-color: var(--signal); color: var(--signal); } }
+.btn-on-ink { background: var(--paper); color: var(--ink-900); }
+
+/* Text link with an arrow that nudges on hover — used for secondary
+   CTAs where a full button would compete with the primary one. */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-weight: 500;
+  font-size: var(--step--1);
+  text-decoration: none;
+  color: var(--text);
+}
+.link-arrow .arrow { transition: transform var(--dur-base) var(--ease-out); }
+@media (min-width: 1024px) { .link-arrow:hover .arrow { transform: translateX(4px); } }
+
+/* ── Mobile menu — native <details>, JS-enhanced ─────────────────── */
+/* Open/close, keyboard access, and every link is fully functional with
+   zero JS via the native disclosure. nav.js only adds the focus trap,
+   Escape-to-close, and the staggered link reveal (which is itself a
+   plain CSS transition keyed off the [open] attribute — no JS needed
+   for the animation either, only for the extra a11y behaviour). */
+
+.mobile-menu { position: relative; }
+@media (min-width: 1024px) { .mobile-menu { display: none; } }
+
+.mobile-menu summary {
+  list-style: none;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  z-index: 201;
+}
+.mobile-menu summary::-webkit-details-marker { display: none; }
+.mobile-menu summary::marker { content: ''; }
+
+.mobile-menu summary .icon { position: relative; width: 20px; height: 12px; }
+.mobile-menu summary .icon span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: var(--text);
+  transition: transform var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+.mobile-menu summary .icon span:nth-child(1) { top: 0; }
+.mobile-menu summary .icon span:nth-child(2) { top: 6px; }
+.mobile-menu summary .icon span:nth-child(3) { top: 12px; }
+.mobile-menu[open] summary .icon span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.mobile-menu[open] summary .icon span:nth-child(2) { opacity: 0; }
+.mobile-menu[open] summary .icon span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* display:flex is scoped to [open] deliberately — the native UA
+   stylesheet already hides a closed <details>'s non-summary content
+   (display:none), and an unconditional display here would silently
+   cancel that, leaving the full-screen panel painted over the page
+   even while "closed". */
+.mobile-menu[open] .mobile-menu-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--canvas);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sp-1);
+  padding: var(--page-pad);
+  margin: 0;
+}
+.mobile-menu-panel a {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-3);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: var(--text);
+  padding-block: var(--sp-2);
+}
+/* Stagger keyed purely off the [open] attribute — works with zero JS. */
+.mobile-menu[open] .mobile-menu-panel a {
+  animation: menu-item-in var(--dur-base) var(--ease-out) both;
+}
+.mobile-menu[open] .mobile-menu-panel a:nth-child(1) { animation-delay: 60ms; }
+.mobile-menu[open] .mobile-menu-panel a:nth-child(2) { animation-delay: 120ms; }
+.mobile-menu[open] .mobile-menu-panel a:nth-child(3) { animation-delay: 180ms; }
+.mobile-menu[open] .mobile-menu-panel a:nth-child(4) { animation-delay: 240ms; }
+.mobile-menu[open] .mobile-menu-panel a:nth-child(5) { animation-delay: 300ms; }
+@keyframes menu-item-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-menu-meta {
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-5);
+  border-top: var(--hairline);
+}
+
+/* ── Skip link uses tokens already defined in base.css ───────────── */
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
+
+.hero { padding-top: var(--sp-9); padding-bottom: var(--sp-10); }
+@media (min-width: 1024px) { .hero { padding-top: var(--sp-10); padding-bottom: var(--sp-11); } }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  row-gap: var(--sp-9);
+}
+
+.hero-main { grid-column: 1 / -1; }
+@media (min-width: 1024px) { .hero-main { grid-column: span 9; } }
+
+.hero-eyebrow { margin-bottom: var(--sp-5); }
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-5);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  max-width: 13ch;
+}
+.hero-headline .line { display: block; overflow: hidden; }
+.hero-headline .line span { display: block; }
+/* Only once JS has confirmed it can run the reveal does the headline
+   get a hidden starting point to animate out of. */
+.hero-headline.js-anim .line span {
+  transform: translateY(110%);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.hero-headline.js-anim.is-revealed .line span { transform: translateY(0); }
+.hero-headline.js-anim .line:nth-child(1) span { transition-delay: 0ms; }
+.hero-headline.js-anim .line:nth-child(2) span { transition-delay: 90ms; }
+
+.hero-sub {
+  margin-top: var(--sp-6);
+  font-size: var(--step-1);
+  color: var(--text-secondary);
+  max-width: 34ch;
+}
+.hero.js-anim .hero-sub {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+  transition-delay: 460ms;
+}
+.hero.js-anim.is-revealed .hero-sub { opacity: 1; transform: translateY(0); }
+
+.hero-ctas {
+  margin-top: var(--sp-7);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-5);
+}
+.hero.js-anim .hero-ctas {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+  transition-delay: 560ms;
+}
+.hero.js-anim.is-revealed .hero-ctas { opacity: 1; transform: translateY(0); }
+
+.hero-meta {
+  margin-top: var(--sp-9);
+  padding-top: var(--sp-5);
+  border-top: var(--hairline);
+  max-width: 40ch;
+}
+.hero.js-anim .hero-meta {
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+  transition-delay: 660ms;
+}
+.hero.js-anim.is-revealed .hero-meta { opacity: 1; }
+
+/* ── Live proof rail — signature moment 01 ───────────────────────── */
+/* Replaces the old decorative hero photo with the site's own evidence.
+   The accent rule under each stat is a fixed-length reveal, not a
+   magnitude-encoded bar — the five metrics don't share a real axis
+   (seconds, a percentage, a multiplier, a range of weeks), and a
+   variable-width bar would silently imply a comparison that isn't
+   true. See DESIGN-NOTES.md. */
+
+.proof-rail { grid-column: 1 / -1; }
+@media (min-width: 1024px) { .proof-rail { grid-column: span 3; } }
+
+.proof-row { padding-block: var(--sp-4); border-top: var(--hairline); }
+.proof-row:first-child { border-top: none; padding-top: 0; }
+@media (min-width: 1024px) { .proof-row:first-child { padding-top: var(--sp-4); border-top: var(--hairline); } }
+
+.proof-value {
+  font-family: var(--font-mono);
+  font-size: var(--step-1);
+  font-weight: 500;
+  color: var(--text);
+}
+.proof-label {
+  margin-top: var(--sp-1);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.proof-rule {
+  margin-top: var(--sp-3);
+  height: 2px;
+  width: 32px;
+  background: var(--signal);
+}
+.proof-rail.js-anim .proof-rule {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(1) .proof-rule { transition-delay: 700ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(2) .proof-rule { transition-delay: 760ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(3) .proof-rule { transition-delay: 820ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(4) .proof-rule { transition-delay: 880ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(5) .proof-rule { transition-delay: 940ms; }
+.proof-rail.js-anim.is-revealed .proof-rule { transform: scaleX(1); }

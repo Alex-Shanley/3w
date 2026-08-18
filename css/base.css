@@ -1,0 +1,202 @@
+/* 3w — reset, type application, grid
+   Depends on tokens.css being loaded first. */
+
+@font-face {
+  font-family: 'Inter Tight';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../assets/fonts/inter-tight-var.woff2') format('woff2-variations'),
+       url('../assets/fonts/inter-tight-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('../assets/fonts/geist-mono-var.woff2') format('woff2-variations'),
+       url('../assets/fonts/geist-mono-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/instrument-serif.woff2') format('woff2');
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+
+img, svg, video { display: block; max-width: 100%; }
+
+h1, h2, h3, h4, h5, h6, p, blockquote, figure { margin: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+p { max-width: 62ch; }
+p:not([class]) { text-wrap: pretty; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Underline-wipe: a background-image gradient sliding in from the left,
+   not a border — border-bottom can't animate its own thickness/position
+   without also shifting layout, background-size can. */
+.link-underline {
+  background-image: linear-gradient(var(--signal), var(--signal));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size var(--dur-base) var(--ease-out);
+}
+.link-underline:hover,
+.link-underline:focus-visible { background-size: 100% 1px; }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+::selection { background: var(--signal-tint); color: var(--ink-900); }
+
+input, textarea, select, button { font-family: inherit; }
+
+/* ── Skip link ────────────────────────────────────────────────────── */
+
+.skip-link {
+  position: fixed;
+  top: var(--sp-2);
+  left: var(--sp-2);
+  z-index: 10000;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface);
+  color: var(--text);
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  transform: translateY(-150%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* ── Layout: container, 12/6/4-col grid ──────────────────────────── */
+
+.container {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-left: var(--page-pad);
+  padding-right: var(--page-pad);
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+}
+
+/* Column-span utilities addressed against the 12-col desktop grid.
+   Below 1024px, --grid-columns drops to 6/4 and spans clamp to the
+   full row rather than overflow — most sections opt into a simpler
+   span at each breakpoint explicitly instead of relying on this. */
+.col-span-12 { grid-column: span min(12, var(--grid-columns)); }
+.col-span-9  { grid-column: span min(9, var(--grid-columns)); }
+.col-span-8  { grid-column: span min(8, var(--grid-columns)); }
+.col-span-6  { grid-column: span min(6, var(--grid-columns)); }
+.col-span-5  { grid-column: span min(5, var(--grid-columns)); }
+.col-span-4  { grid-column: span min(4, var(--grid-columns)); }
+.col-span-3  { grid-column: span min(3, var(--grid-columns)); }
+
+/* ── Section rhythm ───────────────────────────────────────────────── */
+
+.section {
+  padding-block: var(--sp-9);
+}
+@media (min-width: 1024px) {
+  .section { padding-block: var(--sp-11); }
+}
+
+/* ── Mono micro-labels ────────────────────────────────────────────── */
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* ── Grid debug overlay (?grid) ───────────────────────────────────── */
+/* Toggled by nav.js reading location.search — CSS-only rendering so
+   there is zero runtime cost once the class is present. Column fills
+   mirror .container/.grid-12 exactly, so what you see here is the real
+   grid every section is built against, not an approximation. */
+
+.debug-grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+.debug-grid-overlay .container {
+  height: 100%;
+}
+.debug-grid-overlay .grid-12 {
+  height: 100%;
+}
+.debug-grid-overlay .col {
+  height: 100%;
+  background: color-mix(in srgb, var(--signal) 8%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--signal) 25%, transparent);
+}
+.debug-grid-baseline {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--positive) 30%, transparent) 0,
+    color-mix(in srgb, var(--positive) 30%, transparent) 1px,
+    transparent 1px,
+    transparent 16px
+  );
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Type &amp; grid specimen — 3w</title>
+<meta name="robots" content="noindex">
+<script>(function(){try{var t=sessionStorage.getItem('3w-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<style>
+  /* Specimen-only styling — not part of the shipped design system. */
+  .spec-section { padding-block: var(--sp-9); border-bottom: var(--hairline); }
+  .spec-section:first-of-type { padding-top: var(--sp-8); }
+  .spec-label { margin-bottom: var(--sp-6); }
+  .spec-row { display: flex; align-items: baseline; gap: var(--sp-5); padding-block: var(--sp-4); border-top: var(--hairline); }
+  .spec-row:first-of-type { border-top: none; }
+  .spec-row .tag { flex: 0 0 90px; }
+  .spec-row .sample { flex: 1; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--sp-5); }
+  .swatch { border: var(--hairline); border-radius: var(--radius-md); overflow: hidden; }
+  .swatch-fill { height: 88px; display: flex; align-items: center; justify-content: center; }
+  .swatch-meta { padding: var(--sp-4); font-family: var(--font-mono); font-size: var(--step--1); }
+  .swatch-meta .ratio { color: var(--text-secondary); margin-top: var(--sp-1); }
+  .pass { color: var(--positive); }
+  .space-rows { display: flex; flex-direction: column; gap: var(--sp-3); }
+  .space-row { display: flex; align-items: center; gap: var(--sp-5); }
+  .space-row .bar { background: var(--signal); height: 12px; }
+  .space-row .tag { flex: 0 0 140px; font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); }
+  .grid-demo { display: grid; grid-template-columns: repeat(var(--grid-columns), minmax(0,1fr)); column-gap: var(--grid-gutter); }
+  .grid-demo > div { background: var(--paper-2); border-radius: var(--radius-sm); padding: var(--sp-4); font-family: var(--font-mono); font-size: var(--step--1); text-align: center; }
+  .toolbar { position: sticky; top: 0; z-index: 20; background: var(--surface); border-bottom: var(--hairline); padding: var(--sp-4) var(--page-pad); display: flex; gap: var(--sp-4); align-items: center; }
+  .toolbar button { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; background: var(--paper-2); border: var(--hairline); border-radius: var(--radius-md); padding: var(--sp-2) var(--sp-4); cursor: pointer; color: var(--text); }
+  .toolbar a { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+  .serif-sample { font-family: var(--font-serif); font-size: var(--step-3); line-height: 1.3; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="theme-toggle" aria-pressed="false">Toggle dark mode</button>
+  <a href="?grid">Add ?grid to any URL to see the column overlay →</a>
+</div>
+
+<div class="container">
+
+  <section class="spec-section">
+    <div class="mono-label spec-label">01 / Type scale — clamp(360→1600px)</div>
+    <div class="spec-row"><div class="tag mono-label">step-5</div><div class="sample" style="font-family:var(--font-display);font-weight:600;font-size:var(--step-5);letter-spacing:-0.03em;line-height:0.95;">Earn it.</div></div>
+    <div class="spec-row"><div class="tag mono-label">step-4</div><div class="sample" style="font-family:var(--font-display);font-weight:600;font-size:var(--step-4);letter-spacing:-0.03em;line-height:1;">+42% bookings</div></div>
+    <div class="spec-row"><div class="tag mono-label">step-3</div><div class="sample" style="font-family:var(--font-display);font-weight:500;font-size:var(--step-3);letter-spacing:-0.02em;line-height:1.05;">One team, no handoffs</div></div>
+    <div class="spec-row"><div class="tag mono-label">step-2</div><div class="sample" style="font-family:var(--font-display);font-weight:500;font-size:var(--step-2);letter-spacing:-0.01em;">Website Design</div></div>
+    <div class="spec-row"><div class="tag mono-label">step-1</div><div class="sample" style="font-family:var(--font-display);font-weight:500;font-size:var(--step-1);">We design, build, host, secure and rank websites.</div></div>
+    <div class="spec-row"><div class="tag mono-label">step-0 (body)</div><div class="sample" style="font-size:var(--step-0);max-width:62ch;">Every project is quoted before it starts. These are the ranges most work lands in — fixed price, fixed scope, and if it changes we quote it before we build it.</div></div>
+    <div class="spec-row"><div class="tag mono-label">step -1 (micro)</div><div class="sample mono-label" style="text-transform:none;letter-spacing:0.14em;">01 / SERVICES · €10,800 · DUBLIN, IE</div></div>
+    <div class="spec-row"><div class="tag mono-label">serif accent</div><div class="sample serif-sample">"We'd rather do five things well than ten things adequately."</div></div>
+  </section>
+
+  <section class="spec-section">
+    <div class="mono-label spec-label">02 / Colour — light</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-fill" style="background:var(--ink-900);"></div><div class="swatch-meta">--ink-900<div class="ratio pass">18.1:1 on paper</div></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--ink-700);"></div><div class="swatch-meta">--ink-700<div class="ratio pass">13.1:1 on paper</div></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--ink-500);"></div><div class="swatch-meta">--ink-500<div class="ratio pass">5.3:1 on paper</div></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--ink-300);"></div><div class="swatch-meta">--ink-300<div class="ratio">1.9:1 — hairlines only</div></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--paper);border-bottom:var(--hairline);"></div><div class="swatch-meta">--paper<div class="ratio">canvas</div></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--paper-2);"></div><div class="swatch-meta">--paper-2<div class="ratio">alt band</div></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--signal);color:var(--paper);display:flex;align-items:center;justify-content:center;">Aa</div><div class="swatch-meta">--signal<div class="ratio pass">6.9:1 on paper</div></div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:var(--positive);color:var(--paper);display:flex;align-items:center;justify-content:center;">Aa</div><div class="swatch-meta">--positive<div class="ratio pass">4.9:1 on paper</div></div></div>
+    </div>
+    <p class="small" style="margin-top:var(--sp-5);color:var(--text-secondary);font-size:var(--step--1);">Toggle dark mode above — every token is independently re-tuned for the dark canvas, not inverted. Full computed ratios in <code>AUDIT.md</code> §5.</p>
+  </section>
+
+  <section class="spec-section">
+    <div class="mono-label spec-label">03 / Space — 4px base</div>
+    <div class="space-rows">
+      <div class="space-row"><div class="tag">--sp-1 · 4px</div><div class="bar" style="width:4px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-2 · 8px</div><div class="bar" style="width:8px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-3 · 12px</div><div class="bar" style="width:12px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-4 · 16px</div><div class="bar" style="width:16px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-5 · 24px</div><div class="bar" style="width:24px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-6 · 32px</div><div class="bar" style="width:32px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-7 · 48px</div><div class="bar" style="width:48px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-8 · 64px</div><div class="bar" style="width:64px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-9 · 96px</div><div class="bar" style="width:96px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-10 · 128px</div><div class="bar" style="width:128px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-11 · 192px</div><div class="bar" style="width:192px;"></div></div>
+      <div class="space-row"><div class="tag">--sp-12 · 256px</div><div class="bar" style="width:256px;"></div></div>
+    </div>
+  </section>
+
+  <section class="spec-section" style="border-bottom:none;">
+    <div class="mono-label spec-label">04 / Grid — resize the window to see 4 → 6 → 12 columns</div>
+    <div class="grid-demo">
+      <div class="col-span-3" style="grid-column:span min(3,var(--grid-columns));">1</div>
+      <div style="grid-column:span min(3,var(--grid-columns));">2</div>
+      <div style="grid-column:span min(3,var(--grid-columns));">3</div>
+      <div style="grid-column:span min(3,var(--grid-columns));">4</div>
+    </div>
+  </section>
+
+</div>
+
+<script src="js/nav.js"></script>
+</body>
+</html>

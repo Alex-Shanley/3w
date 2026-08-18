@@ -791,3 +791,54 @@
 .about-principle { border-top: var(--hairline); padding-top: var(--sp-5); }
 .about-principle .mono-label { margin-bottom: var(--sp-3); }
 .about-principle p { color: var(--text-secondary); }
+
+/* ── Contact form ─────────────────────────────────────────────────── */
+
+.contact-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-9); align-items: start; padding-block: var(--sp-9); }
+@media (min-width: 1024px) { .contact-grid { grid-template-columns: minmax(0,7fr) minmax(0,5fr); gap: var(--sp-10); } }
+
+.contact-form { display: flex; flex-direction: column; gap: var(--sp-6); }
+
+.field-row { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); }
+@media (min-width: 480px) { .field-row { grid-template-columns: minmax(0,1fr) minmax(0,1fr); } }
+
+.field { display: flex; flex-direction: column; gap: var(--sp-2); }
+.field label { font-size: var(--step--1); font-weight: 500; color: var(--text); }
+.field .hint { font-size: var(--step--1); color: var(--text-secondary); font-weight: 400; }
+.field input, .field select, .field textarea {
+  height: 48px;
+  padding: 0 var(--sp-4);
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  color: var(--text);
+  background: var(--surface);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { border-color: var(--signal); }
+.field textarea { height: auto; min-height: 140px; padding: var(--sp-3) var(--sp-4); line-height: 1.6; resize: vertical; }
+
+/* Error state — border colour AND explicit prose, never colour alone. */
+.field.has-error input, .field.has-error select, .field.has-error textarea { border-color: #C0392B; }
+.field-error { display: none; font-size: var(--step--1); color: #C0392B; }
+.field.has-error .field-error { display: block; }
+
+.contact-aside { display: flex; flex-direction: column; gap: var(--sp-8); }
+.contact-aside .email-link { font-family: var(--font-display); font-weight: 500; font-size: var(--step-1); color: var(--signal); }
+.contact-aside p { color: var(--text-secondary); max-width: 40ch; }
+
+.next-steps { display: flex; flex-direction: column; gap: var(--sp-5); border-top: var(--hairline); padding-top: var(--sp-5); }
+.next-steps .mono-label { margin-bottom: var(--sp-2); }
+.next-steps p { color: var(--text-secondary); }
+
+/* Success state replaces the form in place — no navigation away, so a
+   submitter never loses context or has to use the back button. */
+.form-success { display: none; padding: var(--sp-7); border: var(--hairline); border-radius: var(--radius-md); background: var(--paper-2); }
+.form-success.is-visible { display: block; }
+.form-success h3 { font-size: var(--step-1); font-weight: 500; margin-bottom: var(--sp-3); }
+.form-success p { color: var(--text-secondary); }
+.contact-form.is-submitted { display: none; }
+
+.form-status { font-size: var(--step--1); color: #C0392B; }
+.form-status:empty { display: none; }

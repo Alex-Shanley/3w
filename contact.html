@@ -5,150 +5,180 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact — 3w, Dublin</title>
 <meta name="description" content="Tell us about the project. A quote within two working days, from a Dublin web studio.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=14">
+<meta name="theme-color" content="#F7F5F1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#08080A" media="(prefers-color-scheme: dark)">
+<script>(function(){try{var t=sessionStorage.getItem('3w-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/tokens.css?v=3">
+<link rel="stylesheet" href="css/base.css?v=3">
+<link rel="stylesheet" href="css/sections.css?v=3">
 </head>
 <body>
 
+<a href="#main" class="skip-link">Skip to content</a>
+
 <header class="site-header">
-  <div class="container">
-    <a href="index.html" class="logo">3<span>w</span></a>
-    <nav class="main-nav">
+  <div class="container nav-row">
+    <a href="index.html" class="wordmark">3<span class="accent">w</span></a>
+    <nav class="main-nav" aria-label="Primary">
       <a href="index.html#services">Services</a>
       <a href="work.html">Work</a>
       <a href="about.html">About</a>
       <a href="index.html#pricing">Pricing</a>
     </nav>
-    <div class="header-actions">
-      <a href="contact.html" class="btn btn-primary" aria-current="page">Get a quote</a>
-      <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
-        <span></span><span></span>
-      </button>
+    <div class="nav-actions">
+      <a href="contact.html" class="btn btn-solid" aria-current="page">Get a quote</a>
+      <details class="mobile-menu">
+        <summary aria-label="Menu"><span class="icon"><span></span><span></span><span></span></span></summary>
+        <nav class="mobile-menu-panel" aria-label="Mobile">
+          <a href="index.html#services">Services</a>
+          <a href="work.html">Work</a>
+          <a href="about.html">About</a>
+          <a href="index.html#pricing">Pricing</a>
+          <a href="contact.html" class="btn btn-solid" style="margin-top:var(--sp-6);align-self:flex-start;" aria-current="page">Get a quote</a>
+        </nav>
+      </details>
     </div>
   </div>
-  <nav id="mobile-nav" class="mobile-nav">
-    <a href="index.html#services">Services</a>
-    <a href="work.html">Work</a>
-    <a href="about.html">About</a>
-    <a href="index.html#pricing">Pricing</a>
-  </nav>
 </header>
 
-<section style="padding:96px var(--pad) 96px">
-  <div class="container">
-    <div class="eyebrow" style="margin-bottom:24px">Contact</div>
-    <h1 style="margin-bottom:24px">Tell us about the project</h1>
-    <p class="body-lg" style="color:var(--slate);margin-bottom:40px;max-width:56ch">The more specific you are, the more specific our quote can be. A rough budget helps us tell you quickly whether we're the right fit.</p>
+<main id="main">
 
+<section class="page-intro">
+  <div class="container">
+    <div class="section-index mono-label"><span class="num">01</span><span>/ Contact</span></div>
+    <h1>Tell us about the project.</h1>
+    <p>The more specific you are, the more specific our quote can be. A rough budget helps us tell you quickly whether we're the right fit.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
     <div class="contact-grid">
-      <form class="contact-form" id="contact-form" action="https://formspree.io/f/[TODO: Formspree form ID]" method="POST">
-        <input type="hidden" name="_next" value="https://alex-shanley.github.io/3w/thanks.html">
-        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
-        <div class="field-row">
-          <label class="field" for="name">Name
-            <input type="text" id="name" name="name" placeholder="Your name" required>
-          </label>
-          <label class="field" for="email">Email
-            <input type="email" id="email" name="email" placeholder="you@company.com" required>
-          </label>
+
+      <div>
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/[TODO: Formspree form ID]" method="POST" novalidate>
+          <input type="hidden" name="_next" value="https://alex-shanley.github.io/3w/thanks.html">
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" autocomplete="name" required aria-describedby="name-error">
+              <span class="field-error" id="name-error" role="alert"></span>
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-error">
+              <span class="field-error" id="email-error" role="alert"></span>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="company">Company <span class="hint">(optional)</span></label>
+              <input type="text" id="company" name="company" autocomplete="organization">
+            </div>
+            <div class="field">
+              <label for="budget">Budget</label>
+              <select id="budget" name="budget">
+                <option>Under €6,000</option>
+                <option>€6,000 – €12,000</option>
+                <option>€12,000 – €30,000</option>
+                <option>€30,000+</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="description">Project description</label>
+            <textarea id="description" name="description" required aria-describedby="description-error" placeholder="What does the site need to do? What isn't working now?"></textarea>
+            <span class="field-error" id="description-error" role="alert"></span>
+          </div>
+
+          <div>
+            <button type="submit" class="btn btn-solid">Send the brief</button>
+            <p class="form-status" id="form-status" role="alert"></p>
+          </div>
+
+          <p class="small" style="color:var(--text-secondary)">By sending this brief you agree to our <a href="privacy.html" class="link-underline">privacy policy</a>.</p>
+        </form>
+
+        <div class="form-success" id="form-success" role="status">
+          <h3>Brief received.</h3>
+          <p>We reply within one working day, and quote within two. If we're not the right fit, we'll say so and suggest who is.</p>
         </div>
-        <div class="field-row">
-          <label class="field" for="company">Company
-            <input type="text" id="company" name="company" placeholder="Company name">
-          </label>
-          <label class="field" for="budget">Budget
-            <select id="budget" name="budget">
-              <option>Under €6,000</option>
-              <option>€6,000 – €12,000</option>
-              <option>€12,000 – €30,000</option>
-              <option>€30,000+</option>
-              <option>Not sure yet</option>
-            </select>
-          </label>
-        </div>
-        <label class="field" for="description">Project description
-          <textarea id="description" name="description" rows="6" placeholder="What does the site need to do? What isn't working now?" required></textarea>
-        </label>
-        <button type="submit" class="btn btn-primary" style="align-self:flex-start">Send the brief</button>
-        <p class="small">By sending this brief you agree to our <a href="privacy.html">privacy policy</a>.</p>
-      </form>
+      </div>
 
       <div class="contact-aside">
         <div>
-          <div class="mono-label">Prefer email?</div>
-          <a href="mailto:hello@3w.studio" class="email-link">hello@3w.studio</a>
+          <div class="mono-label" style="margin-bottom:var(--sp-2)">Prefer email?</div>
+          <a href="mailto:hello@3w.studio" class="email-link link-underline">hello@3w.studio</a>
         </div>
         <div>
-          <div class="mono-label">Response time</div>
-          <p class="body-lg">We reply within one working day, and quote within two. If we're not the right fit, we'll say so and suggest who is.</p>
+          <div class="mono-label" style="margin-bottom:var(--sp-2)">Response time</div>
+          <p>We reply within one working day, and quote within two. If we're not the right fit, we'll say so and suggest who is.</p>
         </div>
-        <div>
-          <div class="mono-label">What happens next</div>
-          <div class="next-steps">
-            <div>
-              <div class="mono-label">01 — Read</div>
-              <p class="small">We read your brief and look at your current site, if you have one.</p>
-            </div>
-            <div>
-              <div class="mono-label">02 — Quote</div>
-              <p class="small">You get a fixed price and a timeline in writing. No call required.</p>
-            </div>
-            <div>
-              <div class="mono-label">03 — Start</div>
-              <p class="small">Say yes and we book you in. Most projects start within two weeks.</p>
-            </div>
+        <div class="next-steps">
+          <div>
+            <div class="mono-label">01 — Read</div>
+            <p>We read your brief and look at your current site, if you have one.</p>
+          </div>
+          <div>
+            <div class="mono-label">02 — Quote</div>
+            <p>You get a fixed price and a timeline in writing. No call required.</p>
+          </div>
+          <div>
+            <div class="mono-label">03 — Start</div>
+            <p>Say yes and we book you in. Most projects start within two weeks.</p>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
+</main>
+
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-top">
-      <div>
-        <a href="index.html" class="logo">3w</a>
-        <p class="footer-tagline">Websites that work.</p>
-        <p class="footer-tagline">Dublin, Ireland — [TODO: full registered address]</p>
-      </div>
+    <div class="footer-grid">
       <div class="footer-col">
         <div class="mono-label">Services</div>
-        <a href="index.html#website-design">Website Design</a>
-        <a href="index.html#ux-ui-design">UX/UI Design</a>
-        <a href="index.html#seo">SEO</a>
-        <a href="index.html#web-hosting">Web Hosting</a>
-        <a href="index.html#website-security">Website Security</a>
-        <a href="index.html#care-plans">Care Plans</a>
+        <a href="index.html#services">Website Design</a>
+        <a href="index.html#services">UX/UI Design</a>
+        <a href="index.html#services">SEO</a>
+        <a href="index.html#services">Web Hosting</a>
+        <a href="index.html#services">Website Security</a>
+        <a href="index.html#services">Care Plans</a>
       </div>
       <div class="footer-col">
         <div class="mono-label">Work</div>
         <a href="work.html">All work</a>
         <a href="work-oak-lane-dental.html">Oak Lane Dental</a>
-        <!-- TODO: restore Fieldnote link when page exists -->
       </div>
       <div class="footer-col">
         <div class="mono-label">Company</div>
         <a href="about.html">About</a>
         <a href="index.html#pricing">Pricing</a>
-        <!-- TODO: restore Journal link when page exists -->
         <a href="privacy.html">Privacy</a>
       </div>
       <div class="footer-col">
         <div class="mono-label">Contact</div>
-        <a href="contact.html">Get a quote</a>
+        <p>Dublin, Ireland — [TODO: full registered address]</p>
         <a href="mailto:hello@3w.studio">hello@3w.studio</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 3w Ltd · Registered in Ireland · Company No. [TODO: CRO number] · Registered office: [TODO: registered office address]</span>
-      <span>Hosted and secured by 3w</span>
+      <a href="index.html" class="wordmark">3<span class="accent">w</span></a>
+      <span class="footer-clock mono-label">Dublin, Ireland</span>
     </div>
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/contact-form.js"></script>
 </body>
 </html>

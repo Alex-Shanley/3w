@@ -5,143 +5,126 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About — 3w, Dublin</title>
 <meta name="description" content="3w is a Dublin web studio. One team handles design, build, hosting, SEO and security — no handoffs, no account managers.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=14">
+<meta name="theme-color" content="#F7F5F1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#08080A" media="(prefers-color-scheme: dark)">
+<script>(function(){try{var t=sessionStorage.getItem('3w-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/tokens.css?v=2">
+<link rel="stylesheet" href="css/base.css?v=2">
+<link rel="stylesheet" href="css/sections.css?v=2">
 </head>
 <body>
 
+<a href="#main" class="skip-link">Skip to content</a>
+
 <header class="site-header">
-  <div class="container">
-    <a href="index.html" class="logo">3<span>w</span></a>
-    <nav class="main-nav">
+  <div class="container nav-row">
+    <a href="index.html" class="wordmark">3<span class="accent">w</span></a>
+    <nav class="main-nav" aria-label="Primary">
       <a href="index.html#services">Services</a>
       <a href="work.html">Work</a>
       <a href="about.html" aria-current="page">About</a>
       <a href="index.html#pricing">Pricing</a>
     </nav>
-    <div class="header-actions">
-      <a href="contact.html" class="btn btn-primary">Get a quote</a>
-      <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
-        <span></span><span></span>
-      </button>
+    <div class="nav-actions">
+      <a href="contact.html" class="btn btn-solid">Get a quote</a>
+      <details class="mobile-menu">
+        <summary aria-label="Menu"><span class="icon"><span></span><span></span><span></span></span></summary>
+        <nav class="mobile-menu-panel" aria-label="Mobile">
+          <a href="index.html#services">Services</a>
+          <a href="work.html">Work</a>
+          <a href="about.html" aria-current="page">About</a>
+          <a href="index.html#pricing">Pricing</a>
+          <a href="contact.html" class="btn btn-solid" style="margin-top:var(--sp-6);align-self:flex-start;">Get a quote</a>
+        </nav>
+      </details>
     </div>
   </div>
-  <nav id="mobile-nav" class="mobile-nav">
-    <a href="index.html#services">Services</a>
-    <a href="work.html">Work</a>
-    <a href="about.html" aria-current="page">About</a>
-    <a href="index.html#pricing">Pricing</a>
-  </nav>
 </header>
 
-<section class="section" style="padding-bottom:64px">
-  <div class="container" style="max-width:800px;text-align:center">
-    <div class="eyebrow" style="margin-bottom:20px">About</div>
-    <h1 style="margin:0 auto 24px;max-width:16ch">One team. No handoffs.</h1>
-    <p class="body-lg" style="color:var(--slate);margin:0 auto;max-width:52ch">Most agencies split design, build, hosting and SEO across different vendors — and something breaks in every handoff. We do all of it ourselves, which means one invoice, one point of contact, and nobody to blame but us.</p>
-  </div>
-</section>
+<main id="main">
 
-<section class="section-tight bg-white">
-  <div class="container about-principles">
-    <div class="about-statement">
-      <p class="display-serif">We'd rather do five things well than ten things adequately.</p>
-    </div>
-    <div class="about-principle-list">
-      <div class="about-principle">
-        <div class="mono-label">Plain pricing</div>
-        <p class="small">Every project is quoted before it starts. No hourly surprises, no change-order games.</p>
-      </div>
-      <div class="about-principle">
-        <div class="mono-label">One point of contact</div>
-        <p class="small">You talk to the person doing the work, not an account manager relaying messages.</p>
-      </div>
-      <div class="about-principle">
-        <div class="mono-label">Built to be found</div>
-        <p class="small">SEO isn't an add-on bolted on afterward. Every site is structured to rank from day one.</p>
-      </div>
-      <div class="about-principle">
-        <div class="mono-label">We stick around</div>
-        <p class="small">Care plans mean we're still here after launch — not gone the day the site ships.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section bg-white" style="padding-top:0">
+<section class="page-intro">
   <div class="container">
-    <div class="eyebrow" style="margin-bottom:16px">Team</div>
-    <h2 style="margin-bottom:40px">Who you're working with</h2>
-    <div class="grid grid-2 js-reveal">
-      <div class="card" style="padding:32px">
-        <div class="shot" style="width:96px;height:96px;border-radius:999px;margin-bottom:20px" role="img" aria-label="[TODO: founder photo]"></div>
-        <h4 style="margin-bottom:4px">[TODO: founder name]</h4>
-        <div class="mono-label" style="margin-bottom:16px">[TODO: role]</div>
-        <p class="small">[TODO: two or three sentences on background and what they focus on day to day.]</p>
+    <div class="section-index mono-label"><span class="num">01</span><span>/ About</span></div>
+    <h1>One team. No handoffs.</h1>
+    <p>Most agencies split design, build, hosting and SEO across different vendors — and something breaks in every handoff. We do all of it ourselves, which means one invoice, one point of contact, and nobody to blame but us.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="about-principles">
+      <div class="about-statement">
+        <p>We'd rather do five things well than ten things adequately.</p>
       </div>
-      <div class="card" style="padding:32px">
-        <div class="shot" style="width:96px;height:96px;border-radius:999px;margin-bottom:20px" role="img" aria-label="[TODO: team member photo]"></div>
-        <h4 style="margin-bottom:4px">[TODO: name]</h4>
-        <div class="mono-label" style="margin-bottom:16px">[TODO: role]</div>
-        <p class="small">[TODO: two or three sentences on background and what they focus on day to day.]</p>
+      <div class="about-principle-list">
+        <div class="about-principle">
+          <div class="mono-label">Plain pricing</div>
+          <p>Every project is quoted before it starts. No hourly surprises, no change-order games.</p>
+        </div>
+        <div class="about-principle">
+          <div class="mono-label">One point of contact</div>
+          <p>You talk to the person doing the work, not an account manager relaying messages.</p>
+        </div>
+        <div class="about-principle">
+          <div class="mono-label">Built to be found</div>
+          <p>SEO isn't an add-on bolted on afterward. Every site is structured to rank from day one.</p>
+        </div>
+        <div class="about-principle">
+          <div class="mono-label">We stick around</div>
+          <p>Care plans mean we're still here after launch — not gone the day the site ships.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section-tight bg-ink cta-band">
+<section class="cta-band">
   <div class="container">
-    <h2>Tell us what your site needs to do</h2>
-    <p class="body-lg">A quote within two working days. No discovery calls unless you want one.</p>
-    <a href="contact.html" class="btn btn-on-ink">Get a quote</a>
+    <h2>Tell us what your site needs to do.</h2>
+    <a href="contact.html" class="btn btn-solid">Get a quote</a>
   </div>
 </section>
+
+</main>
 
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-top">
-      <div>
-        <a href="index.html" class="logo">3w</a>
-        <p class="footer-tagline">Websites that work.</p>
-        <p class="footer-tagline">Dublin, Ireland — [TODO: full registered address]</p>
-      </div>
+    <div class="footer-grid">
       <div class="footer-col">
         <div class="mono-label">Services</div>
-        <a href="index.html#website-design">Website Design</a>
-        <a href="index.html#ux-ui-design">UX/UI Design</a>
-        <a href="index.html#seo">SEO</a>
-        <a href="index.html#web-hosting">Web Hosting</a>
-        <a href="index.html#website-security">Website Security</a>
-        <a href="index.html#care-plans">Care Plans</a>
+        <a href="index.html#services">Website Design</a>
+        <a href="index.html#services">UX/UI Design</a>
+        <a href="index.html#services">SEO</a>
+        <a href="index.html#services">Web Hosting</a>
+        <a href="index.html#services">Website Security</a>
+        <a href="index.html#services">Care Plans</a>
       </div>
       <div class="footer-col">
         <div class="mono-label">Work</div>
         <a href="work.html">All work</a>
         <a href="work-oak-lane-dental.html">Oak Lane Dental</a>
-        <!-- TODO: restore Fieldnote link when page exists -->
       </div>
       <div class="footer-col">
         <div class="mono-label">Company</div>
         <a href="about.html" aria-current="page">About</a>
         <a href="index.html#pricing">Pricing</a>
-        <!-- TODO: restore Journal link when page exists -->
         <a href="privacy.html">Privacy</a>
       </div>
       <div class="footer-col">
         <div class="mono-label">Contact</div>
-        <a href="contact.html">Get a quote</a>
+        <p>Dublin, Ireland — [TODO: full registered address]</p>
         <a href="mailto:hello@3w.studio">hello@3w.studio</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 3w Ltd · Registered in Ireland · Company No. [TODO: CRO number] · Registered office: [TODO: registered office address]</span>
-      <span>Hosted and secured by 3w</span>
+      <a href="index.html" class="wordmark">3<span class="accent">w</span></a>
+      <span class="footer-clock mono-label">Dublin, Ireland</span>
     </div>
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/nav.js"></script>
 </body>
 </html>

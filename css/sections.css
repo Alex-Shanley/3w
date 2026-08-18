@@ -443,3 +443,65 @@
   .service-row:hover .num { color: var(--signal); }
   .service-row:hover .rule { width: 100%; }
 }
+
+/* ── Process — pinned scroll sequence, signature moment 02 ───────── */
+/* Default state (no JS, or narrow/no-motion) is a plain 4-up grid —
+   every step fully visible, no absolute positioning, no reliance on a
+   tall scroll-driving wrapper. process.js opts wide + motion-enabled
+   viewports INTO the pin: adds .is-pinned, which is the only thing
+   that switches .process-pin to its 400vh scroll-driving height and
+   .process-step to the cross-fade stack. A single rAF-throttled
+   scroll listener drives it — the same cheap pattern as the header's
+   scroll hairline, never a per-frame layout read. */
+
+.process { padding-bottom: 0; }
+
+.process-intro { grid-column: 1 / -1; margin-bottom: var(--sp-8); }
+@media (min-width: 1024px) { .process-intro { grid-column: span 8; } }
+.process-intro h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; max-width: 22ch; }
+
+.process-progress { display: none; }
+.process-pin.is-pinned .process-progress {
+  display: block;
+  height: 2px;
+  background: var(--paper-2);
+  margin-bottom: var(--sp-9);
+}
+.process-progress-fill { height: 100%; width: 0%; background: var(--signal); }
+
+.process-steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-8);
+}
+@media (min-width: 600px) { .process-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .process-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-6); } }
+
+.process-step { border-top: var(--hairline); padding-top: var(--sp-5); }
+.process-step h3 { margin: var(--sp-3) 0 var(--sp-2); font-size: var(--step-1); font-weight: 500; }
+.process-step p { color: var(--text-secondary); max-width: 32ch; }
+
+/* Pinned state — only ever applied by process.js on wide, motion-OK
+   viewports, and undone on resize if the viewport drops below the
+   threshold. */
+.process-pin.is-pinned { height: 400vh; position: relative; }
+.process-pin.is-pinned .process-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.process-pin.is-pinned .process-steps { display: grid; grid-template-columns: 1fr; }
+.process-pin.is-pinned .process-step {
+  grid-area: 1 / 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-slow) var(--ease-out);
+  max-width: 640px;
+}
+.process-pin.is-pinned .process-step.is-active { opacity: 1; pointer-events: auto; }
+.process-pin.is-pinned .process-step h3 { font-size: var(--step-3); }
+.process-pin.is-pinned .process-step p { font-size: var(--step-1); max-width: 40ch; }

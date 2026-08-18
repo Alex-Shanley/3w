@@ -205,7 +205,9 @@
 .hero { padding-top: var(--sp-9); padding-bottom: var(--sp-10); }
 @media (min-width: 1024px) { .hero { padding-top: var(--sp-10); padding-bottom: var(--sp-11); } }
 
-.hero-grid {
+/* Generic 12/6/4-col row — reused by any section that needs to place
+   content against the real grid, not just the hero. */
+.content-grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
@@ -325,3 +327,119 @@
 .proof-rail.js-anim.is-revealed .proof-row:nth-child(4) .proof-rule { transition-delay: 880ms; }
 .proof-rail.js-anim.is-revealed .proof-row:nth-child(5) .proof-rule { transition-delay: 940ms; }
 .proof-rail.js-anim.is-revealed .proof-rule { transform: scaleX(1); }
+
+/* ── Section index spine ──────────────────────────────────────────── */
+/* The mono "01 / SERVICES" label every body section carries — it's the
+   section's real position in the page, not decoration, so it starts
+   counting at the first content section after the hero. */
+
+.section-index {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-6);
+}
+.section-index .num { color: var(--text); }
+
+/* ── Scroll reveal ────────────────────────────────────────────────── */
+/* Same invariant as the hero: default state is fully visible. reveal.js
+   adds .js-anim (opting into a hidden start) only after confirming
+   IntersectionObserver support and motion preference, then .is-visible
+   once the element scrolls into view — once, never re-triggered. */
+
+.js-reveal.js-anim > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+}
+.js-reveal.js-anim.is-visible > * { opacity: 1; transform: translateY(0); }
+.js-reveal.js-anim.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.js-reveal.js-anim.is-visible > *:nth-child(2) { transition-delay: 60ms; }
+.js-reveal.js-anim.is-visible > *:nth-child(3) { transition-delay: 120ms; }
+.js-reveal.js-anim.is-visible > *:nth-child(4) { transition-delay: 180ms; }
+.js-reveal.js-anim.is-visible > *:nth-child(5) { transition-delay: 240ms; }
+.js-reveal.js-anim.is-visible > *:nth-child(6) { transition-delay: 300ms; }
+
+/* ── Services — capability spine ─────────────────────────────────── */
+/* Six numbered rows, not a 2x3 card grid — the point being made is
+   that these six things are a chain (one team does all of them), and
+   a grid of identical cards can't say that; a stacked, ordered list
+   can. */
+
+.services-intro { grid-column: 1 / -1; margin-bottom: var(--sp-8); }
+@media (min-width: 1024px) { .services-intro { grid-column: span 8; } }
+.services-intro h2 {
+  font-size: var(--step-3);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  max-width: 20ch;
+}
+
+.service-row {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  column-gap: var(--sp-5);
+  row-gap: var(--sp-2);
+  align-items: baseline;
+  padding: var(--sp-5) 0;
+  border-top: var(--hairline);
+  position: relative;
+  transition: background var(--dur-base) var(--ease-out);
+}
+.services-spine > .service-row:last-child { border-bottom: var(--hairline); }
+@media (min-width: 1024px) {
+  .service-row {
+    grid-template-columns: 56px minmax(0, 3fr) minmax(0, 4fr) minmax(0, 2fr);
+    column-gap: var(--sp-6);
+    padding: var(--sp-6) var(--sp-5);
+    margin-inline: calc(var(--sp-5) * -1);
+  }
+}
+
+.service-row .num {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+  transition: color var(--dur-base) var(--ease-out);
+}
+.service-row .name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-2);
+  letter-spacing: -0.01em;
+  grid-column: 2;
+}
+@media (min-width: 1024px) { .service-row .name { grid-column: auto; } }
+.service-row .desc {
+  grid-column: 1 / -1;
+  color: var(--text-secondary);
+  max-width: 46ch;
+}
+@media (min-width: 1024px) { .service-row .desc { grid-column: auto; } }
+.service-row .chip {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+@media (min-width: 1024px) {
+  .service-row .chip { grid-column: auto; text-align: right; }
+}
+
+.service-row .rule {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 0%;
+  background: var(--signal);
+  transition: width var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .service-row:hover { background: var(--paper-2); }
+  .service-row:hover .num { color: var(--signal); }
+  .service-row:hover .rule { width: 100%; }
+}

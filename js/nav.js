@@ -110,4 +110,17 @@
       btn.setAttribute('aria-pressed', String(next === 'dark'));
     });
   });
+
+  // ── Live Dublin clock ─────────────────────────────────────────────
+  // Always the studio's own local time, regardless of the visitor's
+  // timezone — a small, honest, low-cost detail; updates once a minute.
+  const clock = document.querySelector('.footer-clock');
+  if (clock) {
+    const formatter = new Intl.DateTimeFormat('en-IE', {
+      timeZone: 'Europe/Dublin', hour: '2-digit', minute: '2-digit', hour12: false,
+    });
+    const update = () => { clock.textContent = formatter.format(new Date()) + ' IST/GMT · Dublin'; };
+    update();
+    setInterval(update, 30000);
+  }
 })();

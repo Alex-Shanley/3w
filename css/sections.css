@@ -505,3 +505,172 @@
 .process-pin.is-pinned .process-step.is-active { opacity: 1; pointer-events: auto; }
 .process-pin.is-pinned .process-step h3 { font-size: var(--step-3); }
 .process-pin.is-pinned .process-step p { font-size: var(--step-1); max-width: 40ch; }
+
+/* ── Featured work ────────────────────────────────────────────────── */
+
+.work-feature-shot {
+  background: var(--paper-2);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+@media (min-width: 1024px) { .work-feature-shot { aspect-ratio: 21 / 9; } }
+.work-feature-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.work-feature-body { grid-column: 1 / -1; margin-top: var(--sp-8); }
+@media (min-width: 1024px) { .work-feature-body { grid-column: span 7; } }
+
+.work-metric {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-4);
+  letter-spacing: -0.03em;
+  color: var(--signal);
+}
+.work-feature-body p { margin-top: var(--sp-5); color: var(--text-secondary); max-width: 52ch; }
+.work-feature-body .link-arrow { margin-top: var(--sp-6); }
+
+/* ── Pricing — value ladder ───────────────────────────────────────── */
+
+.pricing-intro { grid-column: 1 / -1; margin-bottom: var(--sp-8); }
+@media (min-width: 1024px) { .pricing-intro { grid-column: span 8; } }
+.pricing-intro h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; }
+.pricing-intro p { margin-top: var(--sp-4); color: var(--text-secondary); max-width: 52ch; }
+
+.price-table { border-top: var(--hairline); }
+
+.price-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-2);
+  padding: var(--sp-4) 0;
+  border-bottom: var(--hairline);
+}
+@media (min-width: 768px) {
+  .price-row { grid-template-columns: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 3fr); align-items: center; gap: var(--sp-5); }
+}
+
+.price-row.head {
+  border-bottom-width: 1px;
+  padding-top: var(--sp-6);
+  padding-bottom: var(--sp-6);
+}
+.price-row.head .tier-name { font-family: var(--font-display); font-weight: 500; font-size: var(--step-1); }
+.price-row.head .tier-price { font-family: var(--font-mono); font-size: var(--step-3); font-weight: 500; }
+.price-row.head .tier-tag {
+  display: inline-block;
+  margin-top: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+.price-row.head .tier-col.is-chosen { background: var(--paper-2); margin: calc(var(--sp-4) * -1) calc(var(--sp-4) * -1); padding: var(--sp-4); border-radius: var(--radius-md); }
+@media (min-width: 768px) { .price-row.head .tier-col.is-chosen { margin: calc(var(--sp-6) * -1) calc(var(--sp-4) * -1); padding: var(--sp-6) var(--sp-4); } }
+
+.price-row .feature-name { color: var(--text); }
+.price-row .tier-col { display: flex; align-items: center; gap: var(--sp-2); color: var(--text-secondary); font-size: var(--step--1); }
+.price-row .tick { display: inline-block; width: 16px; height: 2px; background: var(--signal); flex-shrink: 0; }
+.price-row .dash { display: inline-block; width: 16px; height: 1px; background: var(--hairline-color); flex-shrink: 0; }
+
+/* Below the two-column breakpoint, each feature row's two tier values
+   stack directly on top of each other with nothing else distinguishing
+   them — the header row's "Launch"/"Grow" context is gone by then, so
+   each stacked value needs its own tiny label to still make sense. */
+.tier-col-label { display: none; font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); margin-right: var(--sp-1); }
+@media (max-width: 767px) { .tier-col-label { display: inline; } }
+
+.price-note { margin-top: var(--sp-6); color: var(--text-secondary); }
+.price-note strong { color: var(--text); font-weight: 500; }
+
+.care-band {
+  margin-top: var(--sp-9);
+  padding: var(--sp-7);
+  background: var(--paper-2);
+  border-radius: var(--radius-md);
+  display: grid;
+  gap: var(--sp-5);
+}
+@media (min-width: 768px) { .care-band { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) minmax(0, 2fr); align-items: center; padding: var(--sp-8); } }
+.care-band .tier-name { font-family: var(--font-display); font-weight: 500; font-size: var(--step-1); }
+.care-band .tier-price { font-family: var(--font-mono); font-size: var(--step-2); font-weight: 500; margin-top: var(--sp-2); }
+.care-band .tier-price .unit { font-size: var(--step--1); color: var(--text-secondary); }
+.care-band ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); font-size: var(--step--1); color: var(--text-secondary); }
+.care-band li { display: flex; align-items: center; gap: var(--sp-2); }
+
+/* ── FAQ ──────────────────────────────────────────────────────────── */
+
+.faq-intro { grid-column: 1 / -1; margin-bottom: var(--sp-7); }
+@media (min-width: 1024px) { .faq-intro { grid-column: span 6; } }
+.faq-intro h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; }
+
+.faq-list { grid-column: 1 / -1; border-top: var(--hairline); }
+@media (min-width: 1024px) { .faq-list { grid-column: span 8; } }
+
+.faq-item { border-bottom: var(--hairline); }
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  padding-block: var(--sp-5);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-1);
+  cursor: pointer;
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::marker { content: ''; }
+.faq-item summary .icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+.faq-item summary .icon::before,
+.faq-item summary .icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--text);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.faq-item summary .icon::before { width: 12px; height: 1.5px; transform: translate(-50%, -50%); }
+.faq-item summary .icon::after { width: 1.5px; height: 12px; transform: translate(-50%, -50%); }
+.faq-item[open] summary .icon::after { transform: translate(-50%, -50%) rotate(90deg) scaleY(0); }
+
+.faq-item p { padding-bottom: var(--sp-5); margin: 0; max-width: 60ch; color: var(--text-secondary); }
+
+/* ── Contact CTA band + footer ────────────────────────────────────── */
+
+.cta-band { padding-block: var(--sp-11); border-top: var(--hairline); }
+.cta-band .container { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-6); }
+.cta-band h2 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 14ch; }
+.cta-band .email-link {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-2);
+  color: var(--signal);
+}
+
+.site-footer { border-top: var(--hairline); padding-block: var(--sp-8); }
+.footer-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-6); }
+@media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.footer-col a, .footer-col p { display: block; color: var(--text-secondary); font-size: var(--step--1); margin-top: var(--sp-2); }
+.footer-col a:hover { color: var(--text); }
+.footer-col .mono-label { color: var(--text); }
+
+.footer-bottom {
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-5);
+  border-top: var(--hairline);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+.footer-bottom .wordmark { font-size: var(--step-0); }
+.footer-clock { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); }

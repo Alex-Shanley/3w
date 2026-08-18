@@ -34,6 +34,116 @@
     requestAnimationFrame(step);
   }
 
+  // ── Page transitions ─────────────────────────────────────────────
+  // A static multi-page site can still feel like one continuous
+  // experience: cover the viewport on the way out, let the next
+  // page's own load-time reveal uncover it — the two halves of one
+  // wipe, stitched across a real navigation.
+  if (wantsMotion) {
+    const overlay = document.createElement('div');
+    overlay.className = 'page-transition-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(overlay);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => overlay.classList.add('is-hidden'));
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = e.target.closest('a');
+      if (!link || !link.href || link.target === '_blank' || link.hasAttribute('download')) return;
+      let url;
+      try { url = new URL(link.href, location.href); } catch { return; }
+      if (url.origin !== location.origin) return;
+      if (url.pathname === location.pathname && url.hash) return; // same-page anchor
+      e.preventDefault();
+      overlay.classList.remove('is-hidden');
+      setTimeout(() => { location.href = link.href; }, 420);
+    });
+  }
+
+  // ── Magnetic cursor ──────────────────────────────────────────────
+  // Fine-pointer devices only — touch fires synthetic hover/click
+  // events that would leave a phantom cursor on screen.
+  if (wantsMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+    const dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    document.body.append(ring, dot);
+    document.body.classList.add('has-custom-cursor');
+
+    let ringX = window.innerWidth / 2;
+    let ringY = window.innerHeight / 2;
+    let targetX = ringX;
+    let targetY = ringY;
+    let shown = false;
+
+    document.addEventListener('mousemove', (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+      dot.style.transform = `translate(${targetX}px, ${targetY}px) translate(-50%, -50%)`;
+      if (!shown) { shown = true; ring.classList.add('is-visible'); dot.classList.add('is-visible'); }
+    });
+    document.addEventListener('mouseleave', () => {
+      shown = false;
+      ring.classList.remove('is-visible');
+      dot.classList.remove('is-visible');
+    });
+
+    // The ring trails the dot with a spring for weight; re-reads its
+    // own live position each frame so it never snaps when the pointer
+    // changes direction mid-flight.
+    function trackRing() {
+      const dx = targetX - ringX;
+      const dy = targetY - ringY;
+      ringX += dx * 0.18;
+      ringY += dy * 0.18;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(trackRing);
+    }
+    requestAnimationFrame(trackRing);
+
+    const magneticTargets = document.querySelectorAll('.btn, .card-hover, .link-arrow, .menu-toggle');
+    magneticTargets.forEach((el) => {
+      el.addEventListener('mouseenter', () => ring.classList.add('is-active'));
+      el.addEventListener('mouseleave', () => {
+        ring.classList.remove('is-active');
+        el.style.transform = '';
+      });
+    });
+
+    // Magnetic pull on buttons and the arrow-links specifically — pulling
+    // an entire service card toward the cursor would fight its own
+    // hover-lift transform, so scope the pull to the smaller, discrete
+    // targets it reads well on. Pull and the CSS :active press-scale
+    // both want to own `transform`, and inline style always wins over
+    // the stylesheet — so press state is folded into this same inline
+    // transform rather than left to CSS, or a click would lose its
+    // press feedback the moment the pointer had moved at all.
+    const pullTargets = document.querySelectorAll('.btn, .link-arrow');
+    pullTargets.forEach((el) => {
+      let relX = 0;
+      let relY = 0;
+      let pressed = false;
+      const apply = () => {
+        const scale = pressed ? 0.97 : 1;
+        el.style.transform = `translate(${relX}px, ${relY}px) scale(${scale})`;
+      };
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        relX = (e.clientX - (rect.left + rect.width / 2)) * 0.25;
+        relY = (e.clientY - (rect.top + rect.height / 2)) * 0.3;
+        apply();
+      });
+      el.addEventListener('mousedown', () => { pressed = true; apply(); });
+      el.addEventListener('mouseup', () => { pressed = false; apply(); });
+      el.addEventListener('mouseleave', () => { relX = 0; relY = 0; pressed = false; el.style.transform = ''; });
+    });
+  }
+
   // ── Mobile menu — spring-driven open/close ──────────────────────
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.getElementById('mobile-nav');
@@ -131,6 +241,36 @@
         grid.classList.add('reveal');
         observer.observe(grid);
       });
+    }
+  }
+
+  // ── Headline text reveal ─────────────────────────────────────────
+  // Section headings mask-reveal (slide up out of a clipped box) on
+  // first scroll into view. Wraps the heading's existing markup in an
+  // inline span at runtime — no HTML authoring changes needed per
+  // page — and only touches the DOM once IntersectionObserver support
+  // and motion preference are confirmed, same safety pattern as above.
+  if (wantsMotion && 'IntersectionObserver' in window) {
+    const headings = document.querySelectorAll('.section h2, .section-tight h2');
+    headings.forEach((h) => {
+      if (!h.textContent.trim()) return;
+      const inner = document.createElement('span');
+      inner.className = 'text-reveal-inner';
+      inner.innerHTML = h.innerHTML;
+      h.innerHTML = '';
+      h.appendChild(inner);
+      h.classList.add('text-reveal');
+    });
+    if (headings.length) {
+      const headingObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.6 });
+      headings.forEach((h) => headingObserver.observe(h));
     }
   }
 })();

@@ -6,9 +6,19 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://alex-shanley.github.io/3w/work.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://alex-shanley.github.io/3w/work-oak-lane-dental.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alex-shanley.github.io/3w/about.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://alex-shanley.github.io/3w/contact.html</loc>

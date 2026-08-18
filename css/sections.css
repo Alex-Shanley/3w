@@ -674,3 +674,85 @@
 }
 .footer-bottom .wordmark { font-size: var(--step-0); }
 .footer-clock { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); }
+
+/* ── Page intro (work/about/contact/privacy headers) ─────────────── */
+
+.page-intro { padding-top: var(--sp-9); padding-bottom: var(--sp-8); }
+@media (min-width: 1024px) { .page-intro { padding-top: var(--sp-10); } }
+.page-intro h1 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 16ch; }
+.page-intro p { margin-top: var(--sp-5); color: var(--text-secondary); font-size: var(--step-1); max-width: 52ch; }
+
+/* ── Dark section (case-study hero, stat bands) ──────────────────── */
+
+/* Deliberately theme-invariant: this is an always-dark editorial
+   contrast band (case-study hero, stat figures), not a surface that
+   should flip with the light/dark toggle — --ink-900 itself swaps
+   meaning between themes (near-black in light mode, near-white in
+   dark), so using it here would invert the band under dark mode. */
+.bg-ink {
+  background: #0B0B0C;
+  color: #F7F5F1;
+}
+.bg-ink .text-secondary, .bg-ink .mono-label { color: rgba(247, 245, 241, 0.65); }
+
+/* ── Case study meta + narrative ──────────────────────────────────── */
+
+.cs-hero { padding: var(--sp-9) 0 0; }
+@media (min-width: 1024px) { .cs-hero { padding-top: var(--sp-10); } }
+.cs-meta { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); margin-bottom: var(--sp-7); }
+.cs-meta .label { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--paper) 60%, transparent); display: block; }
+.cs-meta .value { font-size: var(--step--1); margin-top: var(--sp-1); display: block; }
+.cs-hero h1 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 16ch; margin-bottom: var(--sp-8); }
+.cs-hero-shot { aspect-ratio: 21 / 9; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0; }
+.cs-hero-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.cs-narrative { max-width: 720px; margin: 0 auto; padding-block: var(--sp-10); }
+.cs-block + .cs-block { margin-top: var(--sp-9); }
+.cs-block .mono-label { margin-bottom: var(--sp-4); }
+.cs-block h2 { font-size: var(--step-2); font-weight: 500; margin-bottom: var(--sp-4); }
+.cs-block p { color: var(--text-secondary); }
+.cs-block p + p { margin-top: var(--sp-4); }
+
+.device-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-6); align-items: end; padding-block: var(--sp-9); }
+@media (min-width: 768px) { .device-grid { grid-template-columns: minmax(0,8fr) minmax(0,4fr); } }
+.device-desktop { background: var(--paper-2); border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16/10; }
+.device-desktop img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.device-phone {
+  background: var(--paper-2);
+  border: var(--hairline);
+  border-radius: 28px;
+  overflow: hidden;
+  padding: var(--sp-3);
+  max-width: 260px;
+  justify-self: center;
+}
+.device-phone .shot { border-radius: 18px; overflow: hidden; aspect-ratio: 9/16; }
+.device-phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ── Testimonial ──────────────────────────────────────────────────── */
+
+.testimonial-card { max-width: 640px; margin: 0 auto; padding-block: var(--sp-9); text-align: left; }
+.testimonial-quote { font-family: var(--font-serif); font-size: var(--step-3); line-height: 1.3; color: var(--text); }
+.testimonial-attribution { margin-top: var(--sp-5); font-size: var(--step--1); color: var(--text-secondary); }
+.testimonial-attribution strong { color: var(--text); font-weight: 500; }
+
+/* ── Work index card ──────────────────────────────────────────────── */
+
+.work-card { display: block; border: var(--hairline); border-radius: var(--radius-md); overflow: hidden; transition: border-color var(--dur-base) var(--ease-out); }
+@media (min-width: 1024px) { .work-card:hover { border-color: var(--signal); } }
+.work-card-shot { aspect-ratio: 21/9; overflow: hidden; background: var(--paper-2); }
+.work-card-shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-slow) var(--ease-out); }
+@media (min-width: 1024px) { .work-card:hover .work-card-shot img { transform: scale(1.03); } }
+.work-card-body { padding: var(--sp-6); }
+.work-card-body h3 { font-size: var(--step-2); font-weight: 500; margin-bottom: var(--sp-2); }
+.work-card-body p { color: var(--text-secondary); margin-bottom: var(--sp-4); }
+.work-card-tags { display: flex; gap: var(--sp-3); font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); }
+
+/* ── Stat band (dark) ─────────────────────────────────────────────── */
+
+.stat-band { display: flex; flex-direction: column; gap: var(--sp-8); padding-block: var(--sp-9); text-align: left; }
+@media (min-width: 768px) { .stat-band { flex-direction: row; text-align: center; } }
+.stat-band .figure { flex: 1; }
+.stat-band .num { font-family: var(--font-display); font-weight: 600; font-size: var(--step-4); letter-spacing: -0.03em; }
+.stat-band .num.accent { color: var(--signal); }
+.stat-band .unit { margin-top: var(--sp-3); }

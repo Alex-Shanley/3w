@@ -693,6 +693,12 @@
   background: #0B0B0C;
   color: #F7F5F1;
 }
+/* base.css sets a direct h1-h6 color rule, and a direct rule always
+   wins over inheritance regardless of specificity — so headings inside
+   .bg-ink need an explicit override or they render in the page's
+   default (near-black) text colour, invisible against this same dark
+   background. Caught in verification, not before shipping. */
+.bg-ink h1, .bg-ink h2, .bg-ink h3, .bg-ink h4 { color: inherit; }
 .bg-ink .text-secondary, .bg-ink .mono-label { color: rgba(247, 245, 241, 0.65); }
 
 /* ── Case study meta + narrative ──────────────────────────────────── */

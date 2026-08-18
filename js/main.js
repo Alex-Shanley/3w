@@ -45,9 +45,21 @@
     overlay.setAttribute('aria-hidden', 'true');
     document.body.appendChild(overlay);
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => overlay.classList.add('is-hidden'));
+    // rAF is suspended for hidden/backgrounded tabs, and this overlay
+    // starts opaque over the whole page — so the reveal also needs a
+    // path that doesn't depend on rAF ever firing, or a page opened in
+    // a background tab would stay covered indefinitely.
+    let revealed = false;
+    const reveal = () => {
+      if (revealed) return;
+      revealed = true;
+      overlay.classList.add('is-hidden');
+    };
+    requestAnimationFrame(() => requestAnimationFrame(reveal));
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') reveal();
     });
+    setTimeout(reveal, 1000);
 
     document.addEventListener('click', (e) => {
       if (e.defaultPrevented || e.button !== 0) return;
@@ -194,8 +206,10 @@
   // ── Hero entrance ────────────────────────────────────────────────
   // Occasional, first-impression motion only — this runs once per page
   // load, never on repeat interaction, per the "how often will users
-  // see this" rule. No CSS ever hides these elements by default: if
-  // this script doesn't run, the hero stays exactly as authored.
+  // see this" rule. The spring drives the reveal via rAF, but rAF is
+  // suspended in hidden/backgrounded tabs — so each item also gets a
+  // hard timeout fallback that snaps it to its final visible state,
+  // guaranteeing the hero can never be stuck invisible.
   if (wantsMotion) {
     const heroItems = [
       ['.hero-bg img', 0],
@@ -209,16 +223,25 @@
       if (!el) return;
       el.style.opacity = '0';
       el.style.transform = 'translateY(16px)';
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        el.style.opacity = '1';
+        el.style.transform = '';
+      };
       setTimeout(() => {
         spring({
           from: 0, to: 1, damping: 1, response: 0.55, epsilon: 0.003,
           onUpdate: (v) => {
+            if (done) return;
             el.style.opacity = String(v);
             el.style.transform = `translateY(${(16 * (1 - v)).toFixed(2)}px)`;
           },
-          onComplete: () => { el.style.transform = ''; },
+          onComplete: finish,
         });
       }, delay);
+      setTimeout(finish, delay + 1500);
     });
   }
 

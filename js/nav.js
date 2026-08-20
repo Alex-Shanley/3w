@@ -143,6 +143,12 @@
     });
     carousel.addEventListener('scroll', updateArrow, { passive: true });
     window.addEventListener('resize', updateArrow);
+    window.addEventListener('load', updateArrow);
     updateArrow();
+    // A same-tick check can land before web fonts finish swapping in
+    // and shift card widths, so re-check once more after layout has
+    // had a chance to settle rather than trusting only the synchronous
+    // call above.
+    requestAnimationFrame(() => requestAnimationFrame(updateArrow));
   }
 })();

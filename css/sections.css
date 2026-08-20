@@ -506,28 +506,70 @@
 .process-pin.is-pinned .process-step h3 { font-size: var(--step-3); }
 .process-pin.is-pinned .process-step p { font-size: var(--step-1); max-width: 40ch; }
 
-/* ── Featured work ────────────────────────────────────────────────── */
+/* ── Featured work — horizontal card carousel ────────────────────── */
+/* Deliberately breaks from the ≤4px-radius rule the rest of the site
+   holds to — this is a direct, specific style request (Apple's own
+   promo carousel), not a drift. Scoped entirely to .work-carousel so
+   it doesn't leak the large-radius/rounded-card language anywhere
+   else. Scroll-snap does the carousel mechanics; nav.js only adds the
+   arrow button and hides it when there's nothing to scroll to. */
 
-.work-feature-shot {
-  background: var(--paper-2);
-  aspect-ratio: 16 / 9;
+#work h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; }
+
+.work-carousel-wrap { position: relative; margin-top: var(--sp-7); }
+
+.work-carousel {
+  display: flex;
+  gap: var(--sp-5);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--page-pad);
+  padding: 0 var(--page-pad) var(--sp-3);
+  margin: 0 calc(var(--page-pad) * -1);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.work-carousel::-webkit-scrollbar { display: none; }
+
+.work-card-lg {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: min(78vw, 460px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: 24px;
   overflow: hidden;
+  border: var(--hairline);
 }
-@media (min-width: 1024px) { .work-feature-shot { aspect-ratio: 21 / 9; } }
-.work-feature-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-.work-feature-body { grid-column: 1 / -1; margin-top: var(--sp-8); }
-@media (min-width: 1024px) { .work-feature-body { grid-column: span 7; } }
+.work-card-lg-text { padding: var(--sp-6) var(--sp-6) var(--sp-5); }
+.work-card-lg .mono-label { color: var(--signal); }
+.work-card-lg h3 { margin-top: var(--sp-3); font-size: var(--step-2); font-weight: 600; letter-spacing: -0.02em; }
+.work-card-lg p { margin-top: var(--sp-2); color: var(--text-secondary); }
 
-.work-metric {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--step-4);
-  letter-spacing: -0.03em;
-  color: var(--signal);
+.work-card-lg-shot { aspect-ratio: 4 / 3; background: var(--paper-2); overflow: hidden; }
+.work-card-lg-shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-slow) var(--ease-out); }
+@media (min-width: 1024px) { .work-card-lg:hover .work-card-lg-shot img { transform: scale(1.04); } }
+
+.work-carousel-next {
+  display: none;
+  position: absolute;
+  top: 42%;
+  right: var(--sp-5);
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: var(--hairline);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
-.work-feature-body p { margin-top: var(--sp-5); color: var(--text-secondary); max-width: 52ch; }
-.work-feature-body .link-arrow { margin-top: var(--sp-6); }
+.work-carousel-next.is-visible { display: flex; }
+.work-carousel-next svg { width: 18px; height: 18px; }
 
 /* ── Pricing — value ladder ───────────────────────────────────────── */
 

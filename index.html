@@ -9,9 +9,9 @@
 <meta name="theme-color" content="#08080A" media="(prefers-color-scheme: dark)">
 <script>(function(){try{var t=sessionStorage.getItem('3w-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/tokens.css?v=5">
-<link rel="stylesheet" href="css/base.css?v=5">
-<link rel="stylesheet" href="css/sections.css?v=5">
+<link rel="stylesheet" href="css/tokens.css?v=6">
+<link rel="stylesheet" href="css/base.css?v=6">
+<link rel="stylesheet" href="css/sections.css?v=6">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -221,18 +221,24 @@
 <section id="work" class="section bg-alt">
   <div class="container">
     <div class="section-index mono-label"><span class="num">03</span><span>/ Work</span></div>
-  </div>
-  <div class="work-feature-shot">
-    <img src="assets/img/oaklane-mockup.jpg?v=1" width="2400" height="1080" loading="lazy" alt="Mockup of the Oak Lane Dental homepage — placeholder, not a real client screenshot">
-  </div>
-  <div class="container">
-    <div class="content-grid">
-      <div class="work-feature-body">
-        <div class="work-metric tabular" data-count="42">+42%</div>
-        <div class="mono-label" style="margin-top:var(--sp-3)">Online bookings — Oak Lane Dental</div>
-        <p>Their old site loaded in nine seconds and didn't rank for a single treatment search. We rebuilt it around what patients actually search for — online bookings now handle 42% of new appointments, and the practice has taken on a fourth dentist to meet demand.</p>
-        <a href="work-oak-lane-dental.html" class="link-arrow">Read the case study <span class="arrow">→</span></a>
+    <h2>Recent launches.</h2>
+
+    <div class="work-carousel-wrap">
+      <div class="work-carousel" id="work-carousel">
+        <a href="work-oak-lane-dental.html" class="work-card-lg">
+          <div class="work-card-lg-text">
+            <div class="mono-label">Case study</div>
+            <h3>Oak Lane Dental</h3>
+            <p>+42% online bookings in the first quarter.</p>
+          </div>
+          <div class="work-card-lg-shot">
+            <img src="assets/img/oaklane-mockup.jpg?v=1" width="2400" height="1080" loading="lazy" alt="Mockup of the Oak Lane Dental homepage — placeholder, not a real client screenshot">
+          </div>
+        </a>
       </div>
+      <button class="work-carousel-next" id="work-carousel-next" aria-label="Next">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
     </div>
   </div>
 </section>

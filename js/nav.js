@@ -123,4 +123,26 @@
     update();
     setInterval(update, 30000);
   }
+
+  // ── Work carousel ─────────────────────────────────────────────────
+  // The arrow only appears once there's actually somewhere to scroll
+  // to — with a single card (today) it stays hidden rather than
+  // implying more content exists.
+  const carousel = document.getElementById('work-carousel');
+  const carouselNext = document.getElementById('work-carousel-next');
+  if (carousel && carouselNext) {
+    const updateArrow = () => {
+      const scrollable = carousel.scrollWidth - carousel.clientWidth > 8;
+      const atEnd = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 8;
+      carouselNext.classList.toggle('is-visible', scrollable && !atEnd);
+    };
+    carouselNext.addEventListener('click', () => {
+      const card = carousel.querySelector('.work-card-lg');
+      const step = card ? card.getBoundingClientRect().width + 24 : carousel.clientWidth * 0.8;
+      carousel.scrollBy({ left: step, behavior: wantsMotion ? 'smooth' : 'auto' });
+    });
+    carousel.addEventListener('scroll', updateArrow, { passive: true });
+    window.addEventListener('resize', updateArrow);
+    updateArrow();
+  }
 })();

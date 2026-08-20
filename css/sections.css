@@ -289,12 +289,24 @@
    variable-width bar would silently imply a comparison that isn't
    true. See DESIGN-NOTES.md. */
 
-.proof-rail { grid-column: 1 / -1; }
-@media (min-width: 1024px) { .proof-rail { grid-column: span 3; } }
+/* Single column throughout, not a 2-up grid — two of the four labels
+   ("Traffic growth, avg. 6 months", "Online bookings — Oak Lane
+   Dental") already wrap to two lines at full width; halving the card
+   width would push them to three or four and make the row heights
+   visibly uneven. */
+.proof-rail {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: var(--sp-3);
+}
+@media (min-width: 1024px) { .proof-rail { grid-column: span 3; gap: var(--sp-4); } }
 
-.proof-row { padding-block: var(--sp-4); border-top: var(--hairline); }
-.proof-row:first-child { border-top: none; padding-top: 0; }
-@media (min-width: 1024px) { .proof-row:first-child { padding-top: var(--sp-4); border-top: var(--hairline); } }
+.proof-row {
+  padding: var(--sp-4);
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
 
 .proof-value {
   font-family: var(--font-mono);
@@ -316,16 +328,25 @@
   width: 32px;
   background: var(--signal);
 }
+.proof-rail.js-anim .proof-row {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+}
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(1) { transition-delay: 700ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(2) { transition-delay: 760ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(3) { transition-delay: 820ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(4) { transition-delay: 880ms; }
+.proof-rail.js-anim.is-revealed .proof-row { opacity: 1; transform: translateY(0); }
 .proof-rail.js-anim .proof-rule {
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--dur-slow) var(--ease-out);
 }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(1) .proof-rule { transition-delay: 700ms; }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(2) .proof-rule { transition-delay: 760ms; }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(3) .proof-rule { transition-delay: 820ms; }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(4) .proof-rule { transition-delay: 880ms; }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(5) .proof-rule { transition-delay: 940ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(1) .proof-rule { transition-delay: 900ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(2) .proof-rule { transition-delay: 960ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(3) .proof-rule { transition-delay: 1020ms; }
+.proof-rail.js-anim.is-revealed .proof-row:nth-child(4) .proof-rule { transition-delay: 1080ms; }
 .proof-rail.js-anim.is-revealed .proof-rule { transform: scaleX(1); }
 
 /* ── Section index spine ──────────────────────────────────────────── */

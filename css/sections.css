@@ -454,7 +454,7 @@
    scroll listener drives it — the same cheap pattern as the header's
    scroll hairline, never a per-frame layout read. */
 
-.process { padding-top: 0; padding-bottom: 0; }
+.process { padding-bottom: 0; }
 
 .process-intro { grid-column: 1 / -1; margin-bottom: var(--sp-8); }
 @media (min-width: 1024px) { .process-intro { grid-column: span 8; } }

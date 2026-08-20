@@ -460,7 +460,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .service-row:hover { background: var(--paper-2); }
+  .service-row:hover { background: var(--surface); }
   .service-row:hover .num { color: var(--signal); }
   .service-row:hover .rule { width: 100%; }
 }
@@ -757,7 +757,7 @@
 /* Applied manually to every second plain content section per page —
    not nth-child, since .bg-ink and .cta-band already carry their own
    distinct treatment and shouldn't be pulled into the alternation. */
-.bg-alt { background: var(--paper-2); }
+.bg-alt { background: var(--signal-tint); }
 
 /* ── Dark section (case-study hero, stat bands) ──────────────────── */
 
@@ -911,7 +911,7 @@
 
 /* Success state replaces the form in place — no navigation away, so a
    submitter never loses context or has to use the back button. */
-.form-success { display: none; padding: var(--sp-7); border: var(--hairline); border-radius: var(--radius-md); background: var(--paper-2); }
+.form-success { display: none; padding: var(--sp-7); border: var(--hairline); border-radius: var(--radius-md); background: var(--surface); }
 .form-success.is-visible { display: block; }
 .form-success h3 { font-size: var(--step-1); font-weight: 500; margin-bottom: var(--sp-3); }
 .form-success p { color: var(--text-secondary); }

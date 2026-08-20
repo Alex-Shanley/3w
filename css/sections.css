@@ -484,14 +484,18 @@
 /* Pinned state — only ever applied by process.js on wide, motion-OK
    viewports, and undone on resize if the viewport drops below the
    threshold. */
+/* .process-sticky deliberately does NOT force height:100vh — centering
+   a few hundred px of text inside a full-viewport box left a large,
+   empty margin above and below it on any screen taller than the
+   content, which read as broken rather than spacious. Sizing to
+   content with fixed vertical padding keeps the pinned card compact
+   and consistent regardless of viewport height. */
 .process-pin.is-pinned { height: 400vh; position: relative; }
 .process-pin.is-pinned .process-sticky {
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: 35vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   overflow: hidden;
 }
 .process-pin.is-pinned .process-steps { display: grid; grid-template-columns: 1fr; }

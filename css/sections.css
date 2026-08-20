@@ -454,7 +454,7 @@
    scroll listener drives it — the same cheap pattern as the header's
    scroll hairline, never a per-frame layout read. */
 
-.process { padding-bottom: 0; }
+.process { padding-top: 0; padding-bottom: 0; }
 
 .process-intro { grid-column: 1 / -1; margin-bottom: var(--sp-8); }
 @media (min-width: 1024px) { .process-intro { grid-column: span 8; } }
@@ -645,7 +645,11 @@
 
 /* ── Contact CTA band + footer ────────────────────────────────────── */
 
-.cta-band { padding-block: var(--sp-11); border-top: var(--hairline); }
+/* Top padding is deliberately smaller than the bottom: the preceding
+   section already contributes its own full padding-bottom before the
+   hairline, so a matching padding-top here would double the gap the
+   same way plain .section-to-.section boundaries did (fixed below). */
+.cta-band { padding-top: var(--sp-9); padding-bottom: var(--sp-11); border-top: var(--hairline); }
 .cta-band .container { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-6); }
 .cta-band h2 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 14ch; }
 .cta-band .email-link {
@@ -681,6 +685,12 @@
 @media (min-width: 1024px) { .page-intro { padding-top: var(--sp-10); } }
 .page-intro h1 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 16ch; }
 .page-intro p { margin-top: var(--sp-5); color: var(--text-secondary); font-size: var(--step-1); max-width: 52ch; }
+
+/* ── Alternating section background ──────────────────────────────── */
+/* Applied manually to every second plain content section per page —
+   not nth-child, since .bg-ink and .cta-band already carry their own
+   distinct treatment and shouldn't be pulled into the alternation. */
+.bg-alt { background: var(--paper-2); }
 
 /* ── Dark section (case-study hero, stat bands) ──────────────────── */
 

@@ -496,11 +496,49 @@
   gap: var(--sp-8);
 }
 @media (min-width: 600px) { .process-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 900px) { .process-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-6); } }
+@media (min-width: 900px) { .process-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; } }
 
-.process-step { border-top: var(--hairline); padding-top: var(--sp-5); }
-.process-step h3 { margin: var(--sp-3) 0 var(--sp-2); font-size: var(--step-1); font-weight: 500; }
+/* A dot on the top hairline marks each step like a stop on a timeline —
+   reinforces "steps in a sequence" rather than four unrelated blocks.
+   Vertical dividers between columns (900px+ only, where the grid is a
+   single row) tie the four steps together into one connected strip. */
+.process-step {
+  position: relative;
+  border-top: var(--hairline);
+  padding-top: var(--sp-5);
+}
+@media (min-width: 900px) {
+  .process-step { padding-right: var(--sp-6); }
+  .process-step + .process-step { padding-left: var(--sp-6); border-left: var(--hairline); }
+}
+.process-step::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--signal);
+  transform: translate(-50%, -50%);
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+.process-step-num {
+  font-family: var(--font-mono);
+  font-size: var(--step-2);
+  font-weight: 500;
+  color: var(--ink-900);
+  margin-bottom: var(--sp-4);
+  transition: color var(--dur-base) var(--ease-out);
+}
+.process-step .mono-label { margin-bottom: var(--sp-2); }
+.process-step h3 { margin: 0 0 var(--sp-2); font-size: var(--step-1); font-weight: 500; }
 .process-step p { color: var(--text-secondary); max-width: 32ch; }
+
+@media (hover: hover) and (pointer: fine) {
+  .process-step:hover::before { transform: translate(-50%, -50%) scale(1.7); }
+  .process-step:hover .process-step-num { color: var(--signal); }
+}
 
 /* Pinned state — only ever applied by process.js on wide, motion-OK
    viewports, and undone on resize if the viewport drops below the
@@ -528,6 +566,7 @@
   max-width: 640px;
 }
 .process-pin.is-pinned .process-step.is-active { opacity: 1; pointer-events: auto; }
+.process-pin.is-pinned .process-step-num { font-size: var(--step-3); }
 .process-pin.is-pinned .process-step h3 { font-size: var(--step-3); }
 .process-pin.is-pinned .process-step p { font-size: var(--step-1); max-width: 40ch; }
 
@@ -541,16 +580,27 @@
 
 #work h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; }
 
-.work-carousel-wrap { position: relative; margin-top: var(--sp-7); }
+/* The carousel deliberately breaks out of .container (moved to be a
+   section-level sibling in the markup, not nested inside it) so the
+   track can run fully edge-to-edge to the true right side of the
+   viewport, not just to .container's own inset right edge — the last
+   card ends flush with the screen, no trailing gap. The left edge
+   still needs to line up with the heading above it (which stays inside
+   .container), so it re-derives that same inset here: half the
+   leftover width outside --content-max, plus --page-pad. */
+.work-carousel-wrap {
+  position: relative;
+  margin-top: var(--sp-7);
+  --carousel-inset: calc(max(0px, (100vw - var(--content-max)) / 2) + var(--page-pad));
+}
 
 .work-carousel {
   display: flex;
   gap: var(--sp-5);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding-left: var(--page-pad);
-  padding: 0 var(--page-pad) var(--sp-3);
-  margin: 0 calc(var(--page-pad) * -1);
+  scroll-padding-left: var(--carousel-inset);
+  padding: 0 0 var(--sp-3) var(--carousel-inset);
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
@@ -689,7 +739,7 @@
 .faq-intro h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; }
 
 .faq-list { grid-column: 1 / -1; border-top: var(--hairline); }
-@media (min-width: 1024px) { .faq-list { grid-column: span 8; } }
+@media (min-width: 1024px) { .faq-list { grid-column: 3 / 11; } }
 
 .faq-item { border-bottom: var(--hairline); }
 .faq-item summary {

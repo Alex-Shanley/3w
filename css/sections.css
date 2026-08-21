@@ -838,6 +838,20 @@
 .testimonial-attribution { margin-top: var(--sp-5); font-size: var(--step--1); color: var(--text-secondary); }
 .testimonial-attribution strong { color: var(--text); font-weight: 500; }
 
+/* Layout preview only — not a real quote. Same dashed-border/reduced-
+   opacity honesty treatment as .work-card-lg.is-placeholder: centred,
+   plain heading/body type (not the serif quote styling above, so it
+   never reads as an actual testimonial), no invented name or company. */
+.testimonial-card.is-placeholder {
+  text-align: center;
+  padding: var(--sp-9) var(--sp-7);
+  border: 1px dashed var(--ink-300);
+  border-radius: var(--radius-md);
+  opacity: 0.55;
+}
+.testimonial-card.is-placeholder h3 { margin: var(--sp-3) 0 var(--sp-2); font-size: var(--step-1); font-weight: 500; }
+.testimonial-card.is-placeholder p { margin: 0 auto; max-width: 46ch; color: var(--text-secondary); }
+
 /* ── Work index card ──────────────────────────────────────────────── */
 
 .work-card { display: block; border: var(--hairline); border-radius: var(--radius-md); overflow: hidden; transition: border-color var(--dur-base) var(--ease-out); }

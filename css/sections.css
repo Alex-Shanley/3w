@@ -895,6 +895,35 @@
 .testimonial-grid .testimonial-quote { font-family: var(--font-body); font-size: var(--step-0); line-height: 1.5; }
 .testimonial-grid .testimonial-attribution { margin-top: var(--sp-4); }
 
+/* ── Service detail list (services.html) ──────────────────────────── */
+/* Expanded sibling of .service-row on the homepage — same spine/
+   hairline language, but one column of copy instead of a 4-up grid,
+   since each entry here carries a full paragraph and a tag list
+   rather than a one-line description. */
+.service-detail-list { border-top: var(--hairline); }
+.service-detail {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-3);
+  padding-block: var(--sp-7);
+  border-bottom: var(--hairline);
+}
+@media (min-width: 768px) {
+  .service-detail { grid-template-columns: 64px minmax(0, 1fr); gap: var(--sp-6); padding-block: var(--sp-8); }
+}
+.service-detail .num { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); }
+.service-detail-body h2 { font-size: var(--step-2); font-weight: 500; letter-spacing: -0.02em; margin-bottom: var(--sp-3); }
+.service-detail-body p { color: var(--text-secondary); max-width: 60ch; }
+.service-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+}
+
 /* ── Work index card ──────────────────────────────────────────────── */
 
 .work-card { display: block; border: var(--hairline); border-radius: var(--radius-md); overflow: hidden; transition: border-color var(--dur-base) var(--ease-out); }

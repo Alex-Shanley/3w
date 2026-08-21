@@ -832,25 +832,32 @@
 .device-phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ── Testimonial ──────────────────────────────────────────────────── */
-
+/* .testimonial-card alone (no .testimonial-grid ancestor) is a single
+   large centred pull-quote, for whenever there's just one to feature.
+   Nested in .testimonial-grid it's a smaller card in a 3-up row — the
+   quotes are full paragraphs, not one-liners, so the standalone
+   step-3 size would be unreadable three-wide. */
 .testimonial-card { max-width: 640px; margin: 0 auto; padding-block: var(--sp-9); text-align: left; }
 .testimonial-quote { font-family: var(--font-serif); font-size: var(--step-3); line-height: 1.3; color: var(--text); }
 .testimonial-attribution { margin-top: var(--sp-5); font-size: var(--step--1); color: var(--text-secondary); }
 .testimonial-attribution strong { color: var(--text); font-weight: 500; }
 
-/* Layout preview only — not a real quote. Same dashed-border/reduced-
-   opacity honesty treatment as .work-card-lg.is-placeholder: centred,
-   plain heading/body type (not the serif quote styling above, so it
-   never reads as an actual testimonial), no invented name or company. */
-.testimonial-card.is-placeholder {
-  text-align: center;
-  padding: var(--sp-9) var(--sp-7);
-  border: 1px dashed var(--ink-300);
-  border-radius: var(--radius-md);
-  opacity: 0.55;
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-5);
 }
-.testimonial-card.is-placeholder h3 { margin: var(--sp-3) 0 var(--sp-2); font-size: var(--step-1); font-weight: 500; }
-.testimonial-card.is-placeholder p { margin: 0 auto; max-width: 46ch; color: var(--text-secondary); }
+@media (min-width: 900px) { .testimonial-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.testimonial-grid .testimonial-card {
+  max-width: none;
+  margin: 0;
+  padding: var(--sp-7);
+  background: var(--paper-2);
+  border-radius: var(--radius-md);
+}
+.testimonial-grid .testimonial-quote { font-size: var(--step-0); line-height: 1.5; }
+.testimonial-grid .testimonial-attribution { margin-top: var(--sp-4); }
 
 /* ── Work index card ──────────────────────────────────────────────── */
 

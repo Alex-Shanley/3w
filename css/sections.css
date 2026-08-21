@@ -856,7 +856,10 @@
   background: var(--paper-2);
   border-radius: var(--radius-md);
 }
-.testimonial-grid .testimonial-quote { font-size: var(--step-0); line-height: 1.5; }
+/* Instrument Serif is a display face — distinctive at the standalone
+   card's large single-line size above, but it reads oddly once shrunk
+   down and run as a dense paragraph three-wide. Body font instead. */
+.testimonial-grid .testimonial-quote { font-family: var(--font-body); font-size: var(--step-0); line-height: 1.5; }
 .testimonial-grid .testimonial-attribution { margin-top: var(--sp-4); }
 
 /* ── Work index card ──────────────────────────────────────────────── */

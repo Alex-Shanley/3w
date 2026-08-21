@@ -215,7 +215,6 @@
 }
 
 .hero-main { grid-column: 1 / -1; }
-@media (min-width: 1024px) { .hero-main { grid-column: span 9; } }
 
 .hero-eyebrow { margin-bottom: var(--sp-5); }
 
@@ -280,74 +279,6 @@
   transition-delay: 660ms;
 }
 .hero.js-anim.is-revealed .hero-meta { opacity: 1; }
-
-/* ── Live proof rail — signature moment 01 ───────────────────────── */
-/* Replaces the old decorative hero photo with the site's own evidence.
-   The accent rule under each stat is a fixed-length reveal, not a
-   magnitude-encoded bar — the five metrics don't share a real axis
-   (seconds, a percentage, a multiplier, a range of weeks), and a
-   variable-width bar would silently imply a comparison that isn't
-   true. See DESIGN-NOTES.md. */
-
-/* Single column throughout, not a 2-up grid — two of the four labels
-   ("Traffic growth, avg. 6 months", "Online bookings — Oak Lane
-   Dental") already wrap to two lines at full width; halving the card
-   width would push them to three or four and make the row heights
-   visibly uneven. */
-.proof-rail {
-  grid-column: 1 / -1;
-  display: grid;
-  gap: var(--sp-3);
-}
-@media (min-width: 1024px) { .proof-rail { grid-column: span 3; gap: var(--sp-4); } }
-
-.proof-row {
-  padding: var(--sp-4);
-  border: var(--hairline);
-  border-radius: var(--radius-md);
-  background: var(--surface);
-}
-
-.proof-value {
-  font-family: var(--font-mono);
-  font-size: var(--step-1);
-  font-weight: 500;
-  color: var(--text);
-}
-.proof-label {
-  margin-top: var(--sp-1);
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-.proof-rule {
-  margin-top: var(--sp-3);
-  height: 2px;
-  width: 32px;
-  background: var(--signal);
-}
-.proof-rail.js-anim .proof-row {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
-}
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(1) { transition-delay: 700ms; }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(2) { transition-delay: 760ms; }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(3) { transition-delay: 820ms; }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(4) { transition-delay: 880ms; }
-.proof-rail.js-anim.is-revealed .proof-row { opacity: 1; transform: translateY(0); }
-.proof-rail.js-anim .proof-rule {
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--dur-slow) var(--ease-out);
-}
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(1) .proof-rule { transition-delay: 900ms; }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(2) .proof-rule { transition-delay: 960ms; }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(3) .proof-rule { transition-delay: 1020ms; }
-.proof-rail.js-anim.is-revealed .proof-row:nth-child(4) .proof-rule { transition-delay: 1080ms; }
-.proof-rail.js-anim.is-revealed .proof-rule { transform: scaleX(1); }
 
 /* ── Section index spine ──────────────────────────────────────────── */
 /* The mono "01 / SERVICES" label every body section carries — it's the

@@ -84,12 +84,11 @@
   if (wantsMotion) {
     const hero = document.querySelector('.hero');
     const headline = document.querySelector('.hero-headline');
-    const proofRail = document.querySelector('.proof-rail');
-    [hero, headline, proofRail].forEach((el) => el?.classList.add('js-anim'));
-    if (hero || headline || proofRail) {
+    [hero, headline].forEach((el) => el?.classList.add('js-anim'));
+    if (hero || headline) {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          [hero, headline, proofRail].forEach((el) => el?.classList.add('is-revealed'));
+          [hero, headline].forEach((el) => el?.classList.add('is-revealed'));
         });
       });
     }

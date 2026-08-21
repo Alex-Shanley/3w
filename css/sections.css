@@ -684,8 +684,8 @@
 
 /* ── FAQ ──────────────────────────────────────────────────────────── */
 
-.faq-intro { grid-column: 1 / -1; margin-bottom: var(--sp-7); }
-@media (min-width: 1024px) { .faq-intro { grid-column: span 6; } }
+.faq-intro { grid-column: 1 / -1; margin-bottom: var(--sp-7); text-align: center; }
+.faq-intro .section-index { justify-content: center; }
 .faq-intro h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; }
 
 .faq-list { grid-column: 1 / -1; border-top: var(--hairline); }
@@ -816,8 +816,27 @@
 .bg-alt .email-link { color: var(--on-signal); }
 
 @media (hover: hover) and (pointer: fine) {
-  .bg-alt .service-row:hover .num { color: var(--on-signal); }
-  .bg-alt .service-row .rule { background: var(--on-signal); }
+  /* .service-row:hover (base rule, line ~463) turns the row's own
+     background white regardless of section — a real bug here before
+     this fix: .bg-alt's light --text/--text-secondary kept cascading
+     onto that white hover background, rendering near-white text on
+     white, almost invisible. Re-scope back to dark ink on hover, same
+     as the other nested-white-surface cases, and keep the number/rule
+     accent signal-blue rather than on-signal (which is tuned for
+     reading on the blue section background, not this white one).
+     `color` must be re-declared here too, not just the custom
+     properties: .bg-alt sets `color: var(--text)` on itself, and that
+     resolved value is what inherits down — redefining --text deeper in
+     the tree doesn't retroactively change an already-inherited color. */
+  .bg-alt .service-row:hover {
+    --text: var(--ink-900);
+    --text-secondary: var(--ink-500);
+    color: var(--text);
+  }
+  .bg-alt .service-row:hover .desc,
+  .bg-alt .service-row:hover .chip { color: var(--text-secondary); }
+  .bg-alt .service-row:hover .num { color: var(--signal); }
+  .bg-alt .service-row:hover .rule { background: var(--signal); }
 }
 
 /* Nested white surfaces re-scope back to the normal ink primitives —

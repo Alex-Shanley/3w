@@ -32,6 +32,20 @@
   --surface: var(--white);
   --hairline-color: var(--ink-300);
 
+  /* Foreground colours for content sitting directly on a solid
+     --signal background (.bg-alt). NOT an alias to --paper/--ink-900:
+     those tokens flip meaning between themes (paper is light-mode's
+     canvas, near-black in dark mode), but which foreground reads best
+     on --signal depends on how BRIGHT --signal itself is in the
+     current theme, which doesn't track the same flip. Light mode's
+     --signal is a dark blue (needs light text); dark mode's --signal
+     is deliberately lifted much brighter for its own AA pass (needs
+     dark text instead) — computed and verified per theme below, not
+     assumed. */
+  --on-signal: #F7F5F1;
+  --on-signal-secondary: rgba(255, 255, 255, 0.75);
+  --on-signal-hairline: rgba(255, 255, 255, 0.3);
+
   /* ── Typography ───────────────────────────────────────────────── */
   --font-display: 'Inter Tight', system-ui, sans-serif;
   --font-body: 'Inter Tight', system-ui, sans-serif;
@@ -107,6 +121,13 @@
     --text-secondary: var(--ink-500);
     --surface: var(--white);
     --hairline-color: var(--ink-300);
+
+    /* Dark mode's --signal is much brighter than light mode's, so it
+       needs dark foreground, not light — computed against #5C72FF
+       specifically, not inherited from the light-mode values above. */
+    --on-signal: #0B0B0C;
+    --on-signal-secondary: rgba(11, 11, 12, 0.85);
+    --on-signal-hairline: rgba(11, 11, 12, 0.35);
   }
 }
 
@@ -131,4 +152,8 @@
   --text-secondary: var(--ink-500);
   --surface: var(--white);
   --hairline-color: var(--ink-300);
+
+  --on-signal: #0B0B0C;
+  --on-signal-secondary: rgba(11, 11, 12, 0.85);
+  --on-signal-hairline: rgba(11, 11, 12, 0.35);
 }

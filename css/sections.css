@@ -773,8 +773,67 @@
 /* ── Alternating section background ──────────────────────────────── */
 /* Applied manually to every second plain content section per page —
    not nth-child, since .bg-ink and .cta-band already carry their own
-   distinct treatment and shouldn't be pulled into the alternation. */
-.bg-alt { background: var(--signal-tint); }
+   distinct treatment and shouldn't be pulled into the alternation.
+
+   Solid signal blue, not a tint — every component in this codebase
+   was built to read its colour from --text/--text-secondary/
+   --hairline-color rather than hardcoded values specifically so a
+   surface like this could re-scope those three tokens once and have
+   headings, paragraphs, mono-labels and hairlines all pick up the
+   right foreground automatically through normal inheritance, with no
+   need to chase down every individual selector.
+
+   Re-scoped to --on-signal/--on-signal-secondary/--on-signal-hairline
+   (tokens.css), not directly to --paper — --paper flips meaning
+   between themes (it's light mode's canvas, near-black in dark mode),
+   but which foreground reads best on --signal doesn't track that same
+   flip: dark mode's --signal is deliberately much brighter than light
+   mode's (lifted for its own AA pass against the dark canvas), so it
+   actually wants DARK foreground, not light. Tried the --paper
+   shortcut first and it produced near-black-on-near-black text in
+   dark mode — caught in verification, not before shipping. --on-signal
+   is computed and verified per theme independently in tokens.css.
+
+   The one thing that inheritance can't safely fix: anything that
+   reads --text/--text-secondary while sitting on its OWN white
+   surface nested inside here (form fields, the carousel cards, the
+   form success card) would otherwise go white-on-white. Each of those
+   re-scopes the same three tokens back to the ink primitives directly
+   below. --signal itself is deliberately left alone — redefining it
+   here would also recolour .bg-alt's own background, since both are
+   set in the same cascade. Anything that uses --signal as a
+   foreground colour on this background (hover states, link
+   underlines) gets a small direct override instead. */
+.bg-alt {
+  background: var(--signal);
+  --text: var(--on-signal);
+  --text-secondary: var(--on-signal-secondary);
+  --hairline-color: var(--on-signal-hairline);
+  color: var(--text);
+}
+
+.bg-alt .link-underline { background-image: linear-gradient(var(--on-signal), var(--on-signal)); }
+.bg-alt .email-link { color: var(--on-signal); }
+
+@media (hover: hover) and (pointer: fine) {
+  .bg-alt .service-row:hover .num { color: var(--on-signal); }
+  .bg-alt .service-row .rule { background: var(--on-signal); }
+}
+
+/* Nested white surfaces re-scope back to the normal ink primitives —
+   see the long comment above for why this can't just be inheritance. */
+.bg-alt .field input,
+.bg-alt .field select,
+.bg-alt .field textarea,
+.bg-alt .work-card-lg,
+.bg-alt .work-card,
+.bg-alt .form-success,
+.bg-alt .work-carousel-next {
+  --text: var(--ink-900);
+  --text-secondary: var(--ink-500);
+  --hairline-color: var(--ink-300);
+}
+.bg-alt .work-card { background: var(--surface); }
 
 /* ── Dark section (case-study hero, stat bands) ──────────────────── */
 

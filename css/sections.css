@@ -465,63 +465,34 @@
   .service-row:hover .rule { width: 100%; }
 }
 
-/* ── Process — pinned scroll sequence, signature moment 02 ───────── */
-/* Default state (no JS, or narrow/no-motion) is a plain 4-up grid —
-   every step fully visible, no absolute positioning, no reliance on a
-   tall scroll-driving wrapper. process.js opts wide + motion-enabled
-   viewports INTO the pin: adds .is-pinned, which is the only thing
-   that switches .process-pin to its 400vh scroll-driving height and
-   .process-step to the cross-fade stack. A single rAF-throttled
-   scroll listener drives it — the same cheap pattern as the header's
-   scroll hairline, never a per-frame layout read. */
-
-.process { padding-bottom: 0; }
+/* ── Process — Apple-style bento grid ─────────────────────────────── */
+/* Four self-contained tiles rather than a hairline-divided list, with
+   an asymmetric large/small span pattern (steps 1 and 4 run wide) —
+   the same bento layout Apple uses on its feature pages. 24px radius
+   matches .work-card-lg further down: two isolated, deliberate
+   exceptions to the ≤4px-radius rule elsewhere, not a drift. Replaced
+   the earlier scroll-jacked pinned/cross-fade version — a grid that
+   shows every step at once doesn't combine with an interaction that
+   only ever shows one. */
 
 .process-intro { grid-column: 1 / -1; margin-bottom: var(--sp-8); }
 @media (min-width: 1024px) { .process-intro { grid-column: span 8; } }
 .process-intro h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; max-width: 22ch; }
 
-.process-progress { display: none; }
-.process-pin.is-pinned .process-progress {
-  display: block;
-  height: 2px;
-  background: var(--paper-2);
-  margin-bottom: var(--sp-9);
-}
-.process-progress-fill { height: 100%; width: 0%; background: var(--signal); }
-
 .process-steps {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--sp-8);
+  gap: var(--sp-5);
 }
 @media (min-width: 600px) { .process-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 900px) { .process-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; } }
+@media (min-width: 900px) { .process-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 600px) { .process-step.is-wide { grid-column: span 2; } }
 
-/* A dot on the top hairline marks each step like a stop on a timeline —
-   reinforces "steps in a sequence" rather than four unrelated blocks.
-   Vertical dividers between columns (900px+ only, where the grid is a
-   single row) tie the four steps together into one connected strip. */
 .process-step {
-  position: relative;
-  border-top: var(--hairline);
-  padding-top: var(--sp-5);
-}
-@media (min-width: 900px) {
-  .process-step { padding-right: var(--sp-6); }
-  .process-step + .process-step { padding-left: var(--sp-6); border-left: var(--hairline); }
-}
-.process-step::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--signal);
-  transform: translate(-50%, -50%);
-  transition: transform var(--dur-base) var(--ease-spring);
+  background: var(--paper-2);
+  border-radius: 24px;
+  padding: var(--sp-7);
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
 }
 .process-step-num {
   font-family: var(--font-mono);
@@ -531,44 +502,16 @@
   margin-bottom: var(--sp-4);
   transition: color var(--dur-base) var(--ease-out);
 }
+.process-step.is-wide .process-step-num { font-size: var(--step-3); }
 .process-step .mono-label { margin-bottom: var(--sp-2); }
 .process-step h3 { margin: 0 0 var(--sp-2); font-size: var(--step-1); font-weight: 500; }
+.process-step.is-wide h3 { font-size: var(--step-2); }
 .process-step p { color: var(--text-secondary); max-width: 32ch; }
 
 @media (hover: hover) and (pointer: fine) {
-  .process-step:hover::before { transform: translate(-50%, -50%) scale(1.7); }
+  .process-step:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08); }
   .process-step:hover .process-step-num { color: var(--signal); }
 }
-
-/* Pinned state — only ever applied by process.js on wide, motion-OK
-   viewports, and undone on resize if the viewport drops below the
-   threshold. */
-/* .process-sticky deliberately does NOT force height:100vh — centering
-   a few hundred px of text inside a full-viewport box left a large,
-   empty margin above and below it on any screen taller than the
-   content, which read as broken rather than spacious. Sizing to
-   content with fixed vertical padding keeps the pinned card compact
-   and consistent regardless of viewport height. */
-.process-pin.is-pinned { height: 400vh; position: relative; }
-.process-pin.is-pinned .process-sticky {
-  position: sticky;
-  top: 35vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.process-pin.is-pinned .process-steps { display: grid; grid-template-columns: 1fr; }
-.process-pin.is-pinned .process-step {
-  grid-area: 1 / 1;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--dur-slow) var(--ease-out);
-  max-width: 640px;
-}
-.process-pin.is-pinned .process-step.is-active { opacity: 1; pointer-events: auto; }
-.process-pin.is-pinned .process-step-num { font-size: var(--step-3); }
-.process-pin.is-pinned .process-step h3 { font-size: var(--step-3); }
-.process-pin.is-pinned .process-step p { font-size: var(--step-1); max-width: 40ch; }
 
 /* ── Featured work — horizontal card carousel ────────────────────── */
 /* Deliberately breaks from the ≤4px-radius rule the rest of the site

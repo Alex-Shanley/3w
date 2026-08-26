@@ -73,6 +73,40 @@
 .nav-actions .btn { display: none; }
 @media (min-width: 600px) { .nav-actions .btn { display: inline-flex; } }
 
+/* ── Theme toggle ─────────────────────────────────────────────────── */
+/* nav.js reads/writes data-theme and sessionStorage; this only styles
+   the button and swaps which icon shows. Default (no data-theme, no
+   dark system preference) is light — sun shown, moon hidden. The two
+   overrides below mirror the exact guarding tokens.css itself uses:
+   a dark system preference flips the icons unless a manual choice
+   says otherwise, and :root[data-theme="dark"] always wins. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+.theme-toggle svg { width: 18px; height: 18px; }
+.theme-toggle .icon-moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: block; }
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+
+@media (hover: hover) and (pointer: fine) {
+  .theme-toggle:hover { border-color: var(--signal); color: var(--signal); }
+}
+
 /* ── Buttons ──────────────────────────────────────────────────────── */
 
 .btn {

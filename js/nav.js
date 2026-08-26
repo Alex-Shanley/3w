@@ -96,17 +96,22 @@
 
   // ── Theme toggle ─────────────────────────────────────────────────
   // The FOUC-preventing inline snippet in <head> already set data-theme
-  // from sessionStorage/system preference before first paint. This just
-  // wires up any .theme-toggle control to flip and persist the choice.
+  // from sessionStorage/system preference before first paint. This
+  // wires up any .theme-toggle control to flip and persist the choice,
+  // and syncs aria-pressed to the effective theme up front — otherwise
+  // a screen reader hitting the button before any click sees no
+  // pressed state at all, regardless of which theme actually loaded.
+  const isDarkNow = () => document.documentElement.getAttribute('data-theme') === 'dark' ||
+    (!document.documentElement.getAttribute('data-theme') &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches);
   document.querySelectorAll('.theme-toggle').forEach((btn) => {
+    btn.setAttribute('aria-pressed', String(isDarkNow()));
     btn.addEventListener('click', () => {
       const root = document.documentElement;
-      const current = root.getAttribute('data-theme') ||
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      const next = current === 'dark' ? 'light' : 'dark';
+      const next = isDarkNow() ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
       try { sessionStorage.setItem('3w-theme', next); } catch {}
-      btn.setAttribute('aria-pressed', String(next === 'dark'));
+      document.querySelectorAll('.theme-toggle').forEach((b) => b.setAttribute('aria-pressed', String(next === 'dark')));
     });
   });
 

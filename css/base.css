@@ -135,51 +135,6 @@ input, textarea, select, button { font-family: inherit; }
 }
 .page-transition-overlay.is-hidden { opacity: 0; }
 
-/* ── Magnetic cursor ──────────────────────────────────────────────── */
-/* Only ever created by main.js on fine-pointer, motion-OK devices —
-   touch and reduced-motion visitors never get .has-custom-cursor, so
-   they keep the native cursor everywhere, no CSS gating needed here. */
-.has-custom-cursor { cursor: none; }
-.has-custom-cursor input,
-.has-custom-cursor textarea,
-.has-custom-cursor select {
-  cursor: auto; /* keep the I-beam/native affordance for text entry */
-}
-
-/* JS owns `transform` on both (it's how they track the pointer every
-   frame — see main.js), so the "engaged with a magnetic target" state
-   below grows the ring via width/height instead: a CSS transform on
-   .is-active would just lose to the inline style JS sets a moment
-   later and never actually show. Percentage-based translate(-50%,-50%)
-   re-resolves against the element's own current size, so it stays
-   centred correctly as it grows without any extra positioning math. */
-.cursor-ring, .cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 10001;
-  opacity: 0;
-  transition: opacity var(--dur-base) var(--ease-out), width var(--dur-fast) var(--ease-out), height var(--dur-fast) var(--ease-out);
-  mix-blend-mode: difference;
-}
-.cursor-ring.is-visible, .cursor-dot.is-visible { opacity: 1; }
-
-.cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid #fff;
-  border-radius: 999px;
-}
-.cursor-ring.is-active { width: 56px; height: 56px; }
-
-.cursor-dot {
-  width: 6px;
-  height: 6px;
-  background: #fff;
-  border-radius: 999px;
-}
-
 /* ── Layout: container, 12/6/4-col grid ──────────────────────────── */
 
 .container {

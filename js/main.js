@@ -79,54 +79,10 @@
     overlay.classList.add('is-hidden');
   }
 
-  // ── Magnetic cursor + buttons ─────────────────────────────────────
-  // Fine-pointer devices only — touch fires synthetic hover/click
-  // events that would leave a phantom cursor on screen.
+  // ── Magnetic buttons ──────────────────────────────────────────────
+  // Fine-pointer devices only — touch has no continuous mousemove to
+  // pull the pointer position from.
   if (wantsMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const ring = document.createElement('div');
-    ring.className = 'cursor-ring';
-    const dot = document.createElement('div');
-    dot.className = 'cursor-dot';
-    document.body.append(ring, dot);
-    document.body.classList.add('has-custom-cursor');
-
-    let ringX = window.innerWidth / 2;
-    let ringY = window.innerHeight / 2;
-    let targetX = ringX;
-    let targetY = ringY;
-    let shown = false;
-
-    document.addEventListener('mousemove', (e) => {
-      targetX = e.clientX;
-      targetY = e.clientY;
-      dot.style.transform = `translate(${targetX}px, ${targetY}px) translate(-50%, -50%)`;
-      if (!shown) { shown = true; ring.classList.add('is-visible'); dot.classList.add('is-visible'); }
-    });
-    document.addEventListener('mouseleave', () => {
-      shown = false;
-      ring.classList.remove('is-visible');
-      dot.classList.remove('is-visible');
-    });
-
-    // The ring trails the dot with a spring for weight; re-reads its
-    // own live position each frame so it never snaps when the pointer
-    // changes direction mid-flight.
-    function trackRing() {
-      const dx = targetX - ringX;
-      const dy = targetY - ringY;
-      ringX += dx * 0.18;
-      ringY += dy * 0.18;
-      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
-      requestAnimationFrame(trackRing);
-    }
-    requestAnimationFrame(trackRing);
-
-    const magneticTargets = document.querySelectorAll('.btn, .link-arrow, .theme-toggle, .work-carousel-next');
-    magneticTargets.forEach((el) => {
-      el.addEventListener('mouseenter', () => ring.classList.add('is-active'));
-      el.addEventListener('mouseleave', () => ring.classList.remove('is-active'));
-    });
-
     // Magnetic pull on buttons and arrow-links specifically — pulling
     // an entire card toward the cursor would fight its own hover-lift
     // transform, so scope the pull to smaller, discrete targets it

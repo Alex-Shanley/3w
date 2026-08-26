@@ -837,6 +837,18 @@
 .bg-ink {
   background: #0B0B0C;
   color: #F7F5F1;
+  /* Re-scope the semantic tokens, same approach as .bg-alt, so any
+     component reading --text/--text-secondary/--hairline-color renders
+     correctly in here without needing its own override. Hardcoded
+     rather than aliased to --ink-900/--paper for the theme-invariance
+     reason above: those flip meaning between themes, this band never
+     does. Verified on #0B0B0C — 18.1:1 for --text, 9.0:1 for
+     --text-secondary; the hairline value is 1.7:1, in line with the
+     1.9:1 --ink-300 hairline used on light surfaces (hairlines only,
+     never text). */
+  --text: #F7F5F1;
+  --text-secondary: rgba(247, 245, 241, 0.7);
+  --hairline-color: rgba(247, 245, 241, 0.2);
 }
 /* base.css sets a direct h1-h6 color rule, and a direct rule always
    wins over inheritance regardless of specificity — so headings inside
@@ -851,7 +863,13 @@
 .cs-hero { padding: var(--sp-9) 0 0; }
 @media (min-width: 1024px) { .cs-hero { padding-top: var(--sp-10); } }
 .cs-meta { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); margin-bottom: var(--sp-7); }
-.cs-meta .label { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--paper) 60%, transparent); display: block; }
+/* Was color-mix(--paper 60%) — but --paper is the theme-aware canvas
+   token (light in light mode, near-black in dark), and this label only
+   ever sits on the always-dark .bg-ink band, so in dark mode it
+   rendered near-black on near-black. --text-secondary is re-scoped by
+   .bg-ink itself to a theme-invariant light value, which is what this
+   actually wanted. */
+.cs-meta .label { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); display: block; }
 .cs-meta .value { font-size: var(--step--1); margin-top: var(--sp-1); display: block; }
 .cs-hero h1 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 16ch; margin-bottom: var(--sp-8); }
 .cs-hero-shot { aspect-ratio: 21 / 9; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0; }
@@ -924,10 +942,17 @@
 .testimonial-attribution { margin-top: var(--sp-5); font-size: var(--step--1); color: var(--text-secondary); }
 .testimonial-attribution strong { color: var(--text); font-weight: 500; }
 
+/* Matches the step-3 heading size every other section sets for itself
+   (#work h2, .faq-intro h2, .process-intro h2) — base.css deliberately
+   sets no font-size on headings, so an unstyled h2 here would fall
+   back to the UA default and read visibly smaller than its peers. */
+.testimonials-heading { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; }
+
 .testimonial-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--sp-5);
+  margin-top: var(--sp-7);
 }
 @media (min-width: 900px) { .testimonial-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 

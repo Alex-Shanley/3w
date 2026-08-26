@@ -142,6 +142,7 @@
   font-size: var(--step--1);
   text-decoration: none;
   color: var(--text);
+  transition: transform var(--dur-fast) var(--ease-out); /* magnetic pull, main.js */
 }
 .link-arrow .arrow { transition: transform var(--dur-base) var(--ease-out); }
 @media (min-width: 1024px) { .link-arrow:hover .arrow { transform: translateX(4px); } }
@@ -271,6 +272,20 @@
 .hero-headline.js-anim.is-revealed .line span { transform: translateY(0); }
 .hero-headline.js-anim .line:nth-child(1) span { transition-delay: 0ms; }
 .hero-headline.js-anim .line:nth-child(2) span { transition-delay: 90ms; }
+
+/* ── Headline scroll-reveal ───────────────────────────────────────── */
+/* Same clipped-box mask technique as the hero headline above, just
+   applied by main.js to section h2/h1s on scroll instead of on load.
+   main.js only ever wraps + adds these classes when it can also
+   guarantee the reveal (IntersectionObserver + motion allowed), so
+   the base, class-less state renders every heading fully visible. */
+.text-reveal { overflow: hidden; }
+.text-reveal-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.text-reveal.is-visible .text-reveal-inner { transform: translateY(0); }
 
 .hero-sub {
   margin-top: var(--sp-6);

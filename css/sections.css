@@ -445,6 +445,80 @@
   .service-row:hover .rule { width: 100%; }
 }
 
+/* ── Capability marquee ───────────────────────────────────────────── */
+/* Full-bleed scrolling strip of the stack we actually work in. Sits
+   outside .container by design so it runs edge to edge, and is kept
+   deliberately thin so it reads as a divider between two sections
+   rather than as a section of its own (which would break the
+   blue/paper alternation it exists to protect).
+
+   The loop: .marquee-track holds two identical groups, so translating
+   it -50% moves it by exactly one group's width and lands on a frame
+   identical to the start — no visible jump. Each group carries a
+   trailing gap on its last item (via the same ::after bullet every
+   item gets) so spacing across the seam matches spacing everywhere
+   else. */
+.marquee {
+  overflow: hidden;
+  padding-block: var(--sp-5);
+  /* Full-bleed out of the normal page flow width. */
+  width: 100%;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 45s linear infinite;
+}
+.marquee-group {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  margin: 0;
+  padding: 0 var(--sp-6) 0 0;
+  list-style: none;
+  flex-shrink: 0;
+}
+.marquee-group li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+/* Trailing separator on every item, so the seam between the two groups
+   reads the same as any other join in the strip. Hardcoded rather than
+   var(--signal) for the same reason .bg-ink hardcodes everything else:
+   --signal is a dark blue in light mode and a lifted one in dark mode,
+   but this strip is always dark, so the token would give the same
+   surface two different accent colours depending on theme. This is the
+   lifted value (4.97:1 on #0B0B0C) — the light-mode --signal is only
+   2.62:1 here and reads as muddy. */
+.marquee-group li::after {
+  content: '·';
+  color: #5C72FF;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Pause on hover so anyone who wants to actually read it can. */
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+}
+/* Motion off: no scroll at all. The strip keeps its overflow:hidden,
+   so this shows a static, readable slice of the list rather than
+   animating — the content is fully listed on services.html anyway. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
 /* ── Process — Apple-style bento grid ─────────────────────────────── */
 /* Four self-contained tiles rather than a hairline-divided list, with
    an asymmetric large/small span pattern (steps 1 and 4 run wide) —

@@ -10,8 +10,8 @@
 <script>(function(){try{var t=sessionStorage.getItem('3w-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=12">
-<link rel="stylesheet" href="css/base.css?v=14">
-<link rel="stylesheet" href="css/sections.css?v=24">
+<link rel="stylesheet" href="css/base.css?v=15">
+<link rel="stylesheet" href="css/sections.css?v=25">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -159,6 +159,27 @@
     <a href="services.html" class="link-arrow" style="margin-top:var(--sp-7)">See all services <span class="arrow">→</span></a>
   </div>
 </section>
+
+<!-- Thin full-bleed divider strip, not a content section — sits
+     between the blue Services band and the paper Process section so
+     the two never touch directly. The second group is an exact visual
+     duplicate purely to make the loop seamless, so it's hidden from
+     assistive tech; the first group carries the real content, and the
+     full list also lives on services.html. -->
+<div class="marquee bg-ink" aria-label="Technologies we work in">
+  <div class="marquee-track">
+    <ul class="marquee-group">
+      <li>HTML</li><li>CSS</li><li>JavaScript</li><li>React</li><li>Django</li>
+      <li>WordPress</li><li>Squarespace</li><li>Wix</li><li>Figma</li>
+      <li>Cloudflare</li><li>Technical SEO</li><li>Managed hosting</li><li>SSL</li>
+    </ul>
+    <ul class="marquee-group" aria-hidden="true">
+      <li>HTML</li><li>CSS</li><li>JavaScript</li><li>React</li><li>Django</li>
+      <li>WordPress</li><li>Squarespace</li><li>Wix</li><li>Figma</li>
+      <li>Cloudflare</li><li>Technical SEO</li><li>Managed hosting</li><li>SSL</li>
+    </ul>
+  </div>
+</div>
 
 <section class="section process">
   <div class="container">

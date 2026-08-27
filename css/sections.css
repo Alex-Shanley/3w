@@ -1129,6 +1129,12 @@
    If cqw isn't supported the declaration is simply invalid and the
    --step-4 rule above still applies, which is the old behaviour. */
 .page-intro > .container { container-type: inline-size; }
+/* Tight leading is not cosmetic here. These headings inherited the body
+   line-height (~1.55), which is right for prose and badly wrong for
+   110px display type — two lines came to 342px, roughly 110px of pure
+   dead space, which is what pushed the last item of the services index
+   below the fold. The hero sets 0.95 for the same reason. */
+.page-intro h1 { line-height: 1.03; }
 @media (min-width: 1024px) {
   .page-intro h1 { font-size: clamp(2.75rem, 8.4cqw, 7rem); max-width: 18ch; }
 }

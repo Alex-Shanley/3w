@@ -5,6 +5,33 @@
   const success = document.getElementById('form-success');
   const status = document.getElementById('form-status');
 
+  // ── Prefill from the homepage estimator ──────────────────────────
+  // The estimator hands its selections over as query params so nobody
+  // has to re-type what they just picked. Both fields stay fully
+  // editable — this is a starting point, not a locked-in answer.
+  // Values are only ever written into form fields (never into innerHTML
+  // or a URL), and the budget one has to match an existing <option> to
+  // be applied at all, so a hand-edited query string can't inject
+  // anything or smuggle in a budget band we don't offer.
+  (function prefillFromQuery() {
+    let params;
+    try { params = new URLSearchParams(window.location.search); } catch { return; }
+
+    const budget = params.get('budget');
+    const budgetField = form.elements.budget;
+    if (budget && budgetField) {
+      const match = Array.from(budgetField.options)
+        .find((opt) => opt.value === budget || opt.textContent.trim() === budget);
+      if (match) budgetField.value = match.value || match.textContent.trim();
+    }
+
+    const brief = params.get('brief');
+    const descField = form.elements.description;
+    if (brief && descField && !descField.value.trim()) {
+      descField.value = brief;
+    }
+  })();
+
   const validators = {
     name: (v) => v.trim().length > 0 || 'Enter your name.',
     email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Enter a valid email address.',

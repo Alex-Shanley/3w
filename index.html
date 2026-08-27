@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=12">
 <link rel="stylesheet" href="css/base.css?v=15">
-<link rel="stylesheet" href="css/sections.css?v=26">
+<link rel="stylesheet" href="css/sections.css?v=27">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -388,6 +388,58 @@
         <li><span class="tick"></span> Two hours of changes a month</li>
       </ul>
     </div>
+
+    <!-- Estimator. Deliberately recommends one of the published tiers
+         rather than computing a bespoke figure — every number it can
+         show already appears in the table above, so it can't quote a
+         price we haven't committed to. Fully usable with no JS: the
+         result panel is authored in its real default state (Launch,
+         which is what the default inputs produce), so without the
+         script it reads as a static restatement of the Launch tier
+         rather than as empty boxes. -->
+    <div class="estimator" id="estimator">
+      <div class="estimator-intro">
+        <div class="mono-label">Estimate</div>
+        <h3>Which tier fits your project?</h3>
+      </div>
+
+      <div class="estimator-controls">
+        <div class="est-field">
+          <label for="est-pages">Roughly how many pages?</label>
+          <input type="range" id="est-pages" min="1" max="20" value="6" step="1"
+                 aria-describedby="est-pages-out">
+          <output id="est-pages-out" for="est-pages">6 pages</output>
+        </div>
+
+        <fieldset class="est-field">
+          <legend>Anything else?</legend>
+          <label class="est-check">
+            <input type="checkbox" id="est-seo"> SEO research and page build
+          </label>
+          <label class="est-check">
+            <input type="checkbox" id="est-care"> Care plan after launch
+          </label>
+        </fieldset>
+      </div>
+
+      <div class="estimator-result" aria-live="polite">
+        <div class="mono-label">Best fit</div>
+        <div class="est-tier" id="est-tier">Launch</div>
+        <div class="est-price tabular" id="est-price">€5,400</div>
+        <div class="est-monthly tabular" id="est-monthly" hidden>plus €190 / month</div>
+        <ul class="est-includes" id="est-includes">
+          <li><span class="tick"></span> Design and build</li>
+          <li><span class="tick"></span> Up to 6 pages</li>
+          <li><span class="tick"></span> Hosting, first year</li>
+          <li><span class="tick"></span> SSL and daily backups</li>
+        </ul>
+        <a href="contact.html" class="btn btn-solid" id="est-cta">Send this brief</a>
+        <p class="est-note">
+          Indicative, not a quote. Every project gets a fixed price in
+          writing before we start any work.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -509,6 +561,7 @@
 
 <script src="js/nav.js?v=3"></script>
 <script src="js/main.js?v=3"></script>
+<script src="js/estimator.js?v=1"></script>
 <script src="js/reveal.js?v=1"></script>
 </body>
 </html>

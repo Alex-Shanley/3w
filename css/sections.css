@@ -445,6 +445,158 @@
   .service-row:hover .rule { width: 100%; }
 }
 
+/* ── Quote estimator ──────────────────────────────────────────────── */
+/* Two panes: controls on the left, live result on the right. The
+   result pane is the one that changes, so it gets the raised surface
+   and the accent border to read as the "answer". */
+.estimator {
+  margin-top: var(--sp-9);
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.estimator-intro {
+  padding: var(--sp-6) var(--sp-7) 0;
+}
+.estimator-intro h3 {
+  margin-top: var(--sp-2);
+  font-size: var(--step-1);
+  font-weight: 500;
+}
+.estimator-controls { padding: var(--sp-6) var(--sp-7) var(--sp-7); }
+@media (min-width: 900px) {
+  .estimator {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: 'intro  result' 'controls result';
+    align-items: start;
+  }
+  .estimator-intro { grid-area: intro; }
+  .estimator-controls { grid-area: controls; }
+  .estimator-result { grid-area: result; height: 100%; }
+}
+
+.est-field { border: 0; margin: 0 0 var(--sp-6); padding: 0; }
+.est-field:last-child { margin-bottom: 0; }
+.est-field > label,
+.est-field legend {
+  display: block;
+  padding: 0;
+  margin-bottom: var(--sp-3);
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Range input: styled explicitly on both engines because the default
+   thumb/track render nothing like each other, and this control is the
+   main thing people will actually grab. */
+#est-pages {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+#est-pages::-webkit-slider-runnable-track {
+  height: 2px;
+  background: var(--hairline-color);
+}
+#est-pages::-moz-range-track {
+  height: 2px;
+  background: var(--hairline-color);
+}
+#est-pages::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -9px; /* centres the thumb on a 2px track */
+  border-radius: 999px;
+  background: var(--signal);
+  border: 0;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+#est-pages::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--signal);
+  border: 0;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+#est-pages:hover::-webkit-slider-thumb,
+#est-pages:focus-visible::-webkit-slider-thumb { transform: scale(1.15); }
+#est-pages:hover::-moz-range-thumb,
+#est-pages:focus-visible::-moz-range-thumb { transform: scale(1.15); }
+
+#est-pages-out {
+  display: block;
+  margin-top: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+}
+
+.est-check {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.est-check:last-child { margin-bottom: 0; }
+.est-check input { width: 16px; height: 16px; accent-color: var(--signal); cursor: pointer; }
+
+.estimator-result {
+  padding: var(--sp-7);
+  background: var(--paper-2);
+  border-top: var(--hairline);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+@media (min-width: 900px) {
+  .estimator-result { border-top: 0; border-left: var(--hairline); }
+}
+.est-tier {
+  margin-top: var(--sp-2);
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 500;
+}
+.est-price {
+  font-family: var(--font-mono);
+  font-size: var(--step-3);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-top: var(--sp-1);
+}
+.est-monthly {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+  margin-top: var(--sp-2);
+}
+.est-includes {
+  list-style: none;
+  margin: var(--sp-5) 0 var(--sp-6);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+}
+.est-includes li { display: flex; align-items: center; gap: var(--sp-2); }
+.est-note {
+  margin-top: var(--sp-4);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+  max-width: 40ch;
+}
+
 /* ── Statement moment ─────────────────────────────────────────────── */
 /* Full-height editorial type break. Uses the same clipped-box mask as
    the hero headline, but triggered on scroll by main.js rather than on

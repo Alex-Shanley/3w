@@ -1534,6 +1534,48 @@
 }
 .brief-builder .btn { flex-shrink: 0; }
 
+/* ── Case study: editorial chapters ───────────────────────────────── */
+/* Replaces a single column of four identically shaped text blocks —
+   same label, same measure, same alignment, stacked in the left half of
+   the page. Each chapter is now its own band with a sticky label in a
+   narrow left column and the prose in a wide right one, so the page
+   uses its full width and each section is visually distinct from the
+   last rather than a repeat of it. */
+.cs-lead {
+  margin-top: var(--sp-6);
+  font-size: var(--step-1);
+  max-width: 46ch;
+  color: inherit;
+  opacity: 0.85;
+}
+
+.cs-row { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); }
+@media (min-width: 900px) {
+  .cs-row { grid-template-columns: minmax(0, 3fr) minmax(0, 8fr); gap: var(--sp-9); }
+  /* Label tracks the prose while a long chapter scrolls past. Needs
+     align-self:start or the grid stretches the cell and sticky has no
+     room to move within it. */
+  .cs-row-label { position: sticky; top: 96px; align-self: start; }
+}
+.cs-row-body p { max-width: 62ch; color: var(--text-secondary); }
+.cs-row-body p + p { margin-top: var(--sp-5); }
+.cs-row-label .num { margin-right: var(--sp-2); }
+
+/* Pull quote — the one place per chapter where the type steps up, so
+   the eye has somewhere to land in a long run of body copy. */
+.cs-pull {
+  margin-top: var(--sp-7) !important;
+  padding-top: var(--sp-6);
+  border-top: var(--hairline);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--text) !important;
+  max-width: 26ch !important;
+}
+
 /* ── Case study: before/after compare ─────────────────────────────── */
 /* Full-page captures are extremely tall (2560px), so each sits in its
    own scroll pane rather than being scaled down to an illegible strip.
@@ -1547,6 +1589,8 @@
    as a broken layout rather than a comparison. Matched widths make both
    images sharp (one scaled down, one near 1:1) and the pairing
    deliberate. */
+.cs-compare-wrap { margin-top: var(--sp-8); }
+.cs-compare-note { margin-top: var(--sp-4); color: var(--text-secondary); }
 .cs-compare {
   display: grid;
   grid-template-columns: 1fr;

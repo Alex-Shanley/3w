@@ -1576,6 +1576,77 @@
   max-width: 26ch !important;
 }
 
+/* ── Case study: component blocks ─────────────────────────────────── */
+/* A case study reads as a case study because of components — swatches,
+   decision cards, an outcomes table — not paragraphs. These are the
+   pieces that carry the visual weight on these pages. */
+.cs-section-intro { margin-top: var(--sp-4); max-width: 60ch; color: var(--text-secondary); }
+.cs-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  margin-top: var(--sp-7);
+}
+@media (min-width: 700px) { .cs-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .cs-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.cs-card {
+  padding: var(--sp-6);
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.bg-alt .cs-card,
+.bg-ink .cs-card { background: transparent; }
+.cs-card h3 {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding-bottom: var(--sp-3);
+  margin-bottom: var(--sp-3);
+  border-bottom: var(--hairline);
+}
+.cs-card p { color: var(--text-secondary); font-size: var(--step--1); margin: 0; max-width: none; }
+
+/* Palette — the swatches are the point, so they lead and the labels
+   sit under them rather than beside. */
+.cs-palette {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--sp-4);
+  margin-top: var(--sp-7);
+}
+.cs-swatch-chip {
+  height: 84px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(128, 128, 128, 0.25);
+}
+.cs-swatch-name { margin-top: var(--sp-3); font-weight: 500; font-size: var(--step--1); }
+.cs-swatch-role { font-size: var(--step--1); color: var(--text-secondary); }
+
+/* Outcomes table — deliverable against what actually changed. */
+.cs-table { width: 100%; border-collapse: collapse; margin-top: var(--sp-7); font-size: var(--step--1); }
+.cs-table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 0 var(--sp-5) var(--sp-3) 0;
+  border-bottom: 1px solid currentColor;
+}
+.cs-table td { padding: var(--sp-4) var(--sp-5) var(--sp-4) 0; border-bottom: var(--hairline); vertical-align: top; color: var(--text-secondary); }
+.cs-table td:first-child { color: var(--text); font-weight: 500; width: 34%; }
+@media (max-width: 600px) {
+  .cs-table, .cs-table tbody, .cs-table tr, .cs-table td { display: block; width: 100%; }
+  .cs-table thead { display: none; }
+  .cs-table tr { padding-block: var(--sp-4); border-bottom: var(--hairline); }
+  .cs-table td { border: 0; padding: 0; }
+  .cs-table td:first-child { width: auto; margin-bottom: var(--sp-2); }
+}
+
 /* ── Case study: before/after compare ─────────────────────────────── */
 /* Full-page captures are extremely tall (2560px), so each sits in its
    own scroll pane rather than being scaled down to an illegible strip.
@@ -1589,21 +1660,31 @@
    as a broken layout rather than a comparison. Matched widths make both
    images sharp (one scaled down, one near 1:1) and the pairing
    deliberate. */
+/* Breaks the container so the comparison runs near full-bleed — this is
+   the only real imagery on the page and it was previously a pair of
+   320px thumbnails lost in a wide column. */
 .cs-compare-wrap { margin-top: var(--sp-8); }
+@media (min-width: 900px) {
+  .cs-compare-wrap {
+    width: calc(100vw - var(--page-pad) * 2);
+    max-width: var(--content-max);
+    margin-left: calc(50% - min(100vw - var(--page-pad) * 2, var(--content-max)) / 2);
+  }
+}
 .cs-compare-note { margin-top: var(--sp-4); color: var(--text-secondary); }
 .cs-compare {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--sp-5);
   margin-top: var(--sp-5);
-  max-width: 760px;
 }
 @media (min-width: 768px) { .cs-compare { grid-template-columns: 1fr 1fr; gap: var(--sp-6); } }
 .cs-compare figure { margin: 0; }
 .cs-compare figcaption { margin-bottom: var(--sp-3); }
 .cs-compare-scroll {
-  height: 460px;
-  max-width: 320px;
+  height: 70vh;
+  min-height: 480px;
+  max-width: 520px;
   margin: 0 auto;
   overflow-y: auto;
   border: var(--hairline);

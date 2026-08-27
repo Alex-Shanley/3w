@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Northbrook Clinic — Case study — 3w, Dublin</title>
-<meta name="description" content="A server migration and DNS management engagement for one of Dublin&rsquo;s established specialist medical and dental clinics — founded in 1993, referr">
+<meta name="description" content="A zero-downtime server migration and DNS cutover for a Dublin specialist clinic.">
 <meta name="theme-color" content="#F7F5F1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#08080A" media="(prefers-color-scheme: dark)">
 <script>(function(){try{var t=sessionStorage.getItem('3w-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=12">
 <link rel="stylesheet" href="css/base.css?v=15">
-<link rel="stylesheet" href="css/sections.css?v=44">
+<link rel="stylesheet" href="css/sections.css?v=45">
 </head>
 <body>
 <div class="page-transition-overlay" aria-hidden="true"></div>
@@ -60,14 +60,14 @@
       <span><span class="label">Scope</span><span class="value">Server migration &amp; DNS</span></span>
     </div>
     <h1>Moved servers without going offline.</h1>
-    <p class="cs-lead">A server migration and DNS management engagement for one of Dublin&rsquo;s established specialist medical and dental clinics — founded in 1993, referral-based, eight specialists across dental and medical disciplines.</p>
+    <p class="cs-lead">Founded in 1993 and referral-based, with eight specialists across dental and medical disciplines — and a site that had to stay reachable throughout.</p>
   </div>
 </section>
 
 <section class="section cs-chapter">
   <div class="container">
     <div class="cs-row">
-      <div class="cs-row-label"><span class="mono-label"><span class="num tabular">01</span> Challenge</span></div>
+      <div class="cs-row-label"><span class="mono-label"><span class="num tabular">01</span> The problem</span></div>
       <div class="cs-row-body">
           <p>The clinic's website is the primary information and contact point for patients seeking referral-based specialist care across eight clinical disciplines, from oral surgery and dental implantology to psychiatric and reconstructive surgery.</p>
           <p>The work was a full migration of their WordPress site off an ageing hosting environment onto a new server, with the corresponding DNS updates, and no disruption to patient-facing availability at any point.</p>
@@ -77,43 +77,46 @@
   </div>
 </section>
 
-<section class="section cs-chapter bg-alt">
+<section class="section bg-alt">
   <div class="container">
-    <div class="cs-row">
-      <div class="cs-row-label"><span class="mono-label"><span class="num tabular">02</span> Approach</span></div>
-      <div class="cs-row-body">
-          <p>Server migrations carry specific risks that are amplified in a healthcare context. A full WordPress database export, transfer and import had to land every specialist profile, service page and department listing intact and uncorrupted.</p>
-          <p>DNS changes were scoped carefully to leave the clinic's MX records untouched, so patient and referral email continued uninterrupted throughout. A valid SSL certificate was issued and configured on the new server before cutover, so the site never resolved insecurely.</p>
+    <div class="mono-label"><span class="num tabular">02</span> Core challenge areas</div>
+    <p class="cs-section-intro">Migration risks are amplified in a healthcare context, where downtime directly affects patient access.</p>
+    <div class="cs-cards">
+      <div class="cs-card">
+        <h3>Zero downtime</h3>
+        <p>Any interruption could prevent patients reaching specialist profiles, services or contact information — unacceptable in a clinical setting.</p>
+      </div>
+      <div class="cs-card">
+        <h3>Database integrity</h3>
+        <p>A full WordPress database export, transfer and import, ensuring every specialist profile and service page arrived intact.</p>
+      </div>
+      <div class="cs-card">
+        <h3>DNS propagation</h3>
+        <p>Poorly timed record updates can cause resolution failures during propagation, creating a window where the site appears offline globally.</p>
+      </div>
+      <div class="cs-card">
+        <h3>Email continuity</h3>
+        <p>DNS changes scoped to leave MX records untouched, so patient and referral communications were unaffected throughout.</p>
+      </div>
+      <div class="cs-card">
+        <h3>SSL transfer</h3>
+        <p>A valid certificate issued and configured on the new server before cutover, so the site never resolved insecurely.</p>
+      </div>
+      <div class="cs-card">
+        <h3>Verification</h3>
+        <p>Post-migration checks across all content, confirming nothing was lost or corrupted in transfer.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section cs-chapter">
+<section class="section cs-chapter bg-ink">
   <div class="container">
     <div class="cs-row">
-      <div class="cs-row-label"><span class="mono-label"><span class="num tabular">03</span> Result</span></div>
+      <div class="cs-row-label"><span class="mono-label"><span class="num tabular">03</span> Outcome</span></div>
       <div class="cs-row-body">
           <p>The site moved to its new environment with no loss of availability and clean domain resolution after cutover, with no propagation window where it appeared offline.</p>
           <p>Patients kept access to specialist profiles, services and contact details throughout — which, for a referral-based clinic, is the entire point of the exercise.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section bg-ink">
-  <div class="container">
-    <div class="cs-row">
-      <div class="cs-row-label"><span class="mono-label">Delivered</span></div>
-      <div class="cs-row-body">
-        <ul class="cs-deliverables">
-          <li><span class="tick"></span> Full WordPress file and database migration</li>
-          <li><span class="tick"></span> Zero-downtime cutover planning</li>
-          <li><span class="tick"></span> DNS record updates with clean propagation</li>
-          <li><span class="tick"></span> MX records preserved for uninterrupted email</li>
-          <li><span class="tick"></span> SSL issued and configured before cutover</li>
-          <li><span class="tick"></span> Post-migration verification of all site content</li>
-        </ul>
       </div>
     </div>
   </div>

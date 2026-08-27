@@ -118,12 +118,22 @@
   // ── Live Dublin clock ─────────────────────────────────────────────
   // Always the studio's own local time, regardless of the visitor's
   // timezone — a small, honest, low-cost detail; updates once a minute.
-  const clock = document.querySelector('.footer-clock');
-  if (clock) {
+  // The footer prints the full label; the hero sits inside a longer
+  // sentence and only wants the city and time, so each target says
+  // which form it needs rather than the clock guessing from position.
+  const clocks = document.querySelectorAll('.footer-clock, .js-clock');
+  if (clocks.length) {
     const formatter = new Intl.DateTimeFormat('en-IE', {
       timeZone: 'Europe/Dublin', hour: '2-digit', minute: '2-digit', hour12: false,
     });
-    const update = () => { clock.textContent = formatter.format(new Date()) + ' IST/GMT · Dublin'; };
+    const update = () => {
+      const time = formatter.format(new Date());
+      clocks.forEach((el) => {
+        el.textContent = el.classList.contains('footer-clock')
+          ? `${time} IST/GMT · Dublin`
+          : `Dublin ${time}`;
+      });
+    };
     update();
     setInterval(update, 30000);
   }

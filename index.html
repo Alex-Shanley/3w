@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=12">
 <link rel="stylesheet" href="css/base.css?v=15">
-<link rel="stylesheet" href="css/sections.css?v=28">
+<link rel="stylesheet" href="css/sections.css?v=31">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -79,20 +79,38 @@
 
 <section class="hero">
   <div class="container">
-    <div class="content-grid">
+    <div class="mono-label hero-eyebrow">A Dublin web studio</div>
+    <h1 class="hero-headline">
+      <span class="line"><span>Websites that</span></span>
+      <span class="line"><span>earn their keep.</span></span>
+    </h1>
+
+    <div class="hero-foot">
       <div class="hero-main">
-        <div class="mono-label hero-eyebrow">A Dublin web studio</div>
-        <h1 class="hero-headline">
-          <span class="line"><span>Websites that</span></span>
-          <span class="line"><span>earn their keep.</span></span>
-        </h1>
         <p class="hero-sub">We design, build, host, secure and rank websites. One team, one invoice, no handoffs.</p>
         <div class="hero-ctas">
           <a href="contact.html" class="btn btn-solid">Get a quote</a>
           <a href="work.html" class="link-arrow">See our work <span class="arrow">→</span></a>
         </div>
-        <p class="mono-label hero-meta">Dublin, IE · Available for new projects</p>
       </div>
+
+      <!-- Fills what was dead space on the right, and turns the first
+           screen into something you can act on. Each chip is a plain
+           link carrying the same `brief` param the estimator and the
+           services brief-builder use, so all three entry points land
+           on one prefill path in contact-form.js. -->
+      <aside class="hero-start">
+        <div class="mono-label">Start here</div>
+        <div class="hero-chips">
+          <a class="hero-chip" href="contact.html?brief=Looking%20for%20a%20new%20website.">A new website</a>
+          <a class="hero-chip" href="contact.html?brief=Looking%20to%20redesign%20an%20existing%20site.">A redesign</a>
+          <a class="hero-chip" href="contact.html?brief=Looking%20for%20help%20ranking%20on%20Google.">Better Google ranking</a>
+        </div>
+        <p class="mono-label hero-meta">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span class="js-clock">Dublin, IE</span> · Available for new projects
+        </p>
+      </aside>
     </div>
   </div>
 </section>
@@ -559,7 +577,7 @@
   </div>
 </footer>
 
-<script src="js/nav.js?v=3"></script>
+<script src="js/nav.js?v=4"></script>
 <script src="js/main.js?v=3"></script>
 <script src="js/estimator.js?v=1"></script>
 <script src="js/reveal.js?v=1"></script>

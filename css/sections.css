@@ -238,7 +238,11 @@
 /* ── Hero ─────────────────────────────────────────────────────────── */
 
 .hero { padding-top: var(--sp-9); padding-bottom: var(--sp-10); }
-@media (min-width: 1024px) { .hero { padding-top: var(--sp-10); padding-bottom: var(--sp-11); } }
+/* Tighter than the old sp-10/sp-11 now the headline is roughly 190px
+   rather than 130px: with the previous padding the hero ran to ~1430px
+   and pushed "Get a quote" below the fold on a 1440x900 screen. The
+   headline absorbed the height the padding used to provide. */
+@media (min-width: 1024px) { .hero { padding-top: var(--sp-8); padding-bottom: var(--sp-9); } }
 
 /* Generic 12/6/4-col row — reused by any section that needs to place
    content against the real grid, not just the hero. */
@@ -249,7 +253,11 @@
   row-gap: var(--sp-9);
 }
 
-.hero-main { grid-column: 1 / -1; }
+/* .hero-main used to be a .content-grid child spanning all 12 columns.
+   The hero no longer uses that grid — it's now a plain block with a
+   two-column .hero-foot beneath it — and leaving the span in place made
+   .hero-main cover both foot tracks, pushing .hero-start onto its own
+   row. It needs no column rule at all now. */
 
 .hero-eyebrow { margin-bottom: var(--sp-5); }
 
@@ -260,6 +268,20 @@
   line-height: 0.95;
   letter-spacing: -0.03em;
   max-width: 13ch;
+}
+/* At --step-5 the headline tops out around 130px, which used barely
+   two-thirds of the available width and left the whole first screen
+   looking under-set. From 1024px up it scales with the viewport
+   instead. The ceiling is deliberate: .container caps at
+   --content-max, so the usable width stops growing at ~1312px however
+   wide the screen gets, and measured at 192px the longest line
+   ("earn their keep.") is ~1252px — the largest size that still
+   clears it without wrapping. */
+@media (min-width: 1024px) {
+  .hero-headline {
+    font-size: clamp(6rem, 13.3vw, 12rem);
+    max-width: 16ch;
+  }
 }
 .hero-headline .line { display: block; overflow: hidden; }
 .hero-headline .line span { display: block; }
@@ -316,8 +338,75 @@
 }
 .hero.js-anim.is-revealed .hero-ctas { opacity: 1; transform: translateY(0); }
 
+/* ── Hero foot: copy + CTAs left, "start here" panel right ────────── */
+.hero-foot {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-8);
+  margin-top: var(--sp-8);
+}
+@media (min-width: 900px) {
+  .hero-foot {
+    /* Explicit width on the panel track rather than minmax(0, auto):
+       with a 1fr sibling, an auto track whose min is 0 gets squeezed
+       to zero and the panel silently wraps underneath. */
+    grid-template-columns: minmax(0, 1fr) clamp(260px, 26vw, 360px);
+    gap: var(--sp-10);
+    align-items: end;
+  }
+}
+
+.hero-start { display: flex; flex-direction: column; align-items: flex-start; }
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 var(--sp-5);
+  border: var(--hairline);
+  border-radius: 999px;
+  font-size: var(--step--1);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--text);
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero-chip:hover {
+    background: var(--signal);
+    border-color: var(--signal);
+    color: var(--on-signal);
+  }
+}
+
+/* Availability dot. --positive is a real token and reads on both the
+   light and dark canvas, so it needs no per-theme handling. */
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: var(--sp-2);
+  border-radius: 999px;
+  background: var(--positive);
+  vertical-align: middle;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .status-dot { animation: status-pulse 2.4s var(--ease-in-out) infinite; }
+}
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
 .hero-meta {
-  margin-top: var(--sp-9);
+  margin-top: var(--sp-7);
   padding-top: var(--sp-5);
   border-top: var(--hairline);
   max-width: 40ch;

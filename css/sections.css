@@ -1269,7 +1269,7 @@
   .service-detail { grid-template-columns: 64px minmax(0, 1fr); gap: var(--sp-6); padding-block: var(--sp-8); }
 }
 .service-detail .num { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); }
-.service-detail-body h2 { font-size: var(--step-2); font-weight: 500; letter-spacing: -0.02em; margin-bottom: var(--sp-3); }
+.service-detail-body h3 { font-size: var(--step-2); font-weight: 500; letter-spacing: -0.02em; margin-bottom: var(--sp-3); }
 .service-detail-body p { color: var(--text-secondary); max-width: 60ch; }
 .service-detail-tags {
   display: flex;
@@ -1280,6 +1280,106 @@
   font-size: var(--step--1);
   color: var(--text-secondary);
 }
+
+/* ── Service groups + brief builder (services.html) ───────────────── */
+.service-group-heading {
+  font-size: var(--step-2);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--sp-6);
+}
+
+/* "Add to brief" toggle. The native checkbox stays in the layout and
+   focusable (clipped, not display:none) so keyboard and screen-reader
+   users get the real control; .service-pick-face is the visible pill. */
+.service-pick {
+  display: inline-flex;
+  margin-top: var(--sp-5);
+  cursor: pointer;
+}
+.service-pick input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+}
+.service-pick-face {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 36px;
+  padding: 0 var(--sp-5);
+  border: var(--hairline);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.service-pick-face::before {
+  content: '+';
+  font-size: 1.1em;
+  line-height: 1;
+}
+.service-pick .pick-added { display: none; }
+.service-pick input:checked ~ .service-pick-face .pick-add { display: none; }
+.service-pick input:checked ~ .service-pick-face .pick-added { display: inline; }
+.service-pick input:checked ~ .service-pick-face::before { content: '✓'; }
+
+/* Checked, on a paper section: fill with the brand blue. --on-signal is
+   the token already computed per theme for text sitting on --signal. */
+.service-pick input:checked ~ .service-pick-face {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: var(--on-signal);
+}
+/* Checked, on a blue section: --signal would be blue-on-blue, so the
+   fill and text swap round — light pill, blue text. Both sides of that
+   pairing are the same two tokens, just reversed. */
+.bg-alt .service-pick input:checked ~ .service-pick-face {
+  background: var(--on-signal);
+  border-color: var(--on-signal);
+  color: var(--signal);
+}
+/* Keyboard focus has to be visible on the pill, since the real input
+   it belongs to is clipped out of sight. */
+.service-pick input:focus-visible ~ .service-pick-face {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .service-pick:hover .service-pick-face { border-color: currentColor; }
+}
+
+.brief-builder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  align-items: flex-start;
+  padding: var(--sp-7);
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--paper-2);
+}
+@media (min-width: 768px) {
+  .brief-builder { flex-direction: row; align-items: center; justify-content: space-between; }
+}
+/* On the ink band the --paper-2 fill would be a light card carrying
+   .bg-ink's light text — the nested-surface trap. Outlined panel
+   instead: transparent, with the band's own re-scoped hairline. */
+.bg-ink .brief-builder { background: transparent; }
+
+.brief-summary {
+  margin: var(--sp-2) 0 0;
+  color: var(--text-secondary);
+  max-width: 60ch;
+}
+.brief-builder .btn { flex-shrink: 0; }
 
 /* ── Work index card ──────────────────────────────────────────────── */
 

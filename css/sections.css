@@ -445,6 +445,63 @@
   .service-row:hover .rule { width: 100%; }
 }
 
+/* ── Statement moment ─────────────────────────────────────────────── */
+/* Full-height editorial type break. Uses the same clipped-box mask as
+   the hero headline, but triggered on scroll by main.js rather than on
+   load. Same safety convention as every other reveal here: the hidden
+   starting position only ever applies once .js-anim is present, so
+   with no JS (or no IntersectionObserver) the lines just render. */
+.statement {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+}
+.statement-text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-5);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  max-width: none; /* base.css caps p at 62ch; this is display type */
+}
+.statement-text .line { display: block; overflow: hidden; }
+.statement-text .line span { display: block; }
+.statement.js-anim .line span {
+  transform: translateY(110%);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.statement.js-anim.is-visible .line span { transform: translateY(0); }
+.statement.js-anim.is-visible .line:nth-child(1) span { transition-delay: 0ms; }
+.statement.js-anim.is-visible .line:nth-child(2) span { transition-delay: 90ms; }
+.statement.js-anim.is-visible .line:nth-child(3) span { transition-delay: 180ms; }
+
+/* ── Oversized section numeral ────────────────────────────────────── */
+/* Giant ghosted numeral set into a section's empty space, extending the
+   existing "03 / TEAM" index motif to display scale. Pulled from the
+   data-numeral attribute so it needs no extra markup, and aria-hidden
+   is unnecessary for the same reason — generated content isn't exposed
+   as text to assistive tech. Hidden below 1024px, where there is no
+   spare horizontal room for it to occupy. */
+.has-numeral { position: relative; overflow: hidden; }
+.has-numeral > .container { position: relative; z-index: 1; }
+.has-numeral::before {
+  content: attr(data-numeral);
+  position: absolute;
+  top: 50%;
+  right: var(--sp-8);
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(12rem, 26vw, 26rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: currentColor;
+  opacity: 0.06;
+  pointer-events: none;
+  display: none;
+}
+@media (min-width: 1024px) { .has-numeral::before { display: block; } }
+
 /* ── Capability marquee ───────────────────────────────────────────── */
 /* Full-bleed scrolling strip of the stack we actually work in. Sits
    outside .container by design so it runs edge to edge, and is kept

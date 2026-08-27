@@ -141,4 +141,51 @@
       headings.forEach((h) => headingObserver.observe(h));
     }
   }
+
+  // ── Statement moment ─────────────────────────────────────────────
+  // The lines are authored already-split in the markup (unlike the
+  // headings above, which get wrapped at runtime), so this only has to
+  // opt the block into its hidden start state and then release it.
+  if (wantsMotion && 'IntersectionObserver' in window) {
+    const statements = document.querySelectorAll('.statement');
+    statements.forEach((el) => el.classList.add('js-anim'));
+    if (statements.length) {
+      const obs = new IntersectionObserver((entries, o) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            o.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      statements.forEach((el) => obs.observe(el));
+    }
+  }
+
+  // ── Card tilt ────────────────────────────────────────────────────
+  // Pointer-reactive perspective tilt on the bento tiles and work
+  // cards — a richer version of the hover-lift those already have.
+  // Fine-pointer only: touch has no hover to tilt from.
+  //
+  // The existing CSS :hover rules set transform: translateY(-4px), and
+  // an inline transform always beats the stylesheet, so the lift has
+  // to be folded into the value written here — otherwise hovering
+  // would cancel the very lift it's supposed to build on. Clearing the
+  // inline style on leave hands control back to CSS, which by then no
+  // longer matches anyway since the pointer has gone.
+  if (wantsMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const MAX_TILT = 6; // degrees — subtle; beyond this it reads as a gimmick
+    document.querySelectorAll('.process-step, .work-card-lg').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;  // -0.5 … 0.5
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        const rotY = (px * MAX_TILT * 2).toFixed(2);
+        const rotX = (-py * MAX_TILT * 2).toFixed(2);
+        card.style.transform =
+          `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
 })();

@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=12">
 <link rel="stylesheet" href="css/base.css?v=15">
-<link rel="stylesheet" href="css/sections.css?v=25">
+<link rel="stylesheet" href="css/sections.css?v=26">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -166,9 +166,9 @@
      duplicate purely to make the loop seamless, so it's hidden from
      assistive tech; the first group carries the real content, and the
      full list also lives on services.html. -->
-<div class="marquee bg-ink" aria-label="Technologies we work in">
+<div class="marquee bg-ink">
   <div class="marquee-track">
-    <ul class="marquee-group">
+    <ul class="marquee-group" aria-label="Technologies we work in">
       <li>HTML</li><li>CSS</li><li>JavaScript</li><li>React</li><li>Django</li>
       <li>WordPress</li><li>Squarespace</li><li>Wix</li><li>Figma</li>
       <li>Cloudflare</li><li>Technical SEO</li><li>Managed hosting</li><li>SSL</li>
@@ -218,7 +218,7 @@
   </div>
 </section>
 
-<section class="section bg-ink">
+<section class="section bg-ink has-numeral" data-numeral="03">
   <div class="container">
     <div class="section-index mono-label"><span class="num">03</span><span>/ Team</span></div>
     <div class="team-member">
@@ -445,6 +445,20 @@
   </div>
 </section>
 
+<!-- Full-height statement moment. Deliberately blue: testimonials
+     above and the CTA below are both paper, so this also stops those
+     two touching. Lines mask-reveal in sequence on scroll (main.js);
+     with no JS they simply render, fully visible. -->
+<section class="statement bg-alt">
+  <div class="container">
+    <p class="statement-text">
+      <span class="line"><span>One team.</span></span>
+      <span class="line"><span>One invoice.</span></span>
+      <span class="line"><span>No handoffs.</span></span>
+    </p>
+  </div>
+</section>
+
 <section class="cta-band">
   <div class="container">
     <h2>Let's talk.</h2>
@@ -494,7 +508,7 @@
 </footer>
 
 <script src="js/nav.js?v=3"></script>
-<script src="js/main.js?v=2"></script>
+<script src="js/main.js?v=3"></script>
 <script src="js/reveal.js?v=1"></script>
 </body>
 </html>

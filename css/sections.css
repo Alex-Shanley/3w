@@ -1111,9 +1111,67 @@
 /* ── Page intro (work/about/contact/privacy headers) ─────────────── */
 
 .page-intro { padding-top: var(--sp-9); padding-bottom: var(--sp-8); }
-@media (min-width: 1024px) { .page-intro { padding-top: var(--sp-10); } }
+/* sp-9 rather than the old sp-10 now these headings are much larger —
+   the type provides the presence the extra padding used to. */
+@media (min-width: 1024px) { .page-intro { padding-top: var(--sp-9); } }
 .page-intro h1 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 16ch; }
 .page-intro p { margin-top: var(--sp-5); color: var(--text-secondary); font-size: var(--step-1); max-width: 52ch; }
+/* Every inner page opened on a heading that topped out around 80px on
+   a 1312px measure — small enough that these intros read as timid next
+   to the homepage. Scales up from 1024px, pitched below the hero since
+   these are secondary pages and shouldn't outshout it.
+
+   Sized against the container rather than the viewport: thanks.html
+   deliberately narrows its container to 560px, and a viewport-based
+   size blew the heading there out to four wrapped lines and a 1173px
+   intro. cqw tracks whatever measure the heading actually has, so the
+   wide pages get their large heading and the narrow one stays sane.
+   If cqw isn't supported the declaration is simply invalid and the
+   --step-4 rule above still applies, which is the old behaviour. */
+.page-intro > .container { container-type: inline-size; }
+@media (min-width: 1024px) {
+  .page-intro h1 { font-size: clamp(2.75rem, 8.4cqw, 7rem); max-width: 18ch; }
+}
+.page-intro .btn { margin-top: var(--sp-7); }
+
+/* Two-column intro foot — heading stays full width above it, so it gets
+   the whole measure to break across. Sitting the heading inside the
+   left column instead made it wrap to three lines in the narrower
+   track and pushed the intro past 1000px tall. Only services.html
+   supplies the second column, so the other .page-intro pages are
+   untouched by this. */
+.page-intro-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-8); margin-top: var(--sp-7); }
+@media (min-width: 900px) {
+  .page-intro-grid {
+    grid-template-columns: minmax(0, 1fr) clamp(240px, 24vw, 320px);
+    gap: var(--sp-10);
+    align-items: start;
+  }
+}
+.page-intro-grid p { margin-top: 0; }
+
+.service-index ol {
+  list-style: none;
+  margin: var(--sp-4) 0 0;
+  padding: 0;
+  border-top: var(--hairline);
+}
+.service-index li { border-bottom: var(--hairline); }
+.service-index a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  padding: var(--sp-2) 0;
+  text-decoration: none;
+  color: var(--text);
+  font-size: var(--step--1);
+  transition: color var(--dur-fast) var(--ease-out), padding-left var(--dur-fast) var(--ease-out);
+}
+.service-index .num { font-family: var(--font-mono); color: var(--text-secondary); }
+@media (hover: hover) and (pointer: fine) {
+  .service-index a:hover { color: var(--signal); padding-left: var(--sp-2); }
+  .service-index a:hover .num { color: var(--signal); }
+}
 
 /* ── Alternating section background ──────────────────────────────── */
 /* Applied manually to every second plain content section per page —

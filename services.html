@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=12">
 <link rel="stylesheet" href="css/base.css?v=15">
-<link rel="stylesheet" href="css/sections.css?v=31">
+<link rel="stylesheet" href="css/sections.css?v=35">
 </head>
 <body>
 <div class="page-transition-overlay" aria-hidden="true"></div>
@@ -55,7 +55,30 @@
   <div class="container">
     <div class="section-index mono-label"><span class="num">01</span><span>/ Services</span></div>
     <h1>Everything a website needs, one team.</h1>
-    <p>Most studios specialise in one piece — design, or code, or SEO — and hand you off for the rest. We do the whole stack ourselves: design, development, hosting, security and search, so nothing gets lost between vendors.</p>
+
+    <div class="page-intro-grid">
+      <div class="page-intro-lead">
+        <p>Most studios specialise in one piece — design, or code, or SEO — and hand you off for the rest. We do the whole stack ourselves: design, development, hosting, security and search, so nothing gets lost between vendors.</p>
+        <a href="contact.html" class="btn btn-solid">Get a quote</a>
+      </div>
+
+      <!-- Fills what was empty space to the right of the intro, and
+           gives a long page a way in. The anchors already existed for
+           the footer's deep links — this just surfaces them. -->
+      <nav class="service-index" aria-label="Services on this page">
+        <div class="mono-label">Jump to</div>
+        <ol>
+          <li><a href="#website-design"><span class="num tabular">01</span> Website Design</a></li>
+          <li><a href="#web-development"><span class="num tabular">02</span> Web Development</a></li>
+          <li><a href="#ux-ui-design"><span class="num tabular">03</span> UX/UI &amp; Product Design</a></li>
+          <li><a href="#platforms"><span class="num tabular">04</span> Platform Builds</a></li>
+          <li><a href="#seo"><span class="num tabular">05</span> SEO</a></li>
+          <li><a href="#hosting"><span class="num tabular">06</span> Web Hosting</a></li>
+          <li><a href="#security"><span class="num tabular">07</span> Website Security</a></li>
+          <li><a href="#care-plans"><span class="num tabular">08</span> Care Plans</a></li>
+        </ol>
+      </nav>
+    </div>
   </div>
 </section>
 

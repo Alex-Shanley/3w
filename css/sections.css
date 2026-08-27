@@ -1540,24 +1540,37 @@
    The two source images have different native widths, so the panes are
    fixed-height and the images fill the width — a drag-wipe comparison
    would need matching aspect ratios, which these don't have. */
-.cs-compare { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); margin-top: var(--sp-5); }
+/* Panes are capped to the narrower capture's natural width (319px) and
+   the pair is centred, rather than each filling a half-width column.
+   Letting them fill left the low-res "after" as a narrow strip adrift
+   in an empty pane beside a "before" that filled its own — the two read
+   as a broken layout rather than a comparison. Matched widths make both
+   images sharp (one scaled down, one near 1:1) and the pairing
+   deliberate. */
+.cs-compare {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-5);
+  margin-top: var(--sp-5);
+  max-width: 760px;
+}
 @media (min-width: 768px) { .cs-compare { grid-template-columns: 1fr 1fr; gap: var(--sp-6); } }
 .cs-compare figure { margin: 0; }
 .cs-compare figcaption { margin-bottom: var(--sp-3); }
 .cs-compare-scroll {
   height: 460px;
+  max-width: 320px;
+  margin: 0 auto;
   overflow-y: auto;
   border: var(--hairline);
   border-radius: var(--radius-md);
   background: var(--paper-2);
   overscroll-behavior: contain; /* don't hijack the page scroll at the ends */
 }
-/* No `width: 100%`. The two captures have very different native widths
-   (1035px and 319px), and stretching both to the pane would upscale the
-   narrow one 2x into a blurry 5120px-tall strip. With only max-width
-   set, each image renders at its own intrinsic width — taken from the
-   width attribute — and is only ever scaled down, never up. */
-.cs-compare-scroll img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+/* Safe to fill the pane now it's capped at 320px: the wide capture
+   scales down and the narrow one sits within a percent of 1:1, so
+   neither is meaningfully upscaled. */
+.cs-compare-scroll img { display: block; width: 100%; height: auto; }
 
 .cs-deliverables {
   list-style: none;

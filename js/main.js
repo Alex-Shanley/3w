@@ -175,7 +175,7 @@
   // longer matches anyway since the pointer has gone.
   if (wantsMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     const MAX_TILT = 6; // degrees — subtle; beyond this it reads as a gimmick
-    document.querySelectorAll('.process-step, .work-card-lg').forEach((card) => {
+    document.querySelectorAll('.process-step, .work-card-lg, .work-card').forEach((card) => {
       card.addEventListener('mousemove', (e) => {
         const r = card.getBoundingClientRect();
         const px = (e.clientX - r.left) / r.width - 0.5;  // -0.5 … 0.5

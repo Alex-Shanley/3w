@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=12">
 <link rel="stylesheet" href="css/base.css?v=15">
-<link rel="stylesheet" href="css/sections.css?v=37">
+<link rel="stylesheet" href="css/sections.css?v=39">
 </head>
 <body>
 <div class="page-transition-overlay" aria-hidden="true"></div>
@@ -59,54 +59,67 @@
   </div>
 </section>
 
-<section class="section bg-alt">
+<!-- Lead project gets its own dark band and display-scale
+     treatment. With no screenshots available, hierarchy has to come
+     from type and tone rather than imagery — five identically weighted
+     cards was the flattest possible arrangement of the same content. -->
+<section class="section bg-ink work-featured">
   <div class="container">
-    <div class="work-grid">
-    <div class="work-card">
-      <div class="work-card-body">
+    <div class="work-featured-inner">
+      <div class="work-featured-num tabular" aria-hidden="true">01</div>
+      <div class="work-featured-body">
         <div class="mono-label">Full redesign &amp; build</div>
-        <h3>Avoca Wicklow Day Tour</h3>
-        <p>A &euro;750 private luxury tour whose old site read like a &euro;30 bus trip. Rebuilt around full-bleed landscape photography, pricing shown with confidence, and TripAdvisor reviews in three languages.</p>
+        <h2>Avoca Wicklow Day Tour</h2>
+        <p class="work-featured-lead">A &euro;750 private luxury tour whose old site read like a &euro;30 bus trip. Rebuilt around full-bleed landscape photography, pricing shown with confidence, and TripAdvisor reviews in three languages.</p>
+        <p>The original site was a generic template with competing logos and buried pricing &mdash; actively undercutting a product competing at the premium end of Irish tourism. The rebuild leads every section with the landscape itself and surfaces multilingual reviews at the point where hesitation lives.</p>
         <div class="work-card-tags"><span>Dowling Chauffeur Drive</span><span>&middot;</span><span>2026</span></div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="work-card">
-      <div class="work-card-body">
-        <div class="mono-label">Full website build</div>
-        <h3>Platinum Pilates</h3>
-        <p>Ireland&rsquo;s leading reformer Pilates and physiotherapy brand &mdash; five Dublin studios and three clinics, with timetables, tiered pricing, booking and an online shop in a single build.</p>
-        <div class="work-card-tags"><span>Squarespace</span><span>&middot;</span><span>5 studios &middot; 3 clinics</span></div>
-      </div>
-    </div>
+<section class="section bg-alt">
+  <div class="container">
+    <div class="work-grid">
+      <article class="work-card">
+        <div class="work-card-num tabular" aria-hidden="true">02</div>
+        <div class="work-card-body">
+          <div class="mono-label">Full website build</div>
+          <h3>Platinum Pilates</h3>
+          <p>Ireland&rsquo;s leading reformer Pilates and physiotherapy brand &mdash; five Dublin studios and three clinics, with timetables, tiered pricing, booking and an online shop in a single build.</p>
+          <div class="work-card-tags"><span>Squarespace</span><span>&middot;</span><span>5 studios &middot; 3 clinics</span></div>
+        </div>
+      </article>
 
-    <div class="work-card">
-      <div class="work-card-body">
-        <div class="mono-label">Lead web developer</div>
-        <h3>Engage Financial</h3>
-        <p>A Central Bank of Ireland regulated brokerage in Blackrock, serving first-time buyers through to business clients &mdash; built for institutional trust and strict GDPR compliance at every data touchpoint.</p>
-        <div class="work-card-tags"><span>Custom CMS</span><span>&middot;</span><span>APIs</span><span>&middot;</span><span>JS</span></div>
-      </div>
-    </div>
+      <article class="work-card">
+        <div class="work-card-num tabular" aria-hidden="true">03</div>
+        <div class="work-card-body">
+          <div class="mono-label">Lead web developer</div>
+          <h3>Engage Financial</h3>
+          <p>A Central Bank of Ireland regulated brokerage in Blackrock, serving first-time buyers through to business clients &mdash; built for institutional trust and strict GDPR compliance at every data touchpoint.</p>
+          <div class="work-card-tags"><span>Custom CMS</span><span>&middot;</span><span>APIs</span><span>&middot;</span><span>JS</span></div>
+        </div>
+      </article>
 
-    <div class="work-card">
-      <div class="work-card-body">
-        <div class="mono-label">Web design &amp; build</div>
-        <h3>Healy Pentony</h3>
-        <p>A boutique Merrion Square law firm. A deliberately narrow practice &mdash; property, probate, commercial litigation &mdash; structured into clear paths for private clients, institutions and businesses.</p>
-        <div class="work-card-tags"><span>Wix</span><span>&middot;</span><span>Custom CSS</span></div>
-      </div>
-    </div>
+      <article class="work-card">
+        <div class="work-card-num tabular" aria-hidden="true">04</div>
+        <div class="work-card-body">
+          <div class="mono-label">Web design &amp; build</div>
+          <h3>Healy Pentony</h3>
+          <p>A boutique Merrion Square law firm. A deliberately narrow practice &mdash; property, probate, commercial litigation &mdash; structured into clear paths for private clients, institutions and businesses.</p>
+          <div class="work-card-tags"><span>Wix</span><span>&middot;</span><span>Custom CSS</span></div>
+        </div>
+      </article>
 
-
-    <div class="work-card">
-      <div class="work-card-body">
-        <div class="mono-label">Server migration &amp; DNS</div>
-        <h3>Northbrook Clinic</h3>
-        <p>A Ranelagh specialist medical and dental practice, referral-based across eight disciplines. Moved off ageing hosting with DNS cut over cleanly and no loss of availability.</p>
-        <div class="work-card-tags"><span>Hosting</span><span>&middot;</span><span>DNS</span></div>
-      </div>
-    </div>
+      <article class="work-card">
+        <div class="work-card-num tabular" aria-hidden="true">05</div>
+        <div class="work-card-body">
+          <div class="mono-label">Server migration &amp; DNS</div>
+          <h3>Northbrook Clinic</h3>
+          <p>A Ranelagh specialist medical and dental practice, referral-based across eight disciplines. Moved off ageing hosting with DNS cut over cleanly and no loss of availability.</p>
+          <div class="work-card-tags"><span>Hosting</span><span>&middot;</span><span>DNS</span></div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -158,6 +171,6 @@
 </footer>
 
 <script src="js/nav.js?v=4"></script>
-<script src="js/main.js?v=3"></script>
+<script src="js/main.js?v=4"></script>
 </body>
 </html>

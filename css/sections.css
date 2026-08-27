@@ -1534,10 +1534,43 @@
 }
 .brief-builder .btn { flex-shrink: 0; }
 
+/* ── Featured project band ────────────────────────────────────────── */
+.work-featured-inner { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); }
+@media (min-width: 900px) {
+  .work-featured-inner { grid-template-columns: auto minmax(0, 1fr); gap: var(--sp-8); align-items: start; }
+}
+.work-featured-num {
+  font-family: var(--font-mono);
+  /* vw, not cqw: only .page-intro's container is a query container, so
+     cqw here would be an invalid length and drop the declaration. */
+  font-size: clamp(3rem, 9vw, 7rem);
+  font-weight: 500;
+  line-height: 1;
+  color: currentColor;
+  opacity: 0.35;
+}
+.work-featured-body h2 {
+  margin-top: var(--sp-3);
+  font-size: var(--step-3);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+.work-featured-lead { margin-top: var(--sp-5); font-size: var(--step-1); }
+.work-featured-body p { color: var(--text-secondary); max-width: 60ch; }
+.work-featured-body p + p { margin-top: var(--sp-4); }
+
 /* ── Work index grid ──────────────────────────────────────────────── */
+/* Two columns rather than three: at three, the four remaining cards
+   broke 3+1 and left a conspicuous hole in the second row. */
 .work-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); }
 @media (min-width: 700px) { .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .work-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.work-card-num {
+  font-family: var(--font-mono);
+  font-size: var(--step-1);
+  color: var(--text-secondary);
+  padding: var(--sp-6) var(--sp-6) 0;
+}
 
 /* These cards carry no screenshot — there are no real images of the
    builds to show yet, and a stand-in would misrepresent the work. The
@@ -1551,6 +1584,12 @@
 
 .work-card { display: block; border: var(--hairline); border-radius: var(--radius-md); overflow: hidden; transition: border-color var(--dur-base) var(--ease-out); }
 @media (min-width: 1024px) { .work-card:hover { border-color: var(--signal); } }
+/* These cards are white on the blue band, so a --signal border reads as
+   the background colour creeping onto the card edge. Uses the on-blue
+   token instead, same swap as the service pick pills. Transform is
+   declared here so the JS tilt has something to ease from. */
+.work-card { transition: border-color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+@media (min-width: 1024px) { .bg-alt .work-card:hover { border-color: var(--on-signal); } }
 .work-card-shot { aspect-ratio: 21/9; overflow: hidden; background: var(--paper-2); }
 .work-card-shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-slow) var(--ease-out); }
 @media (min-width: 1024px) { .work-card:hover .work-card-shot img { transform: scale(1.03); } }

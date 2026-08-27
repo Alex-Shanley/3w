@@ -1534,6 +1534,47 @@
 }
 .brief-builder .btn { flex-shrink: 0; }
 
+/* ── Case study: before/after compare ─────────────────────────────── */
+/* Full-page captures are extremely tall (2560px), so each sits in its
+   own scroll pane rather than being scaled down to an illegible strip.
+   The two source images have different native widths, so the panes are
+   fixed-height and the images fill the width — a drag-wipe comparison
+   would need matching aspect ratios, which these don't have. */
+.cs-compare { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); margin-top: var(--sp-5); }
+@media (min-width: 768px) { .cs-compare { grid-template-columns: 1fr 1fr; gap: var(--sp-6); } }
+.cs-compare figure { margin: 0; }
+.cs-compare figcaption { margin-bottom: var(--sp-3); }
+.cs-compare-scroll {
+  height: 460px;
+  overflow-y: auto;
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--paper-2);
+  overscroll-behavior: contain; /* don't hijack the page scroll at the ends */
+}
+/* No `width: 100%`. The two captures have very different native widths
+   (1035px and 319px), and stretching both to the pane would upscale the
+   narrow one 2x into a blurry 5120px-tall strip. With only max-width
+   set, each image renders at its own intrinsic width — taken from the
+   width attribute — and is only ever scaled down, never up. */
+.cs-compare-scroll img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+
+.cs-deliverables {
+  list-style: none;
+  margin: var(--sp-4) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-3);
+  color: var(--text-secondary);
+}
+@media (min-width: 768px) { .cs-deliverables { grid-template-columns: 1fr 1fr; gap: var(--sp-3) var(--sp-7); } }
+.cs-deliverables li { display: flex; align-items: baseline; gap: var(--sp-3); }
+/* .tick is --signal, which is a dark blue in light mode and all but
+   invisible on this always-dark band (2.6:1). Same hardcoded lifted
+   value the marquee separator uses, for the same reason. */
+.bg-ink .tick { background: #5C72FF; }
+
 /* ── Featured project band ────────────────────────────────────────── */
 .work-featured-inner { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); }
 @media (min-width: 900px) {

@@ -6,14 +6,44 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://alex-shanley.github.io/3w/services.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://alex-shanley.github.io/3w/pricing.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://alex-shanley.github.io/3w/work.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://alex-shanley.github.io/3w/work-oak-lane-dental.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://alex-shanley.github.io/3w/work-avoca-wicklow.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alex-shanley.github.io/3w/work-platinum-pilates.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alex-shanley.github.io/3w/work-engage-financial.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alex-shanley.github.io/3w/work-healy-pentony.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alex-shanley.github.io/3w/work-northbrook-clinic.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://alex-shanley.github.io/3w/about.html</loc>

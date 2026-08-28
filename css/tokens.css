@@ -45,6 +45,10 @@
   --on-signal: #F7F5F1;
   --on-signal-secondary: rgba(255, 255, 255, 0.75);
   --on-signal-hairline: rgba(255, 255, 255, 0.3);
+  /* Error text on the signal band. The global form-error red lands at
+     1.38:1 there, and the band's blue flips between themes, so this
+     needs its own value per theme: 5.81:1 here, 4.73:1 in dark. */
+  --on-signal-error: #FFD9DE;
 
   /* ── Typography ───────────────────────────────────────────────── */
   --font-display: 'Inter Tight', system-ui, sans-serif;
@@ -128,6 +132,7 @@
     --on-signal: #0B0B0C;
     --on-signal-secondary: rgba(11, 11, 12, 0.85);
     --on-signal-hairline: rgba(11, 11, 12, 0.35);
+    --on-signal-error: #2E000C;
   }
 }
 
@@ -156,4 +161,5 @@
   --on-signal: #0B0B0C;
   --on-signal-secondary: rgba(11, 11, 12, 0.85);
   --on-signal-hairline: rgba(11, 11, 12, 0.35);
+  --on-signal-error: #2E000C;
 }

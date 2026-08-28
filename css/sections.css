@@ -67,7 +67,14 @@
   color: var(--text-secondary);
   transition: color var(--dur-fast) var(--ease-out);
 }
-.main-nav a:hover, .main-nav a[aria-current="page"] { color: var(--text); }
+/* Two hooks, because they mean different things. aria-current="page"
+   is the page you are on. data-section="current" is the nav item whose
+   section contains the page you are on — a case study highlights Work
+   without claiming to be work.html, which is what a screen reader was
+   being told before. */
+.main-nav a:hover,
+.main-nav a[aria-current="page"],
+.main-nav a[data-section="current"] { color: var(--text); }
 
 .nav-actions { display: flex; align-items: center; gap: var(--sp-4); }
 .nav-actions .btn { display: none; }
@@ -1251,6 +1258,14 @@
 
 .bg-alt .link-underline { background-image: linear-gradient(var(--on-signal), var(--on-signal)); }
 .bg-alt .email-link { color: var(--on-signal); }
+/* The global focus ring is 2px solid var(--signal), which on this band
+   is the background colour — every control on the contact form had an
+   invisible focus indicator. Scoped here rather than changing the global
+   ring, which is correct on paper and ink. */
+.bg-alt :focus-visible { outline-color: var(--on-signal); }
+/* Same story for the form's error text: #C0392B sits at 1.38:1 on blue.
+   --on-signal-error keeps a red hue at 5.81:1 light, 4.73:1 dark. */
+.bg-alt .form-status { color: var(--on-signal-error); }
 
 @media (hover: hover) and (pointer: fine) {
   /* .service-row:hover (base rule, line ~463) turns the row's own
@@ -2039,7 +2054,11 @@
 .field.has-error .field-error { display: block; }
 
 .contact-aside { display: flex; flex-direction: column; gap: var(--sp-8); }
-.contact-aside .email-link { font-family: var(--font-display); font-weight: 500; font-size: var(--step-1); color: var(--signal); }
+/* No colour here on purpose. This rule sits after .bg-alt .email-link
+   at equal specificity, so declaring --signal made the address the exact
+   colour of the band behind it — 1.0:1, invisible. The band rule now
+   supplies the colour; this one only sets the type. */
+.contact-aside .email-link { font-family: var(--font-display); font-weight: 500; font-size: var(--step-1); }
 .contact-aside p { color: var(--text-secondary); max-width: 40ch; }
 
 .next-steps { display: flex; flex-direction: column; gap: var(--sp-5); border-top: var(--hairline); padding-top: var(--sp-5); }

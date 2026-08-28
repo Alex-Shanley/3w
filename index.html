@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=12">
 <link rel="stylesheet" href="css/base.css?v=15">
-<link rel="stylesheet" href="css/sections.css?v=57">
+<link rel="stylesheet" href="css/sections.css?v=61">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -52,7 +52,7 @@
       <a href="services.html">Services</a>
       <a href="work.html">Work</a>
       <a href="about.html">About</a>
-      <a href="index.html#pricing">Pricing</a>
+      <a href="pricing.html">Pricing</a>
     </nav>
     <div class="nav-actions">
       <button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
@@ -67,7 +67,7 @@
           <a href="services.html">Services</a>
           <a href="work.html">Work</a>
           <a href="about.html">About</a>
-          <a href="index.html#pricing">Pricing</a>
+          <a href="pricing.html">Pricing</a>
           <a href="contact.html" class="btn btn-solid" style="margin-top:var(--sp-6);align-self:flex-start;">Get a quote</a>
         </nav>
       </details>
@@ -314,6 +314,11 @@
     </div>
 </section>
 
+<!-- Homepage pricing is a summary, not the full table. The tiers,
+     the comparison and the estimator all live on pricing.html now;
+     repeating them here would have meant maintaining the same figures
+     in two places and reading the same section twice in one visit.
+     The id stays so existing #pricing deep links still land. -->
 <section id="pricing" class="section">
   <div class="container">
     <div class="content-grid">
@@ -324,122 +329,24 @@
       </div>
     </div>
 
-    <div class="price-table">
-      <div class="price-row head">
-        <div></div>
-        <div class="tier-col">
-          <div>
-            <div class="tier-name">Launch</div>
-            <div class="tier-price tabular">€5,400</div>
-          </div>
-        </div>
-        <div class="tier-col">
-          <div class="is-chosen">
-            <div class="tier-name">Grow</div>
-            <div class="tier-price tabular">€10,800</div>
-            <span class="tier-tag">Most chosen</span>
-          </div>
-        </div>
+    <div class="stat-band">
+      <div class="figure">
+        <div class="num tabular">&euro;5,400</div>
+        <div class="mono-label unit">Launch, up to 6 pages</div>
       </div>
-
-      <div class="price-row">
-        <div class="feature-name">Design and build</div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
+      <div class="figure">
+        <div class="num tabular">&euro;10,800</div>
+        <div class="mono-label unit">Grow, up to 15 pages, with SEO</div>
       </div>
-      <div class="price-row">
-        <div class="feature-name">Pages</div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span>Up to 6</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span>Up to 15</div>
-      </div>
-      <div class="price-row">
-        <div class="feature-name">Hosting, first year</div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
-      </div>
-      <div class="price-row">
-        <div class="feature-name">SSL and daily backups</div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
-      </div>
-      <div class="price-row">
-        <div class="feature-name">SEO research and page build</div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="dash"></span> Not included</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
-      </div>
-      <div class="price-row">
-        <div class="feature-name">Rank tracking</div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="dash"></span> Not included</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> 90 days</div>
+      <div class="figure">
+        <div class="num tabular">&euro;190</div>
+        <div class="mono-label unit">Care, per month after launch</div>
       </div>
     </div>
 
     <p class="price-note"><strong>Fixed price. Fixed scope.</strong> If it changes, we quote it before we build it. After year one, sites either move onto a Care plan or we hand over cleanly, your choice.</p>
 
-    <div class="care-band">
-      <div>
-        <div class="tier-name">Care</div>
-        <div class="tier-price tabular">€190 <span class="unit">/ month</span></div>
-      </div>
-      <p class="small" style="color:var(--text-secondary);margin:0;">Ongoing hosting, security and updates for a site we run. Cancel any time.</p>
-      <ul>
-        <li><span class="tick"></span> Hosting and monitoring</li>
-        <li><span class="tick"></span> Security patches and scans</li>
-        <li><span class="tick"></span> Two hours of changes a month</li>
-      </ul>
-    </div>
-
-    <!-- Estimator. Deliberately recommends one of the published tiers
-         rather than computing a bespoke figure — every number it can
-         show already appears in the table above, so it can't quote a
-         price we haven't committed to. Fully usable with no JS: the
-         result panel is authored in its real default state (Launch,
-         which is what the default inputs produce), so without the
-         script it reads as a static restatement of the Launch tier
-         rather than as empty boxes. -->
-    <div class="estimator" id="estimator">
-      <div class="estimator-intro">
-        <div class="mono-label">Estimate</div>
-        <h3>Which tier fits your project?</h3>
-      </div>
-
-      <div class="estimator-controls">
-        <div class="est-field">
-          <label for="est-pages">Roughly how many pages?</label>
-          <input type="range" id="est-pages" min="1" max="20" value="6" step="1"
-                 aria-describedby="est-pages-out">
-          <output id="est-pages-out" for="est-pages">6 pages</output>
-        </div>
-
-        <fieldset class="est-field">
-          <legend>Anything else?</legend>
-          <label class="est-check">
-            <input type="checkbox" id="est-seo"> SEO research and page build
-          </label>
-          <label class="est-check">
-            <input type="checkbox" id="est-care"> Care plan after launch
-          </label>
-        </fieldset>
-      </div>
-
-      <div class="estimator-result" aria-live="polite">
-        <div class="mono-label">Best fit</div>
-        <div class="est-tier" id="est-tier">Launch</div>
-        <div class="est-price tabular" id="est-price">€5,400</div>
-        <div class="est-monthly tabular" id="est-monthly" hidden>plus €190 / month</div>
-        <ul class="est-includes" id="est-includes">
-          <li><span class="tick"></span> Design and build</li>
-          <li><span class="tick"></span> Up to 6 pages</li>
-          <li><span class="tick"></span> Hosting, first year</li>
-          <li><span class="tick"></span> SSL and daily backups</li>
-        </ul>
-        <a href="contact.html" class="btn btn-solid" id="est-cta">Send this brief</a>
-        <p class="est-note">
-          Indicative, not a quote. Every project gets a fixed price in
-          writing before we start any work.
-        </p>
-      </div>
-    </div>
+    <a href="pricing.html" class="link-arrow">See what each tier includes <span class="arrow">&rarr;</span></a>
   </div>
 </section>
 
@@ -547,7 +454,7 @@
       <div class="footer-col">
         <div class="mono-label">Company</div>
         <a href="about.html">About</a>
-        <a href="index.html#pricing">Pricing</a>
+        <a href="pricing.html">Pricing</a>
         <a href="privacy.html">Privacy</a>
       </div>
       <div class="footer-col">
@@ -565,7 +472,6 @@
 
 <script src="js/nav.js?v=4"></script>
 <script src="js/main.js?v=4"></script>
-<script src="js/estimator.js?v=2"></script>
 <script src="js/reveal.js?v=1"></script>
 </body>
 </html>

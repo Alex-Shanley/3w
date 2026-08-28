@@ -130,7 +130,11 @@
 @media (min-width: 1024px) { .btn-solid:hover { background: var(--signal-hover); } }
 .btn-outline { border-color: var(--hairline-color); color: var(--text); }
 @media (min-width: 1024px) { .btn-outline:hover { border-color: var(--signal); color: var(--signal); } }
-.btn-on-ink { background: var(--paper); color: var(--ink-900); }
+/* Hardcoded, not tokenised, for the same reason .bg-ink itself is:
+   --paper and --ink-900 both flip with the theme, but the band under
+   this button never does. In dark mode the tokens resolved to a near
+   black fill on a near black band — 1.02:1, an invisible button. */
+.btn-on-ink { background: #F7F5F1; color: #0B0B0C; }
 
 /* Text link with an arrow that nudges on hover — used for secondary
    CTAs where a full button would compete with the primary one. */
@@ -1015,8 +1019,12 @@
 
 .price-row .feature-name { color: var(--text); }
 .price-row .tier-col { display: flex; align-items: center; gap: var(--sp-2); color: var(--text-secondary); font-size: var(--step--1); }
-.price-row .tick { display: inline-block; width: 16px; height: 2px; background: var(--signal); flex-shrink: 0; }
-.price-row .dash { display: inline-block; width: 16px; height: 1px; background: var(--hairline-color); flex-shrink: 0; }
+/* Scoped to .price-row until now, which meant the identical markup in
+   the Care band and the estimator's includes list matched nothing and
+   rendered at 0x0 — those lists have been showing no marker at all.
+   Unscoping fixes both. .bg-ink .tick still outranks this. */
+.tick { display: inline-block; width: 16px; height: 2px; background: var(--signal); flex-shrink: 0; }
+.dash { display: inline-block; width: 16px; height: 1px; background: var(--hairline-color); flex-shrink: 0; }
 
 /* Below the two-column breakpoint, each feature row's two tier values
    stack directly on top of each other with nothing else distinguishing
@@ -1096,7 +1104,11 @@
    same way plain .section-to-.section boundaries did (fixed below). */
 .cta-band { padding-top: var(--sp-9); padding-bottom: var(--sp-11); border-top: var(--hairline); }
 .cta-band .container { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-6); }
-.cta-band h2 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 14ch; }
+/* Tight leading, for the reason the hero and page intros already have
+   it: this heading inherited the body line-height (~1.55), which at 65px
+   put a 101px line box around the type — 36px of dead space per line,
+   and this heading runs to two lines on every page that uses it. */
+.cta-band h2 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 14ch; line-height: 1.05; }
 .cta-band .email-link {
   font-family: var(--font-display);
   font-weight: 500;
@@ -1398,8 +1410,8 @@
 /* Stack list: hairline rows rather than another card grid — the page
    already leans on cards elsewhere and three grid sections in a row was
    most of why it read as repetitive. */
-.about-stack { margin: var(--sp-7) 0 0; border-top: var(--hairline); }
-.about-stack-row {
+.stack-list { margin: var(--sp-7) 0 0; border-top: var(--hairline); }
+.stack-list-row {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--sp-2);
@@ -1407,15 +1419,15 @@
   border-bottom: var(--hairline);
 }
 @media (min-width: 768px) {
-  .about-stack-row { grid-template-columns: minmax(0, 2fr) minmax(0, 7fr); gap: var(--sp-6); align-items: baseline; }
+  .stack-list-row { grid-template-columns: minmax(0, 2fr) minmax(0, 7fr); gap: var(--sp-6); align-items: baseline; }
 }
-.about-stack dt {
+.stack-list dt {
   font-family: var(--font-display);
   font-size: var(--step-1);
   font-weight: 500;
   letter-spacing: -0.01em;
 }
-.about-stack dd { margin: 0; color: var(--text-secondary); max-width: 62ch; }
+.stack-list dd { margin: 0; color: var(--text-secondary); max-width: 62ch; }
 
 .team-info h2 { font-size: var(--step-2); font-weight: 500; letter-spacing: -0.02em; }
 .team-info .mono-label { margin: var(--sp-2) 0 var(--sp-4); }
@@ -1820,6 +1832,11 @@
    invisible on this always-dark band (2.6:1). Same hardcoded lifted
    value the marquee separator uses, for the same reason. */
 .bg-ink .tick { background: #5C72FF; }
+/* Same trap on the blue band, but total rather than partial: .tick is
+   --signal and .bg-alt IS --signal, so the marker was the exact colour
+   of the surface behind it. --on-signal is the band's own foreground,
+   so it tracks the theme flip with everything else on there. */
+.bg-alt .tick { background: var(--on-signal); }
 
 /* ── Featured project band ────────────────────────────────────────── */
 .work-featured-inner { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); }
@@ -1958,6 +1975,36 @@
   max-width: 54ch;
 }
 .route-note + .link-arrow { margin-top: var(--sp-6); }
+
+/* Care band on a coloured band. The default card is --paper-2, a light
+   surface, and .bg-alt re-scopes --text to --on-signal — so dropping the
+   default card onto blue would put near-white text on near-white paper.
+   This variant loses the fill and takes a hairline instead, so it reads
+   as a panel and inherits the band's own text colours. */
+.care-band.on-band { background: transparent; border: 1px solid var(--hairline-color); }
+
+/* ── Pricing: at-a-glance summary ─────────────────────────────────── */
+/* Fills the intro grid's second column with the three figures, so the
+   page answers "how much" above the fold instead of making someone
+   scroll to the table for it. Mono figures to match the table below. */
+.price-summary { border-top: var(--hairline); padding-top: var(--sp-4); }
+.price-summary dl { margin: var(--sp-3) 0 0; }
+.price-summary dl > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-3) 0;
+  border-bottom: var(--hairline);
+}
+.price-summary dt { color: var(--text-secondary); }
+.price-summary dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  color: var(--text);
+}
+.price-summary .unit { color: var(--text-secondary); font-size: var(--step--1); }
 
 /* ── Contact form ─────────────────────────────────────────────────── */
 

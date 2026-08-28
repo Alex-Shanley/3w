@@ -1903,6 +1903,35 @@
 
 .work-card { display: block; border: var(--hairline); border-radius: var(--radius-md); overflow: hidden; transition: border-color var(--dur-base) var(--ease-out); }
 @media (min-width: 1024px) { .work-card:hover { border-color: var(--signal); } }
+
+/* Stretched link. Only the title was clickable — about 5% of a card
+   that is roughly 225,000px2 — while the equivalent card on the
+   homepage has always been a whole <a>, so the two pages behaved
+   differently on the page whose entire job is getting people into a
+   case study.
+
+   The overlay goes on the heading's own anchor rather than wrapping the
+   card in one, so the accessible name stays "Platinum Pilates" instead
+   of becoming the entire card's text. The known cost is that prose
+   inside the card can no longer be selected; for a card that exists to
+   be clicked, that is the right trade. */
+.work-card { position: relative; }
+.work-card h3 a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+@media (hover: hover) and (pointer: fine) { .work-card { cursor: pointer; } }
+
+/* Something to tell you the card is a target at all. Sits after the
+   tags and slides on hover, matching .link-arrow elsewhere. */
+.work-card-go {
+  display: block;
+  margin-top: var(--sp-5);
+  font-size: var(--step-1);
+  line-height: 1;
+  color: var(--signal);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .work-card:hover .work-card-go { transform: translateX(6px); }
+}
 /* These cards are white on the blue band, so a --signal border reads as
    the background colour creeping onto the card edge. Uses the on-blue
    token instead, same swap as the service pick pills. Transform is
@@ -2020,6 +2049,56 @@
   color: var(--text);
 }
 .price-summary .unit { color: var(--text-secondary); font-size: var(--step--1); }
+
+/* ── Case study: onward navigation ────────────────────────────────── */
+/* Tighter than a full .section — this is punctuation between the last
+   chapter and the CTA, not a section in its own right. */
+.cs-more { padding-block: var(--sp-7); }
+.cs-more-nav {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-6);
+  align-items: center;
+}
+@media (min-width: 800px) {
+  .cs-more-nav { grid-template-columns: 1fr auto 1fr; gap: var(--sp-7); }
+  /* The next link right-aligns so the pair reads as a spread, with
+     "All work" holding the centre. */
+  .cs-more-link.is-next { text-align: right; }
+}
+.cs-more-link { display: block; text-decoration: none; }
+.cs-more-title {
+  display: block;
+  margin-top: var(--sp-2);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+/* Arrows point the way each link goes, and lean further on hover. */
+.cs-more-link.is-prev .cs-more-title::before { content: "\2190\00a0"; }
+.cs-more-link.is-next .cs-more-title::after { content: "\00a0\2192"; }
+.cs-more-link .cs-more-title::before,
+.cs-more-link .cs-more-title::after {
+  display: inline-block;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cs-more-link.is-prev:hover .cs-more-title::before { transform: translateX(-5px); }
+  .cs-more-link.is-next:hover .cs-more-title::after { transform: translateX(5px); }
+}
+.cs-more-all {
+  justify-self: start;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  /* The line box alone is 21px, three short of the 24px minimum target
+     size. Padding rather than a height so it stays a text link. */
+  padding-block: var(--sp-2);
+}
+@media (min-width: 800px) { .cs-more-all { justify-self: center; } }
 
 /* ── Contact form ─────────────────────────────────────────────────── */
 

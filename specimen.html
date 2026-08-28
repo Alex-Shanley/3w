@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Type &amp; grid specimen | 3w</title>
 <meta name="robots" content="noindex">
-<script>(function(){try{var t=localStorage.getItem('3w-theme')||'system';var d=document.documentElement;d.setAttribute('data-theme-setting',t);if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script>(function(){try{var t=sessionStorage.getItem('3w-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="css/tokens.css?v=13">
 <link rel="stylesheet" href="css/base.css?v=18">
 <style>
@@ -15,7 +15,7 @@
 <body>
 
 <div class="toolbar">
-  <button class="theme-toggle" type="button" aria-label="Colour theme: system">Colour theme</button>
+  <button class="theme-toggle" aria-pressed="false">Toggle dark mode</button>
   <a href="?grid">Add ?grid to any URL to see the column overlay →</a>
 </div>
 

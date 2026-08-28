@@ -102,21 +102,13 @@
   transition: border-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
 }
 .theme-toggle svg { width: 18px; height: 18px; }
-/* The icon shows the SETTING, not the resolved theme. That is the whole
-   point of the third state: in system mode the sun and moon would each
-   be a lie half the time, since the palette follows the OS. Reading
-   data-theme-setting also makes this far simpler than the old version,
-   which had to mirror the prefers-color-scheme guarding from tokens.css
-   just to work out which icon was correct. System is the default here,
-   so it also covers the case where localStorage threw and no attribute
-   was written at all. */
-.theme-toggle .icon-sun,
 .theme-toggle .icon-moon { display: none; }
-.theme-toggle .icon-system { display: block; }
-:root[data-theme-setting="light"] .theme-toggle .icon-system { display: none; }
-:root[data-theme-setting="light"] .theme-toggle .icon-sun { display: block; }
-:root[data-theme-setting="dark"] .theme-toggle .icon-system { display: none; }
-:root[data-theme-setting="dark"] .theme-toggle .icon-moon { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: block; }
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
 
 @media (hover: hover) and (pointer: fine) {
   .theme-toggle:hover { border-color: var(--signal); color: var(--signal); }

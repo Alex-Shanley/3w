@@ -1341,10 +1341,11 @@
 .device-phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ── Team ─────────────────────────────────────────────────────────── */
-/* Monogram avatar, not a stock/placeholder photo — no real headshot
-   exists yet, and a fake one would be worse than none. Reuses
-   --on-signal since the avatar sits on a solid --signal background,
-   same reasoning as the .bg-alt tokens above. */
+/* Real headshot, replacing the monogram that stood in while there was
+   no photo. The source is 512px square, so display sizes are capped
+   near that: the homepage thumbnail at 120px and the about portrait at
+   300px both stay at or under 1:1 on a 2x display rather than being
+   upscaled into softness. */
 .team-member {
   display: flex;
   flex-direction: column;
@@ -1353,20 +1354,32 @@
 }
 @media (min-width: 768px) { .team-member { flex-direction: row; align-items: flex-start; gap: var(--sp-8); } }
 
-.team-avatar {
+.team-portrait {
   flex-shrink: 0;
-  width: 96px;
-  height: 96px;
+  width: 120px;
+  height: 120px;
+  margin: 0;
   border-radius: 999px;
-  background: var(--signal);
-  color: var(--on-signal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: var(--step-1);
-  font-weight: 500;
+  overflow: hidden;
+  background: var(--paper-2);
 }
+.team-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* About page: the portrait leads rather than sitting beside the text as
+   a thumbnail, so it gets its own column at display scale. */
+.founder { display: grid; grid-template-columns: 1fr; gap: var(--sp-7); margin-top: var(--sp-8); }
+@media (min-width: 900px) {
+  .founder { grid-template-columns: clamp(220px, 24vw, 300px) minmax(0, 1fr); gap: var(--sp-9); align-items: start; }
+}
+.founder-portrait {
+  margin: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--paper-2);
+  max-width: 300px;
+  aspect-ratio: 1;
+}
+.founder-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .team-info h2 { font-size: var(--step-2); font-weight: 500; letter-spacing: -0.02em; }
 .team-info .mono-label { margin: var(--sp-2) 0 var(--sp-4); }

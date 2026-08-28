@@ -1296,7 +1296,13 @@
 
 /* ── Case study meta + narrative ──────────────────────────────────── */
 
-.cs-hero { padding: var(--sp-9) 0 0; }
+/* Bottom padding restored. The original case study hero ended on a
+   full-bleed .cs-hero-shot whose top corners met the band edge, so the
+   band deliberately had none — these heroes end on the lead paragraph
+   and the live-site link, which were sitting flush against the edge.
+   The old shot layout keeps its flush treatment below. */
+.cs-hero { padding: var(--sp-9) 0; }
+.cs-hero:has(.cs-hero-shot) { padding-bottom: 0; }
 @media (min-width: 1024px) { .cs-hero { padding-top: var(--sp-10); } }
 .cs-meta { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); margin-bottom: var(--sp-7); }
 /* Was color-mix(--paper 60%) — but --paper is the theme-aware canvas

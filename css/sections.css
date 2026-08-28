@@ -301,10 +301,26 @@
    main.js only ever wraps + adds these classes when it can also
    guarantee the reveal (IntersectionObserver + motion allowed), so
    the base, class-less state renders every heading fully visible. */
-.text-reveal { overflow: hidden; }
+/* The mask that hides the text before it slides up. It has to clip the
+   top, but clipping the bottom was slicing the descenders (and, on a
+   two-line heading, a good chunk of the final line) clean off: display
+   leading here is deliberately tight — 1.03 on page intros, 0.95 on the
+   hero — which makes the line box shorter than the glyphs need, so they
+   spill past the content box and straight into the clip.
+
+   Padding the clip box down and pulling the same amount back off the
+   layout gives the glyphs their room without moving anything.
+
+   The hidden offset has to grow by the same amount, though. Overflow
+   clips to the padding box, so on a single-line heading the old flat
+   110% only cleared the content box by about 3px while the padding
+   added 6 — the tops of the letters would have peeked below the mask
+   before the reveal fired. Adding the padding to the offset keeps the
+   text below the padding box at every heading size. */
+.text-reveal { overflow: hidden; padding-bottom: 0.2em; margin-bottom: -0.2em; }
 .text-reveal-inner {
   display: inline-block;
-  transform: translateY(110%);
+  transform: translateY(calc(110% + 0.2em));
   transition: transform var(--dur-slow) var(--ease-out);
 }
 .text-reveal.is-visible .text-reveal-inner { transform: translateY(0); }
@@ -1365,12 +1381,8 @@
 }
 .team-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* About page: the portrait leads rather than sitting beside the text as
-   a thumbnail, so it gets its own column at display scale. */
-.founder { display: grid; grid-template-columns: 1fr; gap: var(--sp-7); margin-top: var(--sp-8); }
-@media (min-width: 900px) {
-  .founder { grid-template-columns: clamp(220px, 24vw, 300px) minmax(0, 1fr); gap: var(--sp-9); align-items: start; }
-}
+/* About page portrait. Lives in the intro grid's second column, which
+   is what fills the dead space the lead paragraph used to sit beside. */
 .founder-portrait {
   margin: 0;
   /* Circular: aspect-ratio 1 above makes the box square, so a large
@@ -1382,12 +1394,6 @@
   aspect-ratio: 1;
 }
 .founder-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.founder-body p { color: var(--text-secondary); max-width: 60ch; }
-.founder-body p + p { margin-top: var(--sp-5); }
-/* One step up in scale to open the section, so the story doesn't start
-   at the same weight it ends. */
-.founder-lead { font-size: var(--step-1); color: var(--text) !important; max-width: 40ch !important; }
-.founder-body .link-arrow { margin-top: var(--sp-6); }
 
 /* Stack list: hairline rows rather than another card grid — the page
    already leans on cards elsewhere and three grid sections in a row was
@@ -1888,34 +1894,70 @@
 .stat-band .num.accent { color: var(--signal); }
 .stat-band .unit { margin-top: var(--sp-3); }
 
-/* ── About: sticky statement + scrolling principle list ──────────── */
-/* A different layout mechanism from the numbered spine elsewhere —
-   the pull-quote pins in place while the principle list scrolls past
-   it, pure CSS position:sticky, no JS. */
-
-.about-principles {
+/* ── About: the route ─────────────────────────────────────────────── */
+/* The three-discipline story used to be three prose paragraphs, which
+   buried the only genuinely distinctive thing about it: that it is a
+   sequence. Set as a timeline — a rule across the top of each step with
+   a node sitting on it — so the progression reads before a word does,
+   and so this section has a different shape from the hairline rows
+   further down the page. The node takes currentColor, so it follows
+   whichever band the section is placed on without needing an override. */
+.route {
+  list-style: none;
+  margin: var(--sp-8) 0 0;
+  padding: 0;
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--sp-9);
-  padding-block: var(--sp-9);
+  gap: var(--sp-7);
 }
-@media (min-width: 1024px) {
-  .about-principles { grid-template-columns: minmax(0,5fr) minmax(0,7fr); gap: var(--sp-10); align-items: start; }
+@media (min-width: 860px) {
+  .route { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-8); }
 }
-
-.about-statement { position: static; }
-@media (min-width: 1024px) { .about-statement { position: sticky; top: 140px; } }
-.about-statement p {
-  font-family: var(--font-serif);
-  font-size: var(--step-3);
-  line-height: 1.3;
-  color: var(--text);
+.route-step {
+  position: relative;
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--hairline-color);
 }
-
-.about-principle-list { display: flex; flex-direction: column; gap: var(--sp-8); }
-.about-principle { border-top: var(--hairline); padding-top: var(--sp-5); }
-.about-principle .mono-label { margin-bottom: var(--sp-3); }
-.about-principle p { color: var(--text-secondary); }
+.route-step::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: currentColor;
+  transform: translateY(-50%);
+}
+.route-num { color: var(--text-secondary); }
+.route-title {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-top: var(--sp-4);
+}
+/* Two of the three titles wrap to two lines and one doesn't, which left
+   the school labels and body copy sitting at three different heights
+   across the row. Reserving two lines on the title squares them up.
+   Only once the steps are actually side by side — stacked, there is
+   nothing to align to and the reserved line is just a gap. */
+/* Two lines of 1.05 leading, plus the 0.2em the reveal mask pads on:
+   box-sizing is border-box here, so min-height has to cover that
+   padding too or the one-line title lands 6px short of the others. */
+@media (min-width: 860px) {
+  .route-title { min-height: calc(2 * 1.05em + 0.2em); }
+}
+.route-school { margin-top: var(--sp-3); color: var(--text-secondary); }
+.route-step p { margin-top: var(--sp-4); color: var(--text-secondary); }
+.route-note {
+  margin-top: var(--sp-8);
+  font-size: var(--step-1);
+  color: var(--text-secondary);
+  max-width: 54ch;
+}
+.route-note + .link-arrow { margin-top: var(--sp-6); }
 
 /* ── Contact form ─────────────────────────────────────────────────── */
 

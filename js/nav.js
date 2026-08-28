@@ -95,25 +95,54 @@
   }
 
   // ── Theme toggle ─────────────────────────────────────────────────
-  // The FOUC-preventing inline snippet in <head> already set data-theme
-  // from sessionStorage/system preference before first paint. This
-  // wires up any .theme-toggle control to flip and persist the choice,
-  // and syncs aria-pressed to the effective theme up front — otherwise
-  // a screen reader hitting the button before any click sees no
-  // pressed state at all, regardless of which theme actually loaded.
-  const isDarkNow = () => document.documentElement.getAttribute('data-theme') === 'dark' ||
-    (!document.documentElement.getAttribute('data-theme') &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches);
-  document.querySelectorAll('.theme-toggle').forEach((btn) => {
-    btn.setAttribute('aria-pressed', String(isDarkNow()));
-    btn.addEventListener('click', () => {
-      const root = document.documentElement;
-      const next = isDarkNow() ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { sessionStorage.setItem('3w-theme', next); } catch {}
-      document.querySelectorAll('.theme-toggle').forEach((b) => b.setAttribute('aria-pressed', String(next === 'dark')));
+  // Three settings, not two: system, light, dark. The stylesheets have
+  // always supported all three — a bare :root block, a
+  // prefers-color-scheme block and an explicit [data-theme] block — but
+  // the old binary toggle had no way back to "follow my system" once
+  // anyone touched it.
+  //
+  // Two attributes, because they answer different questions.
+  // data-theme drives the palette and is set only for an explicit
+  // choice, so "system" leaves it off and the media query takes over.
+  // data-theme-setting records the setting itself, "system" included,
+  // which is what the icon reads from — otherwise system mode would be
+  // indistinguishable from whichever theme it happens to resolve to.
+  // The inline <head> snippet sets both before first paint.
+  const THEMES = ['system', 'light', 'dark'];
+
+  const readSetting = () => {
+    try {
+      const t = localStorage.getItem('3w-theme');
+      return THEMES.includes(t) ? t : 'system';
+    } catch { return 'system'; }
+  };
+
+  // persist is false on load: reading the setting shouldn't write one,
+  // or every first-time visitor gets a stored preference they never
+  // chose.
+  const applySetting = (mode, persist) => {
+    const root = document.documentElement;
+    root.setAttribute('data-theme-setting', mode);
+    if (mode === 'system') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', mode);
+    if (persist) { try { localStorage.setItem('3w-theme', mode); } catch {} }
+    document.querySelectorAll('.theme-toggle').forEach((b) => {
+      b.setAttribute('aria-label', `Colour theme: ${mode}`);
+      // aria-pressed is a two-state contract and this control now has
+      // three, so the label carries the state instead.
+      b.removeAttribute('aria-pressed');
     });
-  });
+  };
+
+  const themeToggles = document.querySelectorAll('.theme-toggle');
+  if (themeToggles.length) {
+    applySetting(readSetting(), false);
+    themeToggles.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        applySetting(THEMES[(THEMES.indexOf(readSetting()) + 1) % THEMES.length], true);
+      });
+    });
+  }
 
   // ── Live Dublin clock ─────────────────────────────────────────────
   // Always the studio's own local time, regardless of the visitor's

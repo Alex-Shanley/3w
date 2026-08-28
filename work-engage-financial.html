@@ -7,14 +7,15 @@
 <meta name="description" content="A fully compliant corporate web presence for a Central Bank of Ireland regulated brokerage.">
 <meta name="theme-color" content="#F7F5F1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#08080A" media="(prefers-color-scheme: dark)">
-<script>(function(){try{var t=sessionStorage.getItem('3w-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('3w-theme')||'system';var d=document.documentElement;d.setAttribute('data-theme-setting',t);if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=13">
-<link rel="stylesheet" href="css/base.css?v=15">
-<link rel="stylesheet" href="css/sections.css?v=63">
+<link rel="stylesheet" href="css/base.css?v=18">
+<link rel="stylesheet" href="css/sections.css?v=64">
 </head>
 <body>
 <div class="page-transition-overlay" aria-hidden="true"></div>
+<div class="scroll-rail" aria-hidden="true"></div>
 
 <a href="#main" class="skip-link">Skip to content</a>
 
@@ -29,7 +30,8 @@
       <a href="pricing.html">Pricing</a>
     </nav>
     <div class="nav-actions">
-      <button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+      <button class="theme-toggle" type="button" aria-label="Colour theme: system">
+        <svg class="icon-system" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8.5 20h7M12 16v4"/></svg>
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5A8.5 8.5 0 1 1 11.5 4a7 7 0 0 0 8.5 8.5z"/></svg>
       </button>
@@ -51,7 +53,7 @@
 
 <main id="main">
 
-<section class="bg-ink cs-hero">
+<section class="bg-ink cs-hero" data-vt="engage">
   <div class="container">
     <div class="cs-meta">
       <span><span class="label">Client</span><span class="value">Engage Financial Solutions</span></span>
@@ -174,7 +176,7 @@
   </div>
 </footer>
 
-<script src="js/nav.js?v=4"></script>
-<script src="js/main.js?v=4"></script>
+<script src="js/nav.js?v=5"></script>
+<script src="js/main.js?v=5"></script>
 </body>
 </html>

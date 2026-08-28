@@ -41,8 +41,15 @@
   // default in CSS with no JS dependency) rather than JS-created, so
   // there's no race where the page paints once, unmasked, before this
   // script gets a chance to cover it.
+  // Cross-document view transitions supersede this entirely: the browser
+  // morphs between pages itself, with no navigation delay. CSSViewTransitionRule
+  // is the precise detect — it shipped with cross-document support, unlike
+  // document.startViewTransition, which also exists in browsers that only
+  // do the same-document version. Where it's supported, this whole wipe
+  // stands down and the overlay is hidden on sight.
   const overlay = document.querySelector('.page-transition-overlay');
-  if (overlay && wantsMotion) {
+  const nativeViewTransitions = typeof window.CSSViewTransitionRule === 'function';
+  if (overlay && wantsMotion && !nativeViewTransitions) {
     // rAF is suspended for hidden/backgrounded tabs, and this overlay
     // starts opaque over the whole page — so the reveal also needs a
     // path that doesn't depend on rAF ever firing, or a page opened in
@@ -73,9 +80,9 @@
       setTimeout(() => { location.href = link.href; }, 420);
     });
   } else if (overlay) {
-    // Motion off: skip the wipe, but the overlay still starts opaque
-    // per its base CSS, so it must be hidden immediately or it would
-    // permanently cover the page.
+    // Either motion is off or the browser does the transition natively.
+    // Either way the overlay still starts opaque per its base CSS, so it
+    // has to be hidden immediately or it would permanently cover the page.
     overlay.classList.add('is-hidden');
   }
 

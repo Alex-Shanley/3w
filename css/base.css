@@ -244,3 +244,97 @@ body::after {
     transparent 16px
   );
 }
+
+/* ── Cross-document view transitions ──────────────────────────────── */
+/* Native page morphing between same-origin documents. This replaces the
+   JS overlay wipe, which had to hold every navigation open for 420ms
+   before it could even start loading the next page; the browser now
+   runs the transition itself, on the compositor, with no delay added.
+
+   The opt-in has to sit at the top level. Wrapping it in a
+   prefers-reduced-motion media query looked tidier and silently did
+   nothing — Chrome does not honour @view-transition inside a
+   conditional group rule, so navigations simply never transitioned.
+   Reduced motion is handled below by cancelling the animations, which
+   gives those visitors an instant swap rather than a slow one.
+
+   Browsers without support just navigate, and main.js keeps the old
+   overlay wipe for them. */
+@view-transition { navigation: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
+
+/* Deliberately understated: a short dissolve with a fraction of a
+   percent of scale. The old wipe covered the whole viewport in ink,
+   which is a big gesture to repeat on every single click. Literal
+   easing rather than var(), since these pseudo-elements live in the
+   view transition layer rather than the document tree. */
+::view-transition-old(root) {
+  animation: vt-fade-out 220ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+  animation: vt-fade-in 300ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+@keyframes vt-fade-out { to { opacity: 0; transform: scale(0.995); } }
+@keyframes vt-fade-in { from { opacity: 0; transform: scale(1.004); } }
+
+/* Shared elements: a project's card on the index morphs into that
+   project's hero band on its case study. Paired by a data-vt slug on
+   both ends — view-transition-name has to be a literal, and it has to
+   be unique per document, which a slug per project satisfies since each
+   name appears once on any given page. */
+[data-vt="avoca"]      { view-transition-name: case-avoca; }
+[data-vt="platinum"]   { view-transition-name: case-platinum; }
+[data-vt="engage"]     { view-transition-name: case-engage; }
+[data-vt="healy"]      { view-transition-name: case-healy; }
+[data-vt="northbrook"] { view-transition-name: case-northbrook; }
+
+/* ── Scroll-driven animations ─────────────────────────────────────── */
+/* Reading progress, driven entirely by the scroll position rather than
+   a scroll listener — it runs on the compositor, so it cannot jank the
+   way a JS rail does, and it costs no main-thread work at all.
+
+   The base state is scaleX(0), so where animation-timeline isn't
+   supported the rail simply never appears. That is the right fallback:
+   an unanimated full-width bar would read as a border nobody asked for. */
+.scroll-rail {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  z-index: 300;
+  pointer-events: none;
+}
+@keyframes rail-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes numeral-drift {
+  from { transform: translateY(-24%); }
+  to   { transform: translateY(-76%); }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-rail {
+      animation: rail-grow linear both;
+      animation-timeline: scroll(root block);
+    }
+
+    /* The oversized ghost numerals drift as their band crosses the
+       viewport. This is the thing IntersectionObserver does badly:
+       it can tell you an element entered, but not how far through the
+       viewport it is, so a continuous parallax needs a scroll handler.
+       view() gives it for free, tied to each element's own progress.
+       Centred on the -50% the static rule already sets, so the resting
+       position is unchanged. */
+    .has-numeral::before {
+      animation: numeral-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}

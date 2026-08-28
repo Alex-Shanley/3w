@@ -10,16 +10,20 @@
 <script>(function(){try{var d=document.documentElement;if(!sessionStorage.getItem('3w-seen')){d.classList.add('is-first-visit');sessionStorage.setItem('3w-seen','1');}var t=sessionStorage.getItem('3w-theme');if(!t)return;d.setAttribute('data-theme',t);var c=t==='dark'?'#08080A':'#F7F5F1';var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){m[i].removeAttribute('media');m[i].setAttribute('content',c);}}catch(e){}})();</script>
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=14">
-<link rel="stylesheet" href="css/base.css?v=19">
+<link rel="stylesheet" href="css/base.css?v=20">
 <link rel="stylesheet" href="css/sections.css?v=67">
 </head>
 <body>
 <!-- First-visit intro. Dismissal is a CSS animation, not JS, so it
      cannot strand anyone if a script fails; pointer-events stay off
-     throughout so it never blocks a click either. -->
+     throughout so it never blocks a click either. Neither string has a
+     descender, which is what lets the masks clip tight. -->
 <div class="site-preload" aria-hidden="true">
-  <div class="site-preload-mark">3<span class="accent">w</span></div>
-  <div class="site-preload-bar"></div>
+  <div class="site-preload-stage">
+    <span class="site-preload-line"><span class="site-preload-mark">3<span class="accent">w</span></span></span>
+    <span class="site-preload-line"><span class="site-preload-label">Dublin web studio</span></span>
+  </div>
+  <span class="site-preload-sweep"></span>
 </div>
 <div class="page-transition-overlay" aria-hidden="true"></div>
 <div class="scroll-rail" aria-hidden="true"></div>

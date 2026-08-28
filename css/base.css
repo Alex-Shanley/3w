@@ -341,58 +341,95 @@ body::after {
 
 /* ── First-visit intro ────────────────────────────────────────────── */
 /* Shown once per session, not per page — an intro that replays on every
-   navigation stops being an intro and becomes a toll.
-   .is-first-visit is set by the inline <head> script before first paint,
-   so the panel never flashes on pages that shouldn't show it.
+   navigation stops being an intro and becomes a toll. .is-first-visit is
+   set by the inline <head> script before first paint, so the panel never
+   flashes on pages that shouldn't show it.
 
-   Everything about the dismissal is CSS: the fade is a keyframe on a
-   fixed delay, so a failed or blocked script cannot leave anyone stuck
-   behind it, and pointer-events are off the whole time so it never eats
-   a click even while visible. It also paints --canvas, which the theme
-   has already resolved pre-paint, so it matches light or dark with no
-   flash of the wrong one. */
+   Four beats, overlapping rather than queued, which is what stops it
+   reading as a progress bar: the wordmark masks up, the label follows a
+   beat later, a blue rule wipes through under them, then the whole panel
+   lifts away like a curtain. Total 1.06s.
+
+   Always ink, in both themes. The intro is a brand moment rather than a
+   loading screen, so it commits to one look and the page underneath
+   arrives in whatever theme the visitor is on — which also removes any
+   possibility of flashing the wrong palette before the theme resolves.
+   Colours are hardcoded for the same reason .bg-ink hardcodes its own:
+   --paper and --signal both flip, this panel never does.
+
+   Everything about the dismissal is CSS, so a failed or blocked script
+   cannot leave anyone stuck behind it, and pointer-events are off the
+   whole time so it never eats a click even while visible. */
 .site-preload { display: none; }
 
 .is-first-visit .site-preload {
   display: grid;
   place-content: center;
   justify-items: center;
-  gap: var(--sp-5);
+  gap: var(--sp-4);
   position: fixed;
   inset: 0;
   z-index: 400;
-  background: var(--canvas);
+  background: #0B0B0C;
   pointer-events: none;
-  animation: preload-out 240ms var(--ease-out) 700ms both;
+  overflow: hidden;
+  animation: preload-lift 360ms cubic-bezier(0.76, 0, 0.24, 1) 700ms both;
 }
-@keyframes preload-out { to { opacity: 0; visibility: hidden; } }
+/* The curtain: the panel itself leaves upward, so the page is revealed
+   rather than faded to. */
+@keyframes preload-lift {
+  to { transform: translateY(-100%); visibility: hidden; }
+}
+
+.site-preload-stage { display: grid; gap: var(--sp-3); justify-items: center; }
+
+/* Each line is its own mask — the same slide-up-out-of-a-clipped-box
+   the section headings use, so the intro is made of the site's own
+   device rather than a separate idea. */
+.site-preload-line { display: block; overflow: hidden; }
+.site-preload-line > span { display: block; }
 
 .site-preload-mark {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: var(--step-3);
-  letter-spacing: -0.03em;
+  font-size: clamp(3.2rem, 11vw, 6rem);
+  letter-spacing: -0.04em;
   line-height: 1;
-  color: var(--text);
+  color: #F7F5F1;
+  animation: preload-rise 400ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both;
 }
-.site-preload-mark .accent { color: var(--signal); }
+/* The lifted blue, not --signal: the darker light-mode blue is close to
+   invisible on this panel. */
+.site-preload-mark .accent { color: #5C72FF; }
 
-.site-preload-bar {
-  position: relative;
-  width: min(180px, 40vw);
-  height: 2px;
-  background: var(--hairline-color);
-  overflow: hidden;
+.site-preload-label {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: rgba(247, 245, 241, 0.68);
+  animation: preload-rise 360ms cubic-bezier(0.16, 1, 0.3, 1) 140ms both;
 }
-.site-preload-bar::after {
-  content: "";
+@keyframes preload-rise { from { transform: translateY(110%); } to { transform: translateY(0); } }
+
+/* A rule that wipes through rather than fills up. A bar that fills to
+   100% is a progress bar, and it would be lying — nothing here measures
+   real load progress. A wipe just marks time passing. */
+.site-preload-sweep {
   position: absolute;
-  inset: 0;
-  background: var(--signal);
-  transform-origin: 0 50%;
-  animation: preload-fill 700ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background: #5C72FF;
+  animation: preload-sweep 420ms cubic-bezier(0.65, 0, 0.35, 1) 360ms both;
 }
-@keyframes preload-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes preload-sweep {
+  from { clip-path: inset(0 100% 0 0); }
+  60%  { clip-path: inset(0 0 0 0); }
+  to   { clip-path: inset(0 0 0 100%); }
+}
 
 /* Asked for less motion means asked for less waiting, too. */
 @media (prefers-reduced-motion: reduce) {

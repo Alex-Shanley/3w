@@ -1373,7 +1373,9 @@
 }
 .founder-portrait {
   margin: 0;
-  border-radius: var(--radius-md);
+  /* Circular: aspect-ratio 1 above makes the box square, so a large
+     radius resolves to a true circle rather than a squashed oval. */
+  border-radius: 999px;
   overflow: hidden;
   background: var(--paper-2);
   max-width: 300px;

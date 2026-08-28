@@ -105,7 +105,7 @@
         }
       })
       .catch(() => {
-        status.textContent = "Something went wrong sending that — email us directly at hello@3w.studio and we'll pick it up from there.";
+        status.textContent = "Something went wrong sending that. Email us directly at hello@3w.studio and we'll pick it up from there.";
         submitBtn.disabled = false;
       });
   });

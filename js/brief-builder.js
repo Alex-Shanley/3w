@@ -18,7 +18,7 @@
   function update() {
     const chosen = boxes.filter((b) => b.checked).map((b) => b.value);
     summary.textContent = chosen.length
-      ? `${chosen.length} selected — ${list(chosen)}.`
+      ? `${chosen.length} selected: ${list(chosen)}.`
       : emptyText;
   }
 

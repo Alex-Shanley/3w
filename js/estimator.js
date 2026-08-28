@@ -36,7 +36,7 @@
     grow: {
       name: 'Grow',
       price: '€10,800',
-      budget: '€6,000 – €12,000',
+      budget: '€6,000 to €12,000',
       includes: [
         'Design and build',
         'Up to 15 pages',

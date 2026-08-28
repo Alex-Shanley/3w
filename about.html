@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=12">
 <link rel="stylesheet" href="css/base.css?v=15">
-<link rel="stylesheet" href="css/sections.css?v=47">
+<link rel="stylesheet" href="css/sections.css?v=49">
 </head>
 <body>
 <div class="page-transition-overlay" aria-hidden="true"></div>
@@ -55,12 +55,94 @@
   <div class="container">
     <div class="section-index mono-label"><span class="num">01</span><span>/ About</span></div>
     <h1>One team. No handoffs.</h1>
-    <p>Most agencies split design, build, hosting and SEO across different vendors — and something breaks in every handoff. We do all of it ourselves, which means one invoice, one point of contact, and nobody to blame but us.</p>
+
+    <div class="page-intro-grid">
+      <div class="page-intro-lead">
+        <p>Most agencies split design, build, hosting and SEO across different vendors — and something breaks in every handoff. We do all of it ourselves, which means one invoice, one point of contact, and nobody to blame but us.</p>
+        <a href="contact.html" class="btn btn-solid">Get a quote</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Who you actually deal with. Same .team-member component as the
+     homepage so the two stay in step. -->
+<section class="section bg-ink">
+  <div class="container">
+    <div class="section-index mono-label"><span class="num">02</span><span>/ Who you work with</span></div>
+    <div class="team-member">
+      <div class="team-avatar" aria-hidden="true">AS</div>
+      <div class="team-info">
+        <h2>Alex Shanley</h2>
+        <div class="mono-label">Founder — design, development &amp; delivery</div>
+        <p>A product-focused web developer and UX/UI designer working across the whole delivery cycle: wireframes and prototyping through to development, deployment and optimisation. The background is split evenly between design and engineering — a graphic design degree and a motion picture arts degree on one side, full-stack development on the other — which is why 3w can take a project from first sketch to live server without handing it between specialists.</p>
+        <p>Day to day that means front-end build, CMS architecture, and the unglamorous infrastructure work most studios subcontract: DNS, hosting, staging and live environments, SSL, and migrations that have to happen without anyone noticing.</p>
+        <a href="https://www.linkedin.com/in/alex-shanley-76a01a212/" class="link-arrow" target="_blank" rel="noopener">Connect on LinkedIn <span class="arrow">→</span></a>
+      </div>
+    </div>
   </div>
 </section>
 
 <section class="section bg-alt">
   <div class="container">
+    <div class="section-index mono-label"><span class="num">03</span><span>/ Capabilities</span></div>
+    <p class="cs-section-intro">What we actually do in-house, rather than a list of everything the web can do.</p>
+    <div class="cs-cards">
+      <div class="cs-card">
+        <h3>UX / UI design</h3>
+        <p>User flows, wireframing, prototyping, visual design and accessibility — for marketing sites and working products alike.</p>
+      </div>
+      <div class="cs-card">
+        <h3>Development</h3>
+        <p>HTML, CSS and JavaScript day to day. Python, Flask, Django and SQL where a project needs a back end behind it.</p>
+      </div>
+      <div class="cs-card">
+        <h3>CMS &amp; hosting</h3>
+        <p>WordPress, Webflow, Wix and Squarespace builds, run on Plesk and Cloudflare infrastructure we manage ourselves.</p>
+      </div>
+      <div class="cs-card">
+        <h3>Integrations</h3>
+        <p>REST APIs, live financial feeds, CRM systems, PCI-DSS compliant payment processors and app store management.</p>
+      </div>
+      <div class="cs-card">
+        <h3>Product &amp; delivery</h3>
+        <p>Agile workflows, end-to-end project delivery, stakeholder management and GDPR compliance built in from the start.</p>
+      </div>
+      <div class="cs-card">
+        <h3>Performance</h3>
+        <p>Core Web Vitals, technical SEO, script minification, caching and responsive design — measured, not assumed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-index mono-label"><span class="num">04</span><span>/ Track record</span></div>
+    <div class="cs-row">
+      <div class="cs-row-label"><span class="mono-label">In practice</span></div>
+      <div class="cs-row-body">
+        <p>Alongside 3w, Alex works as Head of Web Development at Automate Technology and leads product delivery at Voucher Connect — two roles that run in parallel and feed directly into how this studio operates.</p>
+        <p>That work covers responsive websites for 20&plus; clients across financial services, mining and corporate sectors: a Central Bank of Ireland regulated platform with conditional-routing lead capture built to Core Web Vitals benchmarks, and an investor-ready CMS rebuild carrying real-time copper charts, automated dual-feed news and live LSE share prices at zero licensing cost.</p>
+        <p>On the product side, it means shipping a cross-platform iOS and Android app that replaced proprietary point-of-sale hardware — sub-30-second transaction loops built on native QR scanning, offline resilience and PCI-DSS compliant payments, integrated with Flipdish, Phorest, WooCommerce and Zapier — plus domain migrations and DNS configuration for high-traffic sites with no loss of search rankings.</p>
+        <p class="cs-pull">Design and engineering in the same pair of hands.</p>
+      </div>
+    </div>
+
+    <div class="about-credentials">
+      <div class="mono-label">Education</div>
+      <ul>
+        <li><strong>UCD Professional Academy</strong> — Full Stack Development</li>
+        <li><strong>Griffith College Dublin</strong> — Graphic Design, 2:1</li>
+        <li><strong>Wolverhampton University</strong> — Motion Picture Arts</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-alt">
+  <div class="container">
+    <div class="section-index mono-label"><span class="num">05</span><span>/ How we work</span></div>
     <div class="about-principles">
       <div class="about-statement">
         <p>We'd rather do five things well than ten things adequately.</p>

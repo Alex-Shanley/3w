@@ -12,6 +12,13 @@
 
 :root {
   /* ── Colour — light (default) ──────────────────────────────────── */
+  /* Tells the browser to render its OWN chrome to match: scrollbars,
+     the native select menu on the contact form, text carets, autofill
+     highlighting and default focus rings. Without it those stay light
+     no matter how dark the page gets. Declared in all three blocks for
+     the same reason every other token is. */
+  color-scheme: light;
+
   --ink-900: #0B0B0C;   /* primary text, near-black, never pure #000 */
   --ink-700: #2A2A2E;
   --ink-500: #65656C;   /* secondary text — 4.5:1+ on both paper surfaces */
@@ -105,6 +112,7 @@
    light selection can still win over a dark system preference. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --ink-900: #EDEBE7;      /* now the near-white text tone */
     --ink-700: #C7C4BE;
     --ink-500: #97948F;      /* re-tuned independently — a straight invert
@@ -138,6 +146,7 @@
 
 /* Manual toggle: wins in both directions regardless of system preference. */
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --ink-900: #EDEBE7;
   --ink-700: #C7C4BE;
   --ink-500: #97948F;

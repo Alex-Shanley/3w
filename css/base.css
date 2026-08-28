@@ -338,3 +338,63 @@ body::after {
     }
   }
 }
+
+/* ── First-visit intro ────────────────────────────────────────────── */
+/* Shown once per session, not per page — an intro that replays on every
+   navigation stops being an intro and becomes a toll.
+   .is-first-visit is set by the inline <head> script before first paint,
+   so the panel never flashes on pages that shouldn't show it.
+
+   Everything about the dismissal is CSS: the fade is a keyframe on a
+   fixed delay, so a failed or blocked script cannot leave anyone stuck
+   behind it, and pointer-events are off the whole time so it never eats
+   a click even while visible. It also paints --canvas, which the theme
+   has already resolved pre-paint, so it matches light or dark with no
+   flash of the wrong one. */
+.site-preload { display: none; }
+
+.is-first-visit .site-preload {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--sp-5);
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: var(--canvas);
+  pointer-events: none;
+  animation: preload-out 240ms var(--ease-out) 700ms both;
+}
+@keyframes preload-out { to { opacity: 0; visibility: hidden; } }
+
+.site-preload-mark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-3);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text);
+}
+.site-preload-mark .accent { color: var(--signal); }
+
+.site-preload-bar {
+  position: relative;
+  width: min(180px, 40vw);
+  height: 2px;
+  background: var(--hairline-color);
+  overflow: hidden;
+}
+.site-preload-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--signal);
+  transform-origin: 0 50%;
+  animation: preload-fill 700ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes preload-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* Asked for less motion means asked for less waiting, too. */
+@media (prefers-reduced-motion: reduce) {
+  .is-first-visit .site-preload { display: none; }
+}

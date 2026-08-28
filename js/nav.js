@@ -111,6 +111,18 @@
       const next = isDarkNow() ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
       try { sessionStorage.setItem('3w-theme', next); } catch {}
+      // Keep the browser's own chrome in step. The two <meta
+      // name="theme-color"> tags are gated on prefers-color-scheme, so
+      // left alone they follow the OS and not this button — flip to dark
+      // on a light phone and the page went near-black while the address
+      // bar stayed paper. Dropping the media attribute hands control to
+      // the toggle; both tags get the same value so whichever the
+      // browser reads first, they agree.
+      const chrome = next === 'dark' ? '#08080A' : '#F7F5F1';
+      document.querySelectorAll('meta[name="theme-color"]').forEach((m) => {
+        m.removeAttribute('media');
+        m.setAttribute('content', chrome);
+      });
       document.querySelectorAll('.theme-toggle').forEach((b) => b.setAttribute('aria-pressed', String(next === 'dark')));
     });
   });

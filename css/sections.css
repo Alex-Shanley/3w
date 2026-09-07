@@ -2361,35 +2361,37 @@
   margin-top: var(--sp-4);
 }
 
+/* The configurator was a bordered box sitting in a paper band — a widget
+   dropped into a layout rather than a layout in its own right. It is the
+   band now: full ink, the choices scrolling in the left column and the
+   running quote pinned in the right, so the number stays with you the
+   whole way down instead of waiting at the bottom.
+
+   The whole point of a configurator is watching the answer move while
+   you change your mind. That only works if the answer is always on
+   screen. */
+.config-band { position: relative; }
+
 .config {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
+  gap: var(--sp-8);
   margin-top: var(--sp-8);
-  border: var(--hairline);
-  border-radius: var(--radius-md);
-  overflow: hidden;
 }
 @media (min-width: 960px) {
-  .config { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .config { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--sp-10); align-items: start; }
 }
 
-.config-controls { padding: var(--sp-7); display: flex; flex-direction: column; gap: var(--sp-7); }
+.config-controls { display: flex; flex-direction: column; gap: var(--sp-9); }
 .config-group { border: 0; padding: 0; margin: 0; }
-.config-group legend, .config-group > .mono-label { padding: 0; margin-bottom: var(--sp-4); }
+.config-group legend, .config-group > .mono-label { padding: 0; margin-bottom: var(--sp-5); }
 
 .pick-row { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
 
 /* The control is real and focusable; the pill is its face. Opacity 0
    rather than display:none so it stays in the tab order. */
 .pick { position: relative; display: inline-flex; cursor: pointer; }
-.pick input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  margin: 0;
-  cursor: pointer;
-}
+.pick input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
 .pick-face {
   display: inline-flex;
   align-items: center;
@@ -2413,11 +2415,18 @@
   color: var(--canvas);
 }
 .pick input:active ~ .pick-face { transform: scale(0.97); }
-/* The real input is transparent, so the ring has to be drawn on the
-   face it sits behind. */
-.pick input:focus-visible ~ .pick-face {
-  outline: 2px solid var(--signal);
-  outline-offset: 3px;
+.pick input:focus-visible ~ .pick-face { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+/* That assumption was wrong, and it made the checked pill invisible.
+   .bg-ink re-scopes --text and --text-secondary but not --canvas, so
+   `color: var(--canvas)` stayed paper on this band and a selected pill
+   rendered paper type on a paper fill at 1:1. Both values are hardcoded
+   here because the band is always ink in either theme. 18.1:1. */
+.config-band .pick-face { border-color: rgba(247, 245, 241, 0.28); }
+.config-band .pick input:checked ~ .pick-face {
+  background: #F7F5F1;
+  border-color: #F7F5F1;
+  color: #0B0B0C;
 }
 
 .config-group input[type="range"] { width: 100%; margin-top: var(--sp-2); }
@@ -2429,37 +2438,35 @@
   color: var(--text-secondary);
 }
 
-.config-result {
-  padding: var(--sp-7);
-  background: var(--paper-2);
-  border-top: var(--hairline);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+/* The pinned answer. top clears the sticky header. */
+.config-result { display: flex; flex-direction: column; align-items: flex-start; }
 @media (min-width: 960px) {
-  .config-result { border-top: 0; border-left: var(--hairline); }
+  .config-result { position: sticky; top: 108px; }
 }
 
 .config-tier {
-  font-family: var(--font-display);
-  font-size: var(--step-1);
-  font-weight: 500;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
   margin-top: var(--sp-3);
 }
+/* Statement scale. This is the number the entire page exists to arrive
+   at, and it was set smaller than the section headings above it. */
 .config-price {
   font-family: var(--font-display);
-  font-size: var(--step-4);
+  font-size: var(--step-5);
   font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 0.95;
-  margin-top: var(--sp-2);
+  letter-spacing: -0.04em;
+  line-height: 0.88;
+  margin-top: var(--sp-3);
 }
-.config-monthly { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); margin-top: var(--sp-2); }
+.config-monthly { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); margin-top: var(--sp-3); }
 
 .config-includes, .config-scope ul {
   list-style: none;
-  margin: var(--sp-5) 0 0;
+  margin: var(--sp-6) 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -2474,13 +2481,11 @@
    tick beside them would read as included. */
 .config-scope .tick { background: var(--text-secondary); height: 1px; }
 
-/* The brief writing itself is the point of the whole widget, so it gets
-   a surface of its own rather than sitting in the run of the panel. */
 .config-brief {
   width: 100%;
   margin-top: var(--sp-6);
   padding: var(--sp-5);
-  background: var(--canvas);
+  border: 1px solid var(--hairline-color);
   border-radius: var(--radius-md);
 }
 .config-brief p {
@@ -2492,15 +2497,68 @@
 .config-result .btn { margin-top: var(--sp-6); }
 .config-result .est-note { margin-top: var(--sp-4); }
 
+/* ── Running total, small screens ─────────────────────────────────── */
+/* The sticky rail needs a second column, so below 960px the answer would
+   scroll away entirely. A pinned bar keeps it on screen instead — the
+   same job the rail does, in the shape a phone can hold. It appears only
+   while the configurator is in view, so it never covers the rest of the
+   page. */
+.quote-bar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 300;
+  background: var(--canvas);
+  border-top: var(--hairline);
+  transform: translateY(110%);
+  transition: transform var(--dur-base) var(--ease-out);
+  pointer-events: none;
+}
+.quote-bar.is-open { transform: translateY(0); pointer-events: auto; }
+@media (min-width: 960px) { .quote-bar { display: none; } }
+
+.quote-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--sp-4) var(--page-pad);
+}
+.quote-bar-tier {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.quote-bar-price {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-top: 2px;
+}
+
 /* Same blur-bridged swap the old estimator used, on the values that
    actually change when the tier does. */
 .config-tier, .config-price, .config-monthly, .config-includes {
   transition: opacity var(--dur-fast) var(--ease-out), filter var(--dur-fast) var(--ease-out);
 }
 .config-result.is-swapping .config-tier,
-.config-result.is-swapping .config-price,
 .config-result.is-swapping .config-monthly,
 .config-result.is-swapping .config-includes { opacity: 0.4; filter: blur(3px); }
+/* The price gets more than a fade. It is the thing people are moving the
+   controls to see change, so it lifts and blurs on the way out and
+   arrives from below — the figure reads as being replaced rather than
+   redrawn. */
+.config-result.is-swapping .config-price {
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(-14px);
+}
+.config-price { transition: opacity var(--dur-fast) var(--ease-out), filter var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out); }
 
 /* ── Pricing: budget matcher ──────────────────────────────────────── */
 /* Replaces a static three-row price list in the intro. "Can I afford

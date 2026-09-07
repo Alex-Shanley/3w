@@ -104,9 +104,28 @@
   let shownTier = null;
   let swapTimer = null;
 
+  // Below 960px the sticky rail has no column to sit in, so the answer
+  // would scroll away entirely. This bar does the rail's job in the shape
+  // a phone can hold, and only while the configurator is actually on
+  // screen — a permanent bar would cover the rest of the page for no
+  // reason.
+  const bar = document.getElementById('quote-bar');
+  const barTier = document.getElementById('qb-tier');
+  const barPrice = document.getElementById('qb-price');
+  const barCta = document.getElementById('qb-cta');
+
+  if (bar && 'IntersectionObserver' in window) {
+    new IntersectionObserver((entries) => {
+      entries.forEach((e) => bar.classList.toggle('is-open', e.isIntersecting));
+    }, { threshold: 0 }).observe(root);
+  }
+
   function paint(state, tier) {
     tierEl.textContent = tier.name;
     priceEl.textContent = tier.price;
+
+    if (barTier) barTier.textContent = tier.name;
+    if (barPrice) barPrice.textContent = tier.price;
 
     monthlyEl.hidden = !state.care;
     monthlyEl.textContent = CARE_MONTHLY;
@@ -169,7 +188,9 @@
     // match one of the contact form's own <option> strings exactly or
     // contact-form.js drops it on the floor.
     const params = new URLSearchParams({ budget: tier.budget, brief: buildBrief(state, tier) });
-    ctaEl.href = `contact.html?${params.toString()}`;
+    const href = `contact.html?${params.toString()}`;
+    ctaEl.href = href;
+    if (barCta) barCta.href = href;
   }
 
   root.addEventListener('input', update);

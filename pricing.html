@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=14">
 <link rel="stylesheet" href="css/base.css?v=21">
-<link rel="stylesheet" href="css/sections.css?v=80">
+<link rel="stylesheet" href="css/sections.css?v=82">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -227,10 +227,10 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section bg-ink config-band">
   <div class="container">
     <div class="section-index mono-label"><span class="num">05</span><span>/ Build your quote</span></div>
-    <h2 class="config-heading">Tell us what you need. Watch the brief write itself.</h2>
+    <h2 class="config-heading">Build it. Watch the number move.</h2>
 
     <!-- Configurator. Every figure it can show is one already published
          in the table above, so it can recommend a tier but can never
@@ -313,12 +313,22 @@
   </div>
 </section>
 
-<section class="cta-band bg-ink">
+<section class="cta-band">
   <div class="container">
     <h2>Tell us what your site needs to do.</h2>
-    <a href="contact.html" class="btn btn-on-ink">Get a quote</a>
+    <a href="contact.html" class="btn btn-solid">Get a quote</a>
   </div>
 </section>
+
+<div class="quote-bar" id="quote-bar" aria-hidden="true">
+  <div class="quote-bar-inner">
+    <div>
+      <div class="quote-bar-tier" id="qb-tier">Launch</div>
+      <div class="quote-bar-price tabular" id="qb-price">&euro;5,400</div>
+    </div>
+    <a class="btn btn-solid" id="qb-cta" href="contact.html">Send this brief</a>
+  </div>
+</div>
 
 </main>
 
@@ -366,7 +376,7 @@
 
 <script src="js/nav.js?v=9"></script>
 <script src="js/main.js?v=5"></script>
-<script src="js/configurator.js?v=2"></script>
+<script src="js/configurator.js?v=3"></script>
 <script src="js/pricing-ui.js?v=1"></script>
 </body>
 </html>

@@ -2200,15 +2200,38 @@
    Falls back to --signal wherever --project isn't set. */
 .work-card,
 .work-card-lg { position: relative; }
-.work-card::before,
-.work-card-lg::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
+
+/* The colour face. A 3px spine was the timid version of this idea — the
+   colour was there but did nothing, and a hairline is not an answer to a
+   page that reads as monochrome. Now each card opens with a full block
+   of its client's colour, which is the first thing the eye lands on and
+   the thing that makes five projects look like five businesses.
+
+   It is also the screenshot-shaped hole. When real captures arrive they
+   drop straight into this slot at this aspect ratio, and the colour
+   stays underneath as the frame. Part of why the screenshots never got
+   taken is that the layout had nowhere to put them. */
+.project-face {
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 16 / 7;
+  padding: var(--sp-5);
   background: var(--project, var(--signal));
-  z-index: 2;
+  color: var(--project-ink, var(--on-signal));
 }
+.project-face-num {
+  font-family: var(--font-mono);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  /* Sits back so it frames rather than competes; every pairing still
+     clears AA at full strength, so this is stylistic headroom only. */
+  opacity: 0.85;
+}
+/* The numeral used to be the card's only ornament and now has a block of
+   its own, so the old inline treatment goes. */
+.work-card-body { padding-top: var(--sp-6); }
 
 /* The featured band and the case study hero take a rule along the top
    edge instead — a spine on a full-bleed band would read as a stray

@@ -2345,6 +2345,163 @@
 }
 .price-proof strong { color: var(--text); font-weight: 500; }
 
+/* ── Pricing configurator ─────────────────────────────────────────── */
+/* The estimator was the one thing on this page people actually touched,
+   so the page is built around a bigger version of it. Every choice is a
+   real input with a visible pill face — the input itself stays in the
+   DOM rather than being replaced by a div, so keyboard and screen reader
+   users get the actual control and the styling rides on :checked. */
+
+.config-heading {
+  font-size: var(--step-3);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  max-width: 20ch;
+  margin-top: var(--sp-4);
+}
+
+.config {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: var(--sp-8);
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+@media (min-width: 960px) {
+  .config { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+}
+
+.config-controls { padding: var(--sp-7); display: flex; flex-direction: column; gap: var(--sp-7); }
+.config-group { border: 0; padding: 0; margin: 0; }
+.config-group legend, .config-group > .mono-label { padding: 0; margin-bottom: var(--sp-4); }
+
+.pick-row { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+
+/* The control is real and focusable; the pill is its face. Opacity 0
+   rather than display:none so it stays in the tab order. */
+.pick { position: relative; display: inline-flex; cursor: pointer; }
+.pick input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.pick-face {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--sp-5);
+  border: 1px solid var(--hairline-color);
+  border-radius: 999px;
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+  transition: border-color var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out),
+              background var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .pick:hover .pick-face { border-color: var(--text); color: var(--text); }
+}
+.pick input:checked ~ .pick-face {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--canvas);
+}
+.pick input:active ~ .pick-face { transform: scale(0.97); }
+/* The real input is transparent, so the ring has to be drawn on the
+   face it sits behind. */
+.pick input:focus-visible ~ .pick-face {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.config-group input[type="range"] { width: 100%; margin-top: var(--sp-2); }
+.config-group output {
+  display: block;
+  margin-top: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+}
+
+.config-result {
+  padding: var(--sp-7);
+  background: var(--paper-2);
+  border-top: var(--hairline);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+@media (min-width: 960px) {
+  .config-result { border-top: 0; border-left: var(--hairline); }
+}
+
+.config-tier {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 500;
+  margin-top: var(--sp-3);
+}
+.config-price {
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin-top: var(--sp-2);
+}
+.config-monthly { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); margin-top: var(--sp-2); }
+
+.config-includes, .config-scope ul {
+  list-style: none;
+  margin: var(--sp-5) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+}
+.config-includes li, .config-scope li { display: flex; align-items: center; gap: var(--sp-2); }
+
+.config-scope { margin-top: var(--sp-6); padding-top: var(--sp-5); border-top: var(--hairline); width: 100%; }
+/* Dashes, not ticks: these are the things the tier does not cover, and a
+   tick beside them would read as included. */
+.config-scope .tick { background: var(--text-secondary); height: 1px; }
+
+/* The brief writing itself is the point of the whole widget, so it gets
+   a surface of its own rather than sitting in the run of the panel. */
+.config-brief {
+  width: 100%;
+  margin-top: var(--sp-6);
+  padding: var(--sp-5);
+  background: var(--canvas);
+  border-radius: var(--radius-md);
+}
+.config-brief p {
+  margin-top: var(--sp-3);
+  font-size: var(--step--1);
+  color: var(--text);
+  max-width: none;
+}
+.config-result .btn { margin-top: var(--sp-6); }
+.config-result .est-note { margin-top: var(--sp-4); }
+
+/* Same blur-bridged swap the old estimator used, on the values that
+   actually change when the tier does. */
+.config-tier, .config-price, .config-monthly, .config-includes {
+  transition: opacity var(--dur-fast) var(--ease-out), filter var(--dur-fast) var(--ease-out);
+}
+.config-result.is-swapping .config-tier,
+.config-result.is-swapping .config-price,
+.config-result.is-swapping .config-monthly,
+.config-result.is-swapping .config-includes { opacity: 0.4; filter: blur(3px); }
+
 /* ── Contact form ─────────────────────────────────────────────────── */
 
 .contact-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-9); align-items: start; padding-block: var(--sp-9); }

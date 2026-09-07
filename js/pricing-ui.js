@@ -137,4 +137,34 @@
     root.addEventListener('change', update);
     update();
   })();
+
+  // ── Comparison table: explanations and a difference filter ─────────
+  (function priceTable() {
+    const table = document.getElementById('price-table');
+    if (!table) return;
+
+    // Each feature name opens its own explanation. "What does that
+    // actually mean" is the objection that lands on a comparison table,
+    // and it was previously answered nowhere.
+    table.addEventListener('click', (e) => {
+      const btn = e.target.closest('.feature-why');
+      if (!btn || !table.contains(btn)) return;
+      const panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      panel.hidden = open;
+    });
+
+    // "What do I actually get for the extra €5,400" is the question a
+    // two-column table exists to answer, and reading six rows to find
+    // the three that differ is work. This does it in one tick.
+    const diffOnly = document.getElementById('diff-only');
+    if (diffOnly) {
+      diffOnly.addEventListener('change', () => {
+        table.classList.toggle('is-diff-only', diffOnly.checked);
+      });
+    }
+  })();
+
 })();

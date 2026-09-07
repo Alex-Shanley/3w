@@ -2309,6 +2309,66 @@
    where every sampled colour clears 3:1 against #0B0B0C. */
 .work-featured .work-featured-num { color: var(--project, var(--signal)); opacity: 0.9; }
 
+/* ── Comparison table: explanations and a difference filter ───────── */
+.table-tools { display: flex; justify-content: flex-end; margin-bottom: var(--sp-4); }
+
+/* The feature name becomes the control. A separate "?" affordance would
+   be a 20px target beside a full-width row that is already the obvious
+   thing to press. */
+.feature-why {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: var(--sp-2) 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.why-icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  opacity: 0.55;
+  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+.why-icon::before, .why-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+.why-icon::before { width: 12px; height: 1.5px; }
+.why-icon::after { width: 1.5px; height: 12px; transition: transform var(--dur-base) var(--ease-out); }
+/* Plus becomes minus by collapsing the upright, not by rotating the
+   whole glyph — rotating it lands back on a plus. */
+.feature-why[aria-expanded="true"] .why-icon::after { transform: translate(-50%, -50%) scaleY(0); }
+.feature-why[aria-expanded="true"] .why-icon { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .feature-why:hover .why-icon { opacity: 1; }
+}
+.feature-why:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+.price-why {
+  grid-column: 1 / -1;
+  padding-top: var(--sp-3);
+}
+.price-why p {
+  color: var(--text-secondary);
+  font-size: var(--step--1);
+  max-width: 68ch;
+}
+
+/* Filter. Rows that match on both tiers drop out, so what is left is
+   exactly what the extra money buys. */
+.price-table.is-diff-only .price-row[data-differs="false"] { display: none; }
+
 /* ── Pricing: asking for the sale ─────────────────────────────────── */
 /* Not one of the three priced things had an action anywhere near it.
    The first CTA on the page arrived 5,600 characters after the price

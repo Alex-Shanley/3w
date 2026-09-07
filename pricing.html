@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=14">
 <link rel="stylesheet" href="css/base.css?v=21">
-<link rel="stylesheet" href="css/sections.css?v=82">
+<link rel="stylesheet" href="css/sections.css?v=83">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -144,7 +144,11 @@
   <div class="container">
     <div class="section-index mono-label"><span class="num">03</span><span>/ What each tier includes</span></div>
 
-    <div class="price-table">
+    <div class="table-tools">
+      <label class="pick"><input type="checkbox" id="diff-only"><span class="pick-face">Show only what differs</span></label>
+    </div>
+
+    <div class="price-table" id="price-table">
       <div class="price-row head">
         <div></div>
         <div class="tier-col">
@@ -164,35 +168,40 @@
         </div>
       </div>
 
-      <div class="price-row">
-        <div class="feature-name">Design and build</div>
+      <div class="price-row" data-differs="false">
+        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-0"><span>Design and build</span><span class="why-icon" aria-hidden="true"></span></button></div>
         <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
         <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
+        <div class="price-why" id="why-0" hidden><p>Designed around what your visitors actually need to do, not a template stretched to fit, and you see real screens before anything gets built. Then hand-coded: HTML, CSS and JavaScript underneath, React where a project genuinely needs it.</p></div>
       </div>
-      <div class="price-row">
+      <div class="price-row" data-differs="true">
         <div class="feature-name">Pages</div>
         <div class="tier-col"><span class="tier-col-label">Launch</span>Up to 6</div>
         <div class="tier-col"><span class="tier-col-label">Grow</span>Up to 15</div>
       </div>
-      <div class="price-row">
-        <div class="feature-name">Hosting, first year</div>
+      <div class="price-row" data-differs="false">
+        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-2"><span>Hosting, first year</span><span class="why-icon" aria-hidden="true"></span></button></div>
         <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
         <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
+        <div class="price-why" id="why-2" hidden><p>Managed hosting on our own stack at 99.9% uptime, included for the first year on every build. After that a site either moves onto a Care plan or we hand it over cleanly.</p></div>
       </div>
-      <div class="price-row">
-        <div class="feature-name">SSL and daily backups</div>
+      <div class="price-row" data-differs="false">
+        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-3"><span>SSL and daily backups</span><span class="why-icon" aria-hidden="true"></span></button></div>
         <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
         <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
+        <div class="price-why" id="why-3" hidden><p>SSL, firewalls, daily scans and patching, so your site stays up and stays yours.</p></div>
       </div>
-      <div class="price-row">
-        <div class="feature-name">SEO research and page build</div>
+      <div class="price-row" data-differs="true">
+        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-4"><span>SEO research and page build</span><span class="why-icon" aria-hidden="true"></span></button></div>
         <div class="tier-col"><span class="tier-col-label">Launch</span><span class="dash"></span> Not included</div>
         <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
+        <div class="price-why" id="why-4" hidden><p>We fix what is stopping Google indexing you, then build the pages that actually rank. Most sites see movement within 60 to 90 days.</p></div>
       </div>
-      <div class="price-row">
-        <div class="feature-name">Rank tracking</div>
+      <div class="price-row" data-differs="true">
+        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-5"><span>Rank tracking</span><span class="why-icon" aria-hidden="true"></span></button></div>
         <div class="tier-col"><span class="tier-col-label">Launch</span><span class="dash"></span> Not included</div>
         <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> 90 days</div>
+        <div class="price-why" id="why-5" hidden><p>Ninety days of tracking after launch, so you can see whether the search work moved anything.</p></div>
       </div>
     </div>
 
@@ -377,6 +386,6 @@
 <script src="js/nav.js?v=9"></script>
 <script src="js/main.js?v=5"></script>
 <script src="js/configurator.js?v=3"></script>
-<script src="js/pricing-ui.js?v=1"></script>
+<script src="js/pricing-ui.js?v=2"></script>
 </body>
 </html>

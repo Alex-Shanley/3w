@@ -396,7 +396,21 @@ body::after {
   letter-spacing: -0.04em;
   line-height: 1;
   color: #F7F5F1;
-  animation: preload-rise 400ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both;
+  /* Two axes at once: the mark rises, and its weight settles from 400 to
+     600 as it lands. Inter Tight is variable across exactly that range,
+     and nothing else on the site touches its axes.
+
+     Deliberately here and not on the hero headline, which was the
+     obvious place for it. font-weight animates layout rather than
+     compositing, so it costs a reflow per frame — affordable on two
+     glyphs at 96px that play once a session, not on 12rem display type
+     that every visitor sees. The effect goes where it is cheap. */
+  animation: preload-rise 400ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both,
+             preload-weight 520ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both;
+}
+@keyframes preload-weight {
+  from { font-variation-settings: "wght" 400; }
+  to   { font-variation-settings: "wght" 600; }
 }
 /* The lifted blue, not --signal: the darker light-mode blue is close to
    invisible on this panel. */

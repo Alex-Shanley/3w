@@ -72,9 +72,13 @@
    section contains the page you are on — a case study highlights Work
    without claiming to be work.html, which is what a screen reader was
    being told before. */
-.main-nav a:hover,
 .main-nav a[aria-current="page"],
 .main-nav a[data-section="current"] { color: var(--text); }
+/* Split out from the current-page rule: a state that only exists with a
+   pointer should not be handed to a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .main-nav a:hover { color: var(--text); }
+}
 
 .nav-actions { display: flex; align-items: center; gap: var(--sp-4); }
 .nav-actions .btn { display: none; }
@@ -132,11 +136,14 @@
   transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out),
     border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
-.btn:active { transform: translateY(1px); }
+/* Scale, not a 1px nudge. A single pixel of travel on a 44px control is
+   below the threshold where a press registers as acknowledged; scale is
+   felt rather than seen, and it scales the label with it. */
+.btn:active { transform: scale(0.97); }
 .btn-solid { background: var(--signal); color: var(--paper); }
-@media (min-width: 1024px) { .btn-solid:hover { background: var(--signal-hover); } }
+@media (hover: hover) and (pointer: fine) { .btn-solid:hover { background: var(--signal-hover); } }
 .btn-outline { border-color: var(--hairline-color); color: var(--text); }
-@media (min-width: 1024px) { .btn-outline:hover { border-color: var(--signal); color: var(--signal); } }
+@media (hover: hover) and (pointer: fine) { .btn-outline:hover { border-color: var(--signal); color: var(--signal); } }
 /* Hardcoded, not tokenised, for the same reason .bg-ink itself is:
    --paper and --ink-900 both flip with the theme, but the band under
    this button never does. In dark mode the tokens resolved to a near
@@ -156,7 +163,7 @@
   transition: transform var(--dur-fast) var(--ease-out); /* magnetic pull, main.js */
 }
 .link-arrow .arrow { transition: transform var(--dur-base) var(--ease-out); }
-@media (min-width: 1024px) { .link-arrow:hover .arrow { transform: translateX(4px); } }
+@media (hover: hover) and (pointer: fine) { .link-arrow:hover .arrow { transform: translateX(4px); } }
 
 /* ── Mobile menu — native <details>, JS-enhanced ─────────────────── */
 /* Open/close, keyboard access, and every link is fully functional with
@@ -346,7 +353,7 @@
   opacity: 0;
   transform: translateY(12px);
   transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
-  transition-delay: 460ms;
+  transition-delay: 200ms;
 }
 .hero.js-anim.is-revealed .hero-sub { opacity: 1; transform: translateY(0); }
 
@@ -361,7 +368,7 @@
   opacity: 0;
   transform: translateY(12px);
   transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
-  transition-delay: 560ms;
+  transition-delay: 280ms;
 }
 .hero.js-anim.is-revealed .hero-ctas { opacity: 1; transform: translateY(0); }
 
@@ -441,7 +448,7 @@
 .hero.js-anim .hero-meta {
   opacity: 0;
   transition: opacity var(--dur-base) var(--ease-out);
-  transition-delay: 660ms;
+  transition-delay: 360ms;
 }
 .hero.js-anim.is-revealed .hero-meta { opacity: 1; }
 
@@ -706,6 +713,23 @@
   color: var(--text-secondary);
 }
 .est-includes li { display: flex; align-items: center; gap: var(--sp-2); }
+
+/* Blur-bridged swap. Without the blur you see two distinct strings
+   overlapping mid-fade, which reads as a glitch; with it the eye reads
+   one value turning into another. Kept to 3px — heavy blur is expensive,
+   Safari especially. The panel dips rather than going fully transparent
+   so the layout never appears to empty out. */
+.est-tier, .est-price, .est-monthly, .est-includes {
+  transition: opacity var(--dur-fast) var(--ease-out),
+              filter var(--dur-fast) var(--ease-out);
+}
+.estimator-result.is-swapping .est-tier,
+.estimator-result.is-swapping .est-price,
+.estimator-result.is-swapping .est-monthly,
+.estimator-result.is-swapping .est-includes {
+  opacity: 0.4;
+  filter: blur(3px);
+}
 .est-note {
   margin-top: var(--sp-4);
   font-size: var(--step--1);
@@ -946,8 +970,10 @@
 .work-card-lg p { margin-top: var(--sp-2); color: var(--text-secondary); }
 
 .work-card-lg-shot { aspect-ratio: 4 / 3; background: var(--paper-2); overflow: hidden; }
-.work-card-lg-shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-slow) var(--ease-out); }
-@media (min-width: 1024px) { .work-card-lg:hover .work-card-lg-shot img { transform: scale(1.04); } }
+/* --dur-base, not --dur-slow: a hover is a response, and 520ms of it
+   reads as lag rather than smoothness. */
+.work-card-lg-shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-base) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .work-card-lg:hover .work-card-lg-shot img { transform: scale(1.04); } }
 
 /* Layout preview only — not real content. Dashed border and reduced
    opacity keep it visually unmistakable from an actual case study;
@@ -1081,6 +1107,21 @@
   list-style: none;
 }
 .faq-item summary::-webkit-details-marker { display: none; }
+
+/* The +/- icon was the only thing that animated; the panel it controls
+   snapped open. ::details-content plus interpolate-size animates to
+   auto height with no wrapper element and no JS. Gated on @supports, so
+   browsers without it keep the instant open rather than a broken one. */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  .faq-item::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size var(--dur-base) var(--ease-out),
+                content-visibility var(--dur-base) allow-discrete;
+  }
+  .faq-item[open]::details-content { block-size: auto; }
+}
 .faq-item summary::marker { content: ''; }
 .faq-item summary .icon {
   flex-shrink: 0;
@@ -1127,7 +1168,7 @@
 .footer-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-6); }
 @media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .footer-col a, .footer-col p { display: block; color: var(--text-secondary); font-size: var(--step--1); margin-top: var(--sp-2); }
-.footer-col a:hover { color: var(--text); }
+@media (hover: hover) and (pointer: fine) { .footer-col a:hover { color: var(--text); } }
 .footer-col .mono-label { color: var(--text); }
 
 .footer-bottom {
@@ -1902,7 +1943,7 @@
 /* ── Work index card ──────────────────────────────────────────────── */
 
 .work-card { display: block; border: var(--hairline); border-radius: var(--radius-md); overflow: hidden; transition: border-color var(--dur-base) var(--ease-out); }
-@media (min-width: 1024px) { .work-card:hover { border-color: var(--signal); } }
+@media (hover: hover) and (pointer: fine) { .work-card:hover { border-color: var(--signal); } }
 
 /* Stretched link. Only the title was clickable — about 5% of a card
    that is roughly 225,000px2 — while the equivalent card on the
@@ -1937,10 +1978,10 @@
    token instead, same swap as the service pick pills. Transform is
    declared here so the JS tilt has something to ease from. */
 .work-card { transition: border-color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
-@media (min-width: 1024px) { .bg-alt .work-card:hover { border-color: var(--on-signal); } }
+@media (hover: hover) and (pointer: fine) { .bg-alt .work-card:hover { border-color: var(--on-signal); } }
 .work-card-shot { aspect-ratio: 21/9; overflow: hidden; background: var(--paper-2); }
-.work-card-shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-slow) var(--ease-out); }
-@media (min-width: 1024px) { .work-card:hover .work-card-shot img { transform: scale(1.03); } }
+.work-card-shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-base) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .work-card:hover .work-card-shot img { transform: scale(1.03); } }
 .work-card-body { padding: var(--sp-6); }
 .work-card-body h3 { font-size: var(--step-2); font-weight: 500; margin-bottom: var(--sp-2); }
 .work-card-body p { color: var(--text-secondary); margin-bottom: var(--sp-4); }
@@ -2100,6 +2141,34 @@
 }
 @media (min-width: 800px) { .cs-more-all { justify-self: center; } }
 
+/* ── Press feedback ───────────────────────────────────────────────── */
+/* Before this, .btn was the only element on the site that reacted to
+   being pressed. Everything else — the work cards, the service rows, the
+   FAQ headers, the hero chips — navigated without ever acknowledging the
+   press, which on a touch device is the entire interface feeling inert.
+
+   Scale is deliberately smaller here than on a button. 0.97 on a 44px
+   control reads as a press; the same value on a full-width row reads as
+   the layout collapsing. Large surfaces need less.
+
+   These are ancestors of the thing actually pressed — :active matches up
+   the tree, so pressing a card's stretched link presses the card. On a
+   fine pointer the JS tilt writes an inline transform that outranks
+   this, but that pointer already has hover feedback; touch, which has
+   none, is exactly where this lands. */
+.work-card,
+.cs-more-link,
+.service-row,
+.faq-item summary,
+.hero-chip {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.work-card:active,
+.service-row:active,
+.faq-item summary:active { transform: scale(0.995); }
+.cs-more-link:active,
+.hero-chip:active { transform: scale(0.97); }
+
 /* ── Contact form ─────────────────────────────────────────────────── */
 
 .contact-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-9); align-items: start; padding-block: var(--sp-9); }
@@ -2129,8 +2198,31 @@
 
 /* Error state — border colour AND explicit prose, never colour alone. */
 .field.has-error input, .field.has-error select, .field.has-error textarea { border-color: #C0392B; }
-.field-error { display: none; font-size: var(--step--1); color: #C0392B; }
-.field.has-error .field-error { display: block; }
+/* display cannot transition, so this used to pop in — an element
+   appearing from nothing, at the one moment the person is already
+   annoyed. allow-discrete plus @starting-style is what makes a
+   display-toggled element animate: the browser flips display at the
+   start of the transition rather than the end, and @starting-style gives
+   it a from-state to move out of. Unsupported browsers ignore both and
+   get today's instant behaviour, which is the correct fallback. */
+.field-error {
+  display: none;
+  font-size: var(--step--1);
+  color: #C0392B;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out),
+              display var(--dur-fast) allow-discrete;
+}
+.field.has-error .field-error {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+@starting-style {
+  .field.has-error .field-error { opacity: 0; transform: translateY(-4px); }
+}
 
 .contact-aside { display: flex; flex-direction: column; gap: var(--sp-8); }
 /* No colour here on purpose. This rule sits after .bg-alt .email-link

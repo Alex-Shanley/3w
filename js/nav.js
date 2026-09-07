@@ -85,12 +85,41 @@
     const hero = document.querySelector('.hero');
     const headline = document.querySelector('.hero-headline');
     [hero, headline].forEach((el) => el?.classList.add('js-anim'));
+
     if (hero || headline) {
-      requestAnimationFrame(() => {
+      const reveal = () => [hero, headline].forEach((el) => el?.classList.add('is-revealed'));
+      const preload = document.querySelector('.site-preload');
+      const firstVisit = document.documentElement.classList.contains('is-first-visit');
+
+      if (firstVisit && preload) {
+        // Hand the entrance off to the curtain instead of racing it.
+        // This staging used to run 0-920ms while the intro panel sat
+        // opaque on top until 1060ms, so a first-time visitor — the exact
+        // person it was written for — saw none of it and got a hero that
+        // was already settled by the time the panel left.
+        //
+        // Waiting on animationstart rather than a matching setTimeout
+        // keeps the two in step on their own: the delay lives in the CSS
+        // only, so retiming the intro cannot silently desync this.
+        // preload-lift is the panel's own animation; its children use
+        // different names, so the bubbled events from those are ignored.
+        preload.addEventListener('animationstart', (e) => {
+          if (e.animationName === 'preload-lift') reveal();
+        }, { once: true });
+        // Backstop: never leave the hero in its hidden state because an
+        // animation event failed to arrive.
+        setTimeout(reveal, 1500);
+      } else {
         requestAnimationFrame(() => {
-          [hero, headline].forEach((el) => el?.classList.add('is-revealed'));
+          requestAnimationFrame(reveal);
         });
-      });
+        // rAF does not fire while a tab is not being rendered, and
+        // js-anim has already put the hero into its hidden state by
+        // then. It self-heals the moment the tab is shown, but a
+        // timeout costs nothing and means no path through this can
+        // leave the hero invisible.
+        setTimeout(reveal, 1500);
+      }
     }
   }
 

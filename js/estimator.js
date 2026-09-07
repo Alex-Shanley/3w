@@ -63,16 +63,54 @@
     return 'launch';
   }
 
+  // The result panel used to swap its answer with no transition at all —
+  // the one interactive thing on the site changing its mind silently.
+  // A straight crossfade of two different strings reads as two objects
+  // overlapping; a touch of blur bridges them so the eye sees one value
+  // becoming another. Only fires when the tier actually changes, or
+  // dragging the slider would strobe the panel across every pixel.
+  const resultPanel = document.querySelector('.estimator-result');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let shownTierKey = null;
+  let swapTimer = null;
+
   function update() {
     const pages = Number(pagesInput.value);
     const wantsSeo = seoInput.checked;
     const wantsCare = careInput.checked;
-    const tier = TIERS[pickTier(pages, wantsSeo)];
+    const tierKey = pickTier(pages, wantsSeo);
+    const tier = TIERS[tierKey];
 
     pagesOut.textContent = pages === 1 ? '1 page'
       : pages > GROW_MAX ? `${pages}+ pages`
       : `${pages} pages`;
 
+    const tierChanged = shownTierKey !== null && tierKey !== shownTierKey;
+    shownTierKey = tierKey;
+
+    if (tierChanged && resultPanel && !reduceMotion) {
+      resultPanel.classList.add('is-swapping');
+      clearTimeout(swapTimer);
+      swapTimer = setTimeout(() => {
+        paint(tier, wantsCare);
+        resultPanel.classList.remove('is-swapping');
+      }, 140);
+    } else {
+      paint(tier, wantsCare);
+    }
+
+    // The link is data rather than something you look at, so it updates
+    // immediately regardless of the crossfade.
+    const brief = [
+      `Roughly ${pages} page${pages === 1 ? '' : 's'}.`,
+      wantsSeo ? 'Includes SEO research and page build.' : null,
+      wantsCare ? 'Care plan after launch.' : null,
+      `Looks like a fit for: ${tier.name}.`,
+    ].filter(Boolean).join(' ');
+    ctaEl.href = `contact.html?${new URLSearchParams({ budget: tier.budget, brief }).toString()}`;
+  }
+
+  function paint(tier, wantsCare) {
     tierEl.textContent = tier.name;
     priceEl.textContent = tier.price;
 
@@ -86,19 +124,6 @@
       li.append(tick, ' ' + text);
       return li;
     }));
-
-    // Hand the selections to the contact form rather than making
-    // someone re-type them. Values are passed as query params and read
-    // back by contact-form.js.
-    const brief = [
-      `Roughly ${pages} page${pages === 1 ? '' : 's'}.`,
-      wantsSeo ? 'Includes SEO research and page build.' : null,
-      wantsCare ? 'Care plan after launch.' : null,
-      `Looks like a fit for: ${tier.name}.`,
-    ].filter(Boolean).join(' ');
-
-    const params = new URLSearchParams({ budget: tier.budget, brief });
-    ctaEl.href = `contact.html?${params.toString()}`;
   }
 
   pagesInput.addEventListener('input', update);

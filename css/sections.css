@@ -1139,7 +1139,7 @@
 }
 @media (min-width: 768px) { .care-band { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) minmax(0, 2fr); align-items: center; padding: var(--sp-8); } }
 .care-band .tier-name { font-family: var(--font-display); font-weight: 500; font-size: var(--step-1); }
-.care-band .tier-price { font-family: var(--font-display); font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; line-height: 1; margin-top: var(--sp-2); }
+.care-band .tier-price { font-family: var(--font-display); font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; line-height: 1; margin-top: var(--sp-2); }
 .care-band .tier-price .unit { font-size: var(--step--1); color: var(--text-secondary); }
 .care-band ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); font-size: var(--step--1); color: var(--text-secondary); }
 .care-band li { display: flex; align-items: center; gap: var(--sp-2); }
@@ -1211,7 +1211,21 @@
    hairline, so a matching padding-top here would double the gap the
    same way plain .section-to-.section boundaries did (fixed below). */
 .cta-band { padding-top: var(--sp-9); padding-bottom: var(--sp-11); border-top: var(--hairline); }
+/* Was a left-aligned stack, which left the right 55% of the band empty
+   on every page that uses it. Two columns now: the line on the left, the
+   actions on the right, meeting in the middle of the band. */
 .cta-band .container { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-6); }
+@media (min-width: 900px) {
+  .cta-band .container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--sp-10);
+  }
+  .cta-band .cta-sub { grid-column: 1; }
+  .cta-band .cta-actions { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; flex-direction: column; align-items: flex-start; }
+  .cta-band h2 { max-width: 18ch; }
+}
 /* Tight leading, for the reason the hero and page intros already have
    it: this heading inherited the body line-height (~1.55), which at 65px
    put a 101px line box around the type — 36px of dead space per line,
@@ -2733,7 +2747,7 @@
 .timeline-track::before {
   content: "";
   position: absolute;
-  top: 7px;
+  top: 10px;
   left: 10%;
   right: 10%;
   height: 1px;
@@ -2752,8 +2766,8 @@
 }
 .tl-step input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
 .tl-node {
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   border-radius: 999px;
   border: 1px solid var(--text-secondary);
   background: var(--canvas);
@@ -2763,7 +2777,7 @@
 }
 .tl-label {
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: var(--step-0);
   color: var(--text-secondary);
   transition: color var(--dur-fast) var(--ease-out);
 }
@@ -2775,6 +2789,15 @@
   .tl-step:hover .tl-label { color: var(--text); }
 }
 .tl-step input:focus-visible ~ .tl-node { outline: 2px solid var(--signal); outline-offset: 3px; }
+/* Five columns across a phone is 59px each, and "Year one" wraps to two
+   lines at the larger label size. The bigger type is there to stop the
+   track reading as tiny on a wide screen; on a narrow one the track is
+   not the problem. */
+@media (max-width: 699px) {
+  .tl-label { font-size: var(--step--1); }
+  .tl-node { width: 16px; height: 16px; }
+  .timeline-track::before { top: 8px; }
+}
 
 .timeline-panel {
   margin-top: var(--sp-7);
@@ -2786,12 +2809,12 @@
 }
 .timeline-panel h3 {
   font-family: var(--font-display);
-  font-size: var(--step-2);
+  font-size: var(--step-3);
   font-weight: 600;
   letter-spacing: -0.02em;
   margin-top: var(--sp-3);
 }
-.timeline-panel p { margin-top: var(--sp-4); color: var(--text-secondary); max-width: 56ch; }
+.timeline-panel p { margin-top: var(--sp-4); color: var(--text-secondary); max-width: 56ch; font-size: var(--step-1); }
 
 /* ── Pricing: the year-one choice ─────────────────────────────────── */
 /* Two options the site already commits to, so this compares rather than

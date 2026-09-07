@@ -160,6 +160,10 @@
 .link-arrow {
   display: inline-flex;
   align-items: center;
+  /* Its line box is 21px, three short of the 24px minimum target size —
+     the audit flagged this sitewide and every new arrow link inherited
+     it. min-height rather than padding so nothing shifts around it. */
+  min-height: 24px;
   gap: var(--sp-2);
   font-weight: 500;
   font-size: var(--step--1);
@@ -2308,6 +2312,35 @@
 /* The oversized numeral picks it up too, but only on the dark bands,
    where every sampled colour clears 3:1 against #0B0B0C. */
 .work-featured .work-featured-num { color: var(--project, var(--signal)); opacity: 0.9; }
+
+/* ── Final CTA ────────────────────────────────────────────────────── */
+/* It said "Get a quote" and pointed at a bare contact form, discarding
+   whatever had just been configured at the top of the page. It now
+   carries the same brief and names the tier, so the last thing anyone
+   reads continues the conversation instead of restarting it.
+
+   The second link matters as much as the button. A form is a commitment,
+   and some people who will happily send an email will not fill one in —
+   there was no email path anywhere in this page's body at all. */
+.cta-sub {
+  margin-top: var(--sp-4);
+  max-width: 44ch;
+  color: var(--text-secondary);
+  font-size: var(--step-1);
+}
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-5) var(--sp-6);
+  margin-top: var(--sp-6);
+}
+/* .cta-band .email-link is --signal, which is 2.6:1 on this band. The
+   lifted blue the ink bands already use clears it at 5:1. */
+.cta-band.bg-ink .email-link { color: #5C72FF; font-size: var(--step-0); }
+.cta-band.bg-ink .link-underline { background-image: linear-gradient(#5C72FF, #5C72FF); }
+
+.tl-cta { margin-top: var(--sp-6); }
 
 /* ── Pricing hero ─────────────────────────────────────────────────── */
 /* The page used to open on a paragraph and bury the quote builder at

@@ -113,6 +113,12 @@
   const barTier = document.getElementById('qb-tier');
   const barPrice = document.getElementById('qb-price');
   const barCta = document.getElementById('qb-cta');
+  // The CTA at the foot of the page used to reset to a generic "Get a
+  // quote", throwing away everything someone had just configured at the
+  // top of it. It carries the same brief as the builder now, and names
+  // the tier, so the last thing on the page continues the conversation
+  // rather than restarting it.
+  const finalCta = document.getElementById('final-cta');
 
   if (bar && 'IntersectionObserver' in window) {
     new IntersectionObserver((entries) => {
@@ -126,6 +132,11 @@
 
     if (barTier) barTier.textContent = tier.name;
     if (barPrice) barPrice.textContent = tier.price;
+    if (finalCta) {
+      finalCta.textContent = tier.name === 'Launch' || tier.name === 'Grow'
+        ? `Send your ${tier.name} brief`
+        : 'Send your brief';
+    }
 
     monthlyEl.hidden = !state.care;
     monthlyEl.textContent = CARE_MONTHLY;
@@ -191,6 +202,7 @@
     const href = `contact.html?${params.toString()}`;
     ctaEl.href = href;
     if (barCta) barCta.href = href;
+    if (finalCta) finalCta.href = href;
   }
 
   root.addEventListener('input', update);

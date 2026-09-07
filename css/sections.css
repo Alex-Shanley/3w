@@ -1299,7 +1299,9 @@
    section already contributes its own full padding-bottom before the
    hairline, so a matching padding-top here would double the gap the
    same way plain .section-to-.section boundaries did (fixed below). */
-.cta-band { padding-top: var(--sp-9); padding-bottom: var(--sp-11); border-top: var(--hairline); }
+/* 96/192 made this band float high in itself while every other band on
+   the page runs 128/128. Evened up. */
+.cta-band { padding-block: var(--sp-10); border-top: var(--hairline); }
 /* Was a left-aligned stack, which left the right 55% of the band empty
    on every page that uses it. Two columns now: the line on the left, the
    actions on the right, meeting in the middle of the band. */
@@ -1309,7 +1311,12 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: var(--sp-10);
+    /* `gap` sets both axes, which put 128px between the heading and its
+       own sub-line — they read as unrelated, and the buttons floated
+       between them aligned to neither. The column still needs the wide
+       gutter; the rows do not. */
+    column-gap: var(--sp-10);
+    row-gap: var(--sp-4);
   }
   .cta-band .cta-sub { grid-column: 1; }
   .cta-band .cta-actions { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; flex-direction: column; align-items: flex-start; }
@@ -2495,8 +2502,12 @@
 .feature-why {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-4);
+  /* Was space-between across the full column, which pinned the icon
+     361px away from a 131px label and made it read as an orphaned
+     control. The button keeps its full width so the target stays large;
+     only the icon moves back beside the text it belongs to. */
+  justify-content: flex-start;
+  gap: var(--sp-3);
   width: 100%;
   padding: var(--sp-2) 0;
   background: none;
@@ -2619,7 +2630,9 @@
   .config { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--sp-10); align-items: start; }
 }
 
-.config-controls { display: flex; flex-direction: column; gap: var(--sp-9); }
+/* --sp-9 between groups made this column 157px taller than the panel
+   beside it, leaving a ragged bottom edge on the page's main section. */
+.config-controls { display: flex; flex-direction: column; gap: var(--sp-8); }
 .config-group { border: 0; padding: 0; margin: 0; }
 .config-group legend, .config-group > .mono-label { padding: 0; margin-bottom: var(--sp-5); }
 
@@ -2653,6 +2666,12 @@
 }
 .pick input:active ~ .pick-face { transform: scale(0.97); }
 .pick input:focus-visible ~ .pick-face { outline: 2px solid var(--signal); outline-offset: 3px; }
+/* Exclusive choices are pills, multi-select ones are rounded rectangles.
+   They were identical in every measurable way — same radius, border,
+   height and size — so nothing on screen said which groups let you pick
+   more than one. Shape is the cheapest way to carry that, and it
+   survives both themes and any colour. */
+.pick input[type="checkbox"] ~ .pick-face { border-radius: var(--radius-md); }
 
 /* The checked-pill fix that used to live here is gone: .bg-ink now
    re-scopes --canvas, so the generic rule resolves correctly on its own.
@@ -2674,13 +2693,16 @@
   .config-result { position: sticky; top: 108px; }
 }
 
+/* "Best fit" is the label; this is the answer, so it stops being a
+   second uppercase mono line under the first one and becomes a word you
+   read. */
 .config-tier {
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-top: var(--sp-3);
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-top: var(--sp-2);
 }
 /* Statement scale. This is the number the entire page exists to arrive
    at, and it was set smaller than the section headings above it. */

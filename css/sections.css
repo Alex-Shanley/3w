@@ -1110,8 +1110,57 @@
   .price-row.head .is-chosen { margin: calc(var(--sp-6) * -1) calc(var(--sp-4) * -1); padding: var(--sp-6) var(--sp-5); }
 }
 
-.price-row .feature-name { color: var(--text); }
-.price-row .tier-col { display: flex; align-items: center; gap: var(--sp-2); color: var(--text-secondary); font-size: var(--step--1); }
+/* The rows carried the detail people actually compare on and were set
+   in the smallest type on the page, under two of the largest figures.
+   Up a step, and the values take full-strength text rather than the
+   muted colour meant for supporting copy — "Included" is the answer to
+   the question, not a footnote to it. */
+.price-row .feature-name { color: var(--text); font-size: var(--step-0); }
+.price-row .tier-col {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  color: var(--text);
+  font-size: var(--step-0);
+}
+/* Except "Not included", which should read as the absence it describes. */
+.price-row .tier-col:has(.dash) { color: var(--text-secondary); }
+
+/* The recommended tier was a panel on the head row and nothing
+   underneath it, so Launch and Grow stopped being columns the moment you
+   left the prices. The tint runs the full height of the table now, which
+   is what makes a comparison table readable across a row: you follow a
+   column, not a line of text.
+
+   Only once the layout is actually two columns — below 768px each row
+   stacks, and a full-width tint would just be a stripe. */
+@media (min-width: 768px) {
+  /* ".tier-col ~ .tier-col" is the second tier column, whatever follows
+     it. :last-child was wrong: any row carrying an explanation panel has
+     that panel as its last child, so the tint landed only on "Pages" —
+     the one row without an explainer. */
+  .price-row > .tier-col ~ .tier-col {
+    /* --paper-2 is tuned as a light-mode band and lands at 1.08:1
+       against the dark ground, where the column simply disappeared.
+       Mixing from --text instead means the tint is always a wash of the
+       foreground over the background — dark on paper, light on ink — so
+       it reads in both. The flat value stays first as the fallback. */
+    background: var(--paper-2);
+    background: color-mix(in srgb, var(--text) 10%, transparent);
+    margin-block: calc(var(--sp-4) * -1);
+    padding: var(--sp-4) var(--sp-5);
+  }
+  .price-row.head > .tier-col ~ .tier-col { background: none; padding-inline: var(--sp-5); }
+  /* Rounds off where the tint starts and stops. */
+  .price-table .price-row:nth-of-type(2) > .tier-col ~ .tier-col { border-radius: var(--radius-md) var(--radius-md) 0 0; }
+  .price-table .price-row:last-of-type > .tier-col ~ .tier-col { border-radius: 0 0 var(--radius-md) var(--radius-md); }
+}
+
+/* Every feature name is a button, and only a 14px icon said so. */
+@media (hover: hover) and (pointer: fine) {
+  .price-row:hover .why-icon { opacity: 1; }
+  .price-row:hover .feature-name { color: var(--signal); }
+}
 /* Scoped to .price-row until now, which meant the identical markup in
    the Care band and the estimator's includes list matched nothing and
    rendered at 0x0 — those lists have been showing no marker at all.

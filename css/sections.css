@@ -1120,8 +1120,12 @@
      panel 24px past its own grid cell, which is invisible at 1440px and
      pushes the document 15px wider around 960px — the page scrolled
      sideways. It gains its width from padding now, inside the cell. */
+  width: 100%;
   margin-block: calc(var(--sp-4) * -1);
   padding: var(--sp-5) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   border-radius: var(--radius-md);
 }
 .price-row.head .is-chosen .tier-price { color: var(--canvas); }
@@ -1132,7 +1136,7 @@
    tracking, which is what marks it out. */
 .price-row.head .is-chosen .tier-tag { color: var(--canvas); opacity: 0.72; }
 @media (min-width: 768px) {
-  .price-row.head .is-chosen { margin-block: calc(var(--sp-6) * -1); padding: var(--sp-6) var(--sp-4); }
+  .price-row.head .is-chosen { width: 100%; margin-block: calc(var(--sp-6) * -1); padding: var(--sp-6) var(--sp-5); }
 }
 
 /* The rows carried the detail people actually compare on and were set
@@ -1165,6 +1169,12 @@
      that panel as its last child, so the tint landed only on "Pages" —
      the one row without an explainer. */
   .price-row > .tier-col ~ .tier-col {
+    /* Stretch, not centre. .price-row centres its cells, so the tinted
+       cell was only as tall as its own text and the negative margin
+       pulled up from that centred position — leaving an 8px gap where
+       the column should have run continuously into the panel above. */
+    align-self: stretch;
+    align-items: center;
     /* --paper-2 is tuned as a light-mode band and lands at 1.08:1
        against the dark ground, where the column simply disappeared.
        Mixing from --text instead means the tint is always a wash of the
@@ -1175,7 +1185,12 @@
     margin-block: calc(var(--sp-4) * -1);
     padding: var(--sp-4) var(--sp-5);
   }
-  .price-row.head > .tier-col ~ .tier-col { background: none; padding-inline: var(--sp-5); }
+  /* No padding on the head cell: the panel inside it supplies its own,
+     and any padding here insets the panel relative to the tinted cells
+     below, which is what made the column look like two unrelated boxes
+     stacked on each other. align-items: stretch so the panel fills the
+     row rather than floating centred in it. */
+  .price-row.head > .tier-col ~ .tier-col { background: none; padding-inline: 0; align-items: stretch; }
   /* Rounds off where the tint starts and stops. */
   .price-table .price-row:nth-of-type(2) > .tier-col ~ .tier-col { border-radius: var(--radius-md) var(--radius-md) 0 0; }
   .price-table .price-row:last-of-type > .tier-col ~ .tier-col { border-radius: 0 0 var(--radius-md) var(--radius-md); }

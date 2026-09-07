@@ -2309,6 +2309,39 @@
    where every sampled colour clears 3:1 against #0B0B0C. */
 .work-featured .work-featured-num { color: var(--project, var(--signal)); opacity: 0.9; }
 
+/* ── Pricing hero ─────────────────────────────────────────────────── */
+/* The page used to open on a paragraph and bury the quote builder at
+   3,266px of a 5,957px page — 15 of the page's interactive controls,
+   more than half way down, on a page asking for €20,000. Nobody reading
+   a paragraph, a timeline, a table and a care plan first ever reached
+   the one thing that would have engaged them.
+
+   The builder is the opening now: answer first, evidence after. It also
+   fixes three separate things quoting a price at you, which is most of
+   why the page did not make sense — there is one number on the page now
+   and you control it. */
+/* Scoped to match .pricing-page .section, which would otherwise
+   outrank it and put the generic band padding back on the hero. */
+.pricing-page .config-hero { padding-block: var(--sp-9) var(--sp-10); }
+.config-hero .config-heading {
+  font-size: var(--step-4);
+  line-height: 0.98;
+  max-width: 16ch;
+  margin-top: var(--sp-5);
+}
+.config-lead {
+  margin-top: var(--sp-5);
+  max-width: 46ch;
+  color: var(--text-secondary);
+  font-size: var(--step-1);
+}
+.config-hero .config { margin-top: var(--sp-9); }
+
+/* The bands were 192px of padding around content that often ran to less
+   than that, which is what made the page read as sparse rather than
+   spacious. Pulled in so each band is filled by what is in it. */
+.pricing-page .section { padding-block: var(--sp-10); }
+
 /* ── Comparison table: explanations and a difference filter ───────── */
 .table-tools { display: flex; justify-content: flex-end; margin-bottom: var(--sp-4); }
 

@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=14">
 <link rel="stylesheet" href="css/base.css?v=21">
-<link rel="stylesheet" href="css/sections.css?v=83">
+<link rel="stylesheet" href="css/sections.css?v=84">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -46,7 +46,7 @@
   ]
 }
 </script>
-<body>
+<body class="pricing-page">
 <!-- First-visit intro. Dismissal is a CSS animation, not JS, so it
      cannot strand anyone if a script fails; pointer-events stay off
      throughout so it never blocks a click either. Neither string has a
@@ -96,150 +96,11 @@
 
 <main id="main">
 
-<section class="page-intro">
+<section class="section bg-ink config-band config-hero">
   <div class="container">
     <div class="section-index mono-label"><span class="num">01</span><span>/ Pricing</span></div>
-    <h1>Plain numbers, no &ldquo;contact us.&rdquo;</h1>
-    <div class="page-intro-grid">
-      <div class="page-intro-lead">
-        <p>Every project is quoted in writing before a line of it gets built. These are the ranges most work lands in, and exactly what sits inside each one.</p>
-      </div>
-      <div class="budget-match" id="budget-match">
-        <label class="mono-label" for="budget-range">Roughly what have you got?</label>
-        <div class="budget-figure tabular" id="budget-figure">&euro;8,000</div>
-        <input type="range" id="budget-range" min="2000" max="20000" step="500" value="8000"
-               aria-describedby="budget-verdict">
-        <p class="budget-verdict" id="budget-verdict">That is <strong>Launch</strong> territory, at &euro;5,400.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section bg-ink">
-  <div class="container">
-    <div class="section-index mono-label"><span class="num">02</span><span>/ How quoting works</span></div>
-    <h2 class="timeline-heading">From your brief to a year after launch.</h2>
-
-    <!-- Radios rather than buttons: the track is a single-choice control,
-         so arrow keys move through it for free and a screen reader gets a
-         real radiogroup. The visible node rides on :checked. -->
-    <div class="timeline" id="timeline">
-      <div class="timeline-track" role="radiogroup" aria-label="Project stages">
-        <label class="tl-step"><input type="radio" name="tl" value="0" checked><span class="tl-node"></span><span class="tl-label">Brief</span></label>
-        <label class="tl-step"><input type="radio" name="tl" value="1"><span class="tl-node"></span><span class="tl-label">Quote</span></label>
-        <label class="tl-step"><input type="radio" name="tl" value="2"><span class="tl-node"></span><span class="tl-label">Build</span></label>
-        <label class="tl-step"><input type="radio" name="tl" value="3"><span class="tl-node"></span><span class="tl-label">Launch</span></label>
-        <label class="tl-step"><input type="radio" name="tl" value="4"><span class="tl-node"></span><span class="tl-label">Year one</span></label>
-      </div>
-      <div class="timeline-panel" aria-live="polite">
-        <div class="mono-label" id="tl-when">Day zero</div>
-        <h3 id="tl-title">You send the brief</h3>
-        <p id="tl-body">Tell us what the site needs to do. No discovery call required first, though you are welcome to one.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section-index mono-label"><span class="num">03</span><span>/ What each tier includes</span></div>
-
-    <div class="table-tools">
-      <label class="pick"><input type="checkbox" id="diff-only"><span class="pick-face">Show only what differs</span></label>
-    </div>
-
-    <div class="price-table" id="price-table">
-      <div class="price-row head">
-        <div></div>
-        <div class="tier-col">
-          <div>
-            <div class="tier-name">Launch</div>
-            <div class="tier-price tabular">&euro;5,400</div>
-            <a class="btn btn-outline tier-cta" href="contact.html?brief=Interested+in+the+Launch+tier.&budget=Under+%E2%82%AC6%2C000">Start with Launch</a>
-          </div>
-        </div>
-        <div class="tier-col">
-          <div class="is-chosen">
-            <div class="tier-name">Grow</div>
-            <div class="tier-price tabular">&euro;10,800</div>
-            <span class="tier-tag">Most chosen</span>
-            <a class="btn btn-solid tier-cta" href="contact.html?brief=Interested+in+the+Grow+tier.&budget=%E2%82%AC6%2C000+to+%E2%82%AC12%2C000">Start with Grow</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="price-row" data-differs="false">
-        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-0"><span>Design and build</span><span class="why-icon" aria-hidden="true"></span></button></div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
-        <div class="price-why" id="why-0" hidden><p>Designed around what your visitors actually need to do, not a template stretched to fit, and you see real screens before anything gets built. Then hand-coded: HTML, CSS and JavaScript underneath, React where a project genuinely needs it.</p></div>
-      </div>
-      <div class="price-row" data-differs="true">
-        <div class="feature-name">Pages</div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span>Up to 6</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span>Up to 15</div>
-      </div>
-      <div class="price-row" data-differs="false">
-        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-2"><span>Hosting, first year</span><span class="why-icon" aria-hidden="true"></span></button></div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
-        <div class="price-why" id="why-2" hidden><p>Managed hosting on our own stack at 99.9% uptime, included for the first year on every build. After that a site either moves onto a Care plan or we hand it over cleanly.</p></div>
-      </div>
-      <div class="price-row" data-differs="false">
-        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-3"><span>SSL and daily backups</span><span class="why-icon" aria-hidden="true"></span></button></div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
-        <div class="price-why" id="why-3" hidden><p>SSL, firewalls, daily scans and patching, so your site stays up and stays yours.</p></div>
-      </div>
-      <div class="price-row" data-differs="true">
-        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-4"><span>SEO research and page build</span><span class="why-icon" aria-hidden="true"></span></button></div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="dash"></span> Not included</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
-        <div class="price-why" id="why-4" hidden><p>We fix what is stopping Google indexing you, then build the pages that actually rank. Most sites see movement within 60 to 90 days.</p></div>
-      </div>
-      <div class="price-row" data-differs="true">
-        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-5"><span>Rank tracking</span><span class="why-icon" aria-hidden="true"></span></button></div>
-        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="dash"></span> Not included</div>
-        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> 90 days</div>
-        <div class="price-why" id="why-5" hidden><p>Ninety days of tracking after launch, so you can see whether the search work moved anything.</p></div>
-      </div>
-    </div>
-
-    <p class="price-proof"><strong>Recently built on these tiers:</strong> Avoca Wicklow Day Tour, Platinum Pilates, Engage Financial, Healy Pentony and Northbrook Clinic. <a href="work.html" class="link-underline">See the work</a>.</p>
-
-    <p class="price-note"><strong>Bigger than fifteen pages?</strong> That is a scoped quote rather than a tier, and it works the same way: one written number before anything gets built.</p>
-  </div>
-</section>
-
-<section class="section bg-alt">
-  <div class="container">
-    <div class="section-index mono-label"><span class="num">04</span><span>/ After launch</span></div>
-    <div class="care-band on-band">
-      <div>
-        <div class="tier-name">Care</div>
-        <div class="tier-price tabular">&euro;190 <span class="unit">/ month</span></div>
-      </div>
-      <div class="care-switch" id="care-switch">
-        <div class="pick-row">
-          <label class="pick"><input type="radio" name="care-opt" value="care" checked><span class="pick-face">Stay on Care</span></label>
-          <label class="pick"><input type="radio" name="care-opt" value="handover"><span class="pick-face">Hand it over</span></label>
-        </div>
-        <p class="small care-blurb" id="care-blurb">Ongoing hosting, security and updates for a site we run. Cancel any time.</p>
-        <ul id="care-list">
-          <li><span class="tick"></span> Hosting and monitoring</li>
-          <li><span class="tick"></span> Security patches and scans</li>
-          <li><span class="tick"></span> Two hours of changes a month</li>
-        </ul>
-      </div>
-      <a class="btn btn-on-band care-cta" href="contact.html?brief=Interested+in+a+Care+plan.">Ask about a Care plan</a>
-    </div>
-  </div>
-</section>
-
-<section class="section bg-ink config-band">
-  <div class="container">
-    <div class="section-index mono-label"><span class="num">05</span><span>/ Build your quote</span></div>
-    <h2 class="config-heading">Build it. Watch the number move.</h2>
+    <h1 class="config-heading">Plain numbers.<br>Build yours now.</h1>
+    <p class="config-lead">Every project is quoted in writing before a line of it gets built. Set it up here and the number moves as you go.</p>
 
     <!-- Configurator. Every figure it can show is one already published
          in the table above, so it can recommend a tier but can never
@@ -322,10 +183,131 @@
   </div>
 </section>
 
-<section class="cta-band">
+<section class="section">
+  <div class="container">
+    <div class="section-index mono-label"><span class="num">02</span><span>/ What each tier includes</span></div>
+
+    <div class="table-tools">
+      <label class="pick"><input type="checkbox" id="diff-only"><span class="pick-face">Show only what differs</span></label>
+    </div>
+
+    <div class="price-table" id="price-table">
+      <div class="price-row head">
+        <div></div>
+        <div class="tier-col">
+          <div>
+            <div class="tier-name">Launch</div>
+            <div class="tier-price tabular">&euro;5,400</div>
+            <a class="btn btn-outline tier-cta" href="contact.html?brief=Interested+in+the+Launch+tier.&budget=Under+%E2%82%AC6%2C000">Start with Launch</a>
+          </div>
+        </div>
+        <div class="tier-col">
+          <div class="is-chosen">
+            <div class="tier-name">Grow</div>
+            <div class="tier-price tabular">&euro;10,800</div>
+            <span class="tier-tag">Most chosen</span>
+            <a class="btn btn-solid tier-cta" href="contact.html?brief=Interested+in+the+Grow+tier.&budget=%E2%82%AC6%2C000+to+%E2%82%AC12%2C000">Start with Grow</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="price-row" data-differs="false">
+        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-0"><span>Design and build</span><span class="why-icon" aria-hidden="true"></span></button></div>
+        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
+        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
+        <div class="price-why" id="why-0" hidden><p>Designed around what your visitors actually need to do, not a template stretched to fit, and you see real screens before anything gets built. Then hand-coded: HTML, CSS and JavaScript underneath, React where a project genuinely needs it.</p></div>
+      </div>
+      <div class="price-row" data-differs="true">
+        <div class="feature-name">Pages</div>
+        <div class="tier-col"><span class="tier-col-label">Launch</span>Up to 6</div>
+        <div class="tier-col"><span class="tier-col-label">Grow</span>Up to 15</div>
+      </div>
+      <div class="price-row" data-differs="false">
+        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-2"><span>Hosting, first year</span><span class="why-icon" aria-hidden="true"></span></button></div>
+        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
+        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
+        <div class="price-why" id="why-2" hidden><p>Managed hosting on our own stack at 99.9% uptime, included for the first year on every build. After that a site either moves onto a Care plan or we hand it over cleanly.</p></div>
+      </div>
+      <div class="price-row" data-differs="false">
+        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-3"><span>SSL and daily backups</span><span class="why-icon" aria-hidden="true"></span></button></div>
+        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="tick"></span> Included</div>
+        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
+        <div class="price-why" id="why-3" hidden><p>SSL, firewalls, daily scans and patching, so your site stays up and stays yours.</p></div>
+      </div>
+      <div class="price-row" data-differs="true">
+        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-4"><span>SEO research and page build</span><span class="why-icon" aria-hidden="true"></span></button></div>
+        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="dash"></span> Not included</div>
+        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> Included</div>
+        <div class="price-why" id="why-4" hidden><p>We fix what is stopping Google indexing you, then build the pages that actually rank. Most sites see movement within 60 to 90 days.</p></div>
+      </div>
+      <div class="price-row" data-differs="true">
+        <div class="feature-name"><button class="feature-why" type="button" aria-expanded="false" aria-controls="why-5"><span>Rank tracking</span><span class="why-icon" aria-hidden="true"></span></button></div>
+        <div class="tier-col"><span class="tier-col-label">Launch</span><span class="dash"></span> Not included</div>
+        <div class="tier-col"><span class="tier-col-label">Grow</span><span class="tick"></span> 90 days</div>
+        <div class="price-why" id="why-5" hidden><p>Ninety days of tracking after launch, so you can see whether the search work moved anything.</p></div>
+      </div>
+    </div>
+
+    <p class="price-proof"><strong>Recently built on these tiers:</strong> Avoca Wicklow Day Tour, Platinum Pilates, Engage Financial, Healy Pentony and Northbrook Clinic. <a href="work.html" class="link-underline">See the work</a>.</p>
+
+    <p class="price-note"><strong>Bigger than fifteen pages?</strong> That is a scoped quote rather than a tier, and it works the same way: one written number before anything gets built.</p>
+  </div>
+</section>
+
+<section class="section bg-alt">
+  <div class="container">
+    <div class="section-index mono-label"><span class="num">03</span><span>/ After launch</span></div>
+    <div class="care-band on-band">
+      <div>
+        <div class="tier-name">Care</div>
+        <div class="tier-price tabular">&euro;190 <span class="unit">/ month</span></div>
+      </div>
+      <div class="care-switch" id="care-switch">
+        <div class="pick-row">
+          <label class="pick"><input type="radio" name="care-opt" value="care" checked><span class="pick-face">Stay on Care</span></label>
+          <label class="pick"><input type="radio" name="care-opt" value="handover"><span class="pick-face">Hand it over</span></label>
+        </div>
+        <p class="small care-blurb" id="care-blurb">Ongoing hosting, security and updates for a site we run. Cancel any time.</p>
+        <ul id="care-list">
+          <li><span class="tick"></span> Hosting and monitoring</li>
+          <li><span class="tick"></span> Security patches and scans</li>
+          <li><span class="tick"></span> Two hours of changes a month</li>
+        </ul>
+      </div>
+      <a class="btn btn-on-band care-cta" href="contact.html?brief=Interested+in+a+Care+plan.">Ask about a Care plan</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-index mono-label"><span class="num">04</span><span>/ How quoting works</span></div>
+    <h2 class="timeline-heading">From your brief to a year after launch.</h2>
+
+    <!-- Radios rather than buttons: the track is a single-choice control,
+         so arrow keys move through it for free and a screen reader gets a
+         real radiogroup. The visible node rides on :checked. -->
+    <div class="timeline" id="timeline">
+      <div class="timeline-track" role="radiogroup" aria-label="Project stages">
+        <label class="tl-step"><input type="radio" name="tl" value="0" checked><span class="tl-node"></span><span class="tl-label">Brief</span></label>
+        <label class="tl-step"><input type="radio" name="tl" value="1"><span class="tl-node"></span><span class="tl-label">Quote</span></label>
+        <label class="tl-step"><input type="radio" name="tl" value="2"><span class="tl-node"></span><span class="tl-label">Build</span></label>
+        <label class="tl-step"><input type="radio" name="tl" value="3"><span class="tl-node"></span><span class="tl-label">Launch</span></label>
+        <label class="tl-step"><input type="radio" name="tl" value="4"><span class="tl-node"></span><span class="tl-label">Year one</span></label>
+      </div>
+      <div class="timeline-panel" aria-live="polite">
+        <div class="mono-label" id="tl-when">Day zero</div>
+        <h3 id="tl-title">You send the brief</h3>
+        <p id="tl-body">Tell us what the site needs to do. No discovery call required first, though you are welcome to one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band bg-ink">
   <div class="container">
     <h2>Tell us what your site needs to do.</h2>
-    <a href="contact.html" class="btn btn-solid">Get a quote</a>
+    <a href="contact.html" class="btn btn-on-ink">Get a quote</a>
   </div>
 </section>
 

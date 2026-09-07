@@ -149,6 +149,11 @@
    this button never does. In dark mode the tokens resolved to a near
    black fill on a near black band — 1.02:1, an invisible button. */
 .btn-on-ink { background: #F7F5F1; color: #0B0B0C; }
+/* The same idea for the blue band. Tokenised rather than hardcoded here
+   because --on-signal and --signal already invert together: paper fill
+   with blue text in light, near-black fill with lifted blue in dark.
+   6.9:1 and 4.97:1 respectively. */
+.btn-on-band { background: var(--on-signal); color: var(--signal); }
 
 /* Text link with an arrow that nudges on hover — used for secondary
    CTAs where a full button would compete with the primary one. */
@@ -2303,6 +2308,42 @@
 /* The oversized numeral picks it up too, but only on the dark bands,
    where every sampled colour clears 3:1 against #0B0B0C. */
 .work-featured .work-featured-num { color: var(--project, var(--signal)); opacity: 0.9; }
+
+/* ── Pricing: asking for the sale ─────────────────────────────────── */
+/* Not one of the three priced things had an action anywhere near it.
+   The first CTA on the page arrived 5,600 characters after the price
+   table began, so someone decided at the price — the moment of highest
+   intent — and then had to scroll past two more sections to find
+   anything to click. Each tier and the Care plan now carry their own.
+
+   Each one prefills the contact form's budget with the band that
+   matches, using the exact option strings that form offers, so nobody
+   re-types a number they have already chosen. */
+.tier-cta {
+  display: inline-flex;
+  margin-top: var(--sp-5);
+  width: 100%;
+}
+@media (min-width: 768px) { .tier-cta { width: auto; } }
+.care-cta { margin-top: var(--sp-5); align-self: flex-start; }
+
+/* Outline on Launch, solid on Grow. The recommended tier should be the
+   easier button to press, and two identical buttons would make the
+   "Most chosen" label the only thing doing that work. */
+.price-row.head .is-chosen .btn-solid { background: var(--signal); color: var(--paper); }
+
+/* Named clients under the table. The strongest honest proof available
+   on this page: these are the five builds in the Work section, so it
+   claims nothing that isn't already evidenced there — and deliberately
+   does not tie any of them to a tier, which would be an invention. */
+.price-proof {
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-5);
+  border-top: var(--hairline);
+  color: var(--text-secondary);
+  font-size: var(--step--1);
+}
+.price-proof strong { color: var(--text); font-weight: 500; }
 
 /* ── Contact form ─────────────────────────────────────────────────── */
 

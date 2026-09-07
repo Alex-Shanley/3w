@@ -1037,19 +1037,69 @@
   padding-top: var(--sp-6);
   padding-bottom: var(--sp-6);
 }
-.price-row.head .tier-name { font-family: var(--font-display); font-weight: 500; font-size: var(--step-1); }
-.price-row.head .tier-price { font-family: var(--font-mono); font-size: var(--step-3); font-weight: 500; }
+/* The number leads. On a pricing page the price is the content, and it
+   was set smaller than the body headings around it — a 55px mono figure
+   under a 25px display name, so the label outranked the thing the whole
+   page exists to state. Flipped: the tier name is a mono label, the
+   price is display type at --step-4.
+
+   Mono was wrong here for the same reason it was wrong on the card
+   numerals. It is the right face for the comparison rows below, which
+   are data and want to align in columns; a headline figure is not data,
+   it is a headline. */
+.price-row.head .tier-name {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: var(--sp-3);
+}
+.price-row.head .tier-price {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
 .price-row.head .tier-tag {
   display: inline-block;
-  margin-top: var(--sp-2);
+  margin-top: var(--sp-3);
   font-family: var(--font-mono);
   font-size: var(--step--1);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--signal);
 }
-.price-row.head .tier-col.is-chosen { background: var(--paper-2); margin: calc(var(--sp-4) * -1) calc(var(--sp-4) * -1); padding: var(--sp-4); border-radius: var(--radius-md); }
-@media (min-width: 768px) { .price-row.head .tier-col.is-chosen { margin: calc(var(--sp-6) * -1) calc(var(--sp-4) * -1); padding: var(--sp-6) var(--sp-4); } }
+
+/* The recommended tier was marked with --paper-2, which on a paper band
+   is a shade you have to look for. It is a filled ink panel now, so the
+   answer to "which one" is visible before a word is read. */
+.price-row.head .is-chosen {
+  /* Inverted against the page ground rather than hardcoded ink. A fixed
+     #0B0B0C panel would sit on a #08080A band in dark mode at 1.03:1 and
+     simply disappear — the same token-flip that has caught the tick, the
+     focus ring and the ink button on this site already. --text and
+     --canvas are exact opposites in both themes, so the panel is ink on
+     paper in light and paper on ink in dark, with no second rule. */
+  background: var(--text);
+  color: var(--canvas);
+  margin: calc(var(--sp-4) * -1) calc(var(--sp-4) * -1);
+  padding: var(--sp-5) var(--sp-4);
+  border-radius: var(--radius-md);
+}
+.price-row.head .is-chosen .tier-price { color: var(--canvas); }
+.price-row.head .is-chosen .tier-name,
+/* The tag drops its blue here. Neither --signal nor the lifted variant
+   clears 4.5:1 against both faces of an inverting panel, and it does not
+   need colour to read as a tag: it is already uppercase mono with wide
+   tracking, which is what marks it out. */
+.price-row.head .is-chosen .tier-tag { color: var(--canvas); opacity: 0.72; }
+@media (min-width: 768px) {
+  .price-row.head .is-chosen { margin: calc(var(--sp-6) * -1) calc(var(--sp-4) * -1); padding: var(--sp-6) var(--sp-5); }
+}
 
 .price-row .feature-name { color: var(--text); }
 .price-row .tier-col { display: flex; align-items: center; gap: var(--sp-2); color: var(--text-secondary); font-size: var(--step--1); }
@@ -1080,7 +1130,7 @@
 }
 @media (min-width: 768px) { .care-band { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) minmax(0, 2fr); align-items: center; padding: var(--sp-8); } }
 .care-band .tier-name { font-family: var(--font-display); font-weight: 500; font-size: var(--step-1); }
-.care-band .tier-price { font-family: var(--font-mono); font-size: var(--step-2); font-weight: 500; margin-top: var(--sp-2); }
+.care-band .tier-price { font-family: var(--font-display); font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; line-height: 1; margin-top: var(--sp-2); }
 .care-band .tier-price .unit { font-size: var(--step--1); color: var(--text-secondary); }
 .care-band ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); font-size: var(--step--1); color: var(--text-secondary); }
 .care-band li { display: flex; align-items: center; gap: var(--sp-2); }
@@ -2103,8 +2153,10 @@
 .price-summary dt { color: var(--text-secondary); }
 .price-summary dd {
   margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--step-0);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--text);
 }
 .price-summary .unit { color: var(--text-secondary); font-size: var(--step--1); }

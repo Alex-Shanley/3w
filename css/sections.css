@@ -1924,7 +1924,23 @@
 /* Two columns rather than three: at three, the four remaining cards
    broke 3+1 and left a conspicuous hole in the second row. */
 .work-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); }
+/* Deliberately not a 2x2. Four identically sized cards give the eye
+   nothing to land on first and read as a file listing rather than a
+   portfolio — every project claiming exactly equal weight is itself an
+   editorial decision, and the wrong one. A six-column grid with 4/2 and
+   2/4 spans makes each row lead with a different project and puts a
+   diagonal through the block, so the page has somewhere to travel. */
 @media (min-width: 700px) { .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* The asymmetry only from 980px. A 2-of-6 span on a tablet is about
+   230px of card, which is narrower than the copy inside it wants; the
+   even pair is the better layout at that width. */
+@media (min-width: 980px) {
+  .work-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .work-grid > *:nth-child(1) { grid-column: span 4; }
+  .work-grid > *:nth-child(2) { grid-column: span 2; }
+  .work-grid > *:nth-child(3) { grid-column: span 2; }
+  .work-grid > *:nth-child(4) { grid-column: span 4; }
+}
 .work-card-num {
   font-family: var(--font-mono);
   font-size: var(--step-1);
@@ -2168,6 +2184,49 @@
 .faq-item summary:active { transform: scale(0.995); }
 .cs-more-link:active,
 .hero-chip:active { transform: scale(0.97); }
+
+/* ── Per-project colour ───────────────────────────────────────────── */
+/* Five different businesses — a tour operator, a pilates studio, a law
+   firm, a brokerage, a clinic — were rendering in one identical palette,
+   so the work index read as a list of files rather than a portfolio.
+   Each project now carries its own client's colour in --project, sampled
+   from that client's live site (Avoca's comes from the palette its own
+   case study already documents).
+
+   Used as fill, never as ink. Several of these cannot pass contrast as
+   text: Platinum's #D7ADA0 on a white card is about 1.9:1. As a purely
+   decorative spine there is no contrast requirement at all, because the
+   colour carries no information the project name isn't already giving.
+   Falls back to --signal wherever --project isn't set. */
+.work-card,
+.work-card-lg { position: relative; }
+.work-card::before,
+.work-card-lg::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--project, var(--signal));
+  z-index: 2;
+}
+
+/* The featured band and the case study hero take a rule along the top
+   edge instead — a spine on a full-bleed band would read as a stray
+   vertical line rather than as that project's colour. */
+.work-featured,
+.cs-hero { position: relative; }
+.work-featured::before,
+.cs-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--project, var(--signal));
+}
+
+/* The oversized numeral picks it up too, but only on the dark bands,
+   where every sampled colour clears 3:1 against #0B0B0C. */
+.work-featured .work-featured-num { color: var(--project, var(--signal)); opacity: 0.9; }
 
 /* ── Contact form ─────────────────────────────────────────────────── */
 

@@ -493,7 +493,8 @@
 .services-intro { grid-column: 1 / -1; margin-bottom: var(--sp-8); }
 @media (min-width: 1024px) { .services-intro { grid-column: span 8; } }
 .services-intro h2 {
-  font-size: var(--step-3);
+  font-size: var(--step-4);
+  line-height: 1.05;
   font-weight: 500;
   letter-spacing: -0.02em;
   max-width: 20ch;
@@ -880,7 +881,7 @@
 
 .process-intro { grid-column: 1 / -1; margin-bottom: var(--sp-8); }
 @media (min-width: 1024px) { .process-intro { grid-column: span 8; } }
-.process-intro h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; max-width: 22ch; }
+.process-intro h2 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; max-width: 18ch; }
 
 .process-steps {
   display: grid;
@@ -924,7 +925,7 @@
    else. Scroll-snap does the carousel mechanics; nav.js only adds the
    arrow button and hides it when there's nothing to scroll to. */
 
-#work h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; }
+#work h2 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
 
 /* The carousel deliberately breaks out of .container (moved to be a
    section-level sibling in the markup, not nested inside it) so the
@@ -1015,7 +1016,7 @@
 
 .pricing-intro { grid-column: 1 / -1; margin-bottom: var(--sp-8); }
 @media (min-width: 1024px) { .pricing-intro { grid-column: span 8; } }
-.pricing-intro h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; }
+.pricing-intro h2 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
 .pricing-intro p { margin-top: var(--sp-4); color: var(--text-secondary); max-width: 52ch; }
 
 .price-table { border-top: var(--hairline); }
@@ -1088,7 +1089,7 @@
 
 .faq-intro { grid-column: 1 / -1; margin-bottom: var(--sp-7); text-align: center; }
 .faq-intro .section-index { justify-content: center; }
-.faq-intro h2 { font-size: var(--step-3); font-weight: 500; letter-spacing: -0.02em; }
+.faq-intro h2 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
 
 .faq-list { grid-column: 1 / -1; border-top: var(--hairline); }
 @media (min-width: 1024px) { .faq-list { grid-column: 3 / 11; } }
@@ -1910,6 +1911,7 @@
   opacity: 0.35;
 }
 .work-featured-body h2 {
+  line-height: 1.02;
   margin-top: var(--sp-3);
   font-size: var(--step-3);
   font-weight: 500;
@@ -2201,36 +2203,35 @@
 .work-card,
 .work-card-lg { position: relative; }
 
-/* The colour face. A 3px spine was the timid version of this idea — the
-   colour was there but did nothing, and a hairline is not an answer to a
-   page that reads as monochrome. Now each card opens with a full block
-   of its client's colour, which is the first thing the eye lands on and
-   the thing that makes five projects look like five businesses.
+/* The face. Five borrowed client palettes were the wrong instinct — the
+   bronze most obviously, but all of them diluted a brand whose own blue
+   is stronger than any colour I could import. This is the site's own ink
+   instead, at the scale the statement band works at, because that band
+   is the best thing on the site and nothing else was pitched anywhere
+   near it.
 
-   It is also the screenshot-shaped hole. When real captures arrive they
-   drop straight into this slot at this aspect ratio, and the colour
-   stays underneath as the frame. Part of why the screenshots never got
-   taken is that the layout had nowhere to put them. */
+   Sitting on the blue work band, an ink face is the hardest contrast the
+   palette can make: 18:1, and the numeral reads from across the room.
+   It is still the screenshot slot — same 16/7 frame, ink underneath
+   instead of colour. */
 .project-face {
   display: flex;
   align-items: flex-end;
   aspect-ratio: 16 / 7;
-  padding: var(--sp-5);
-  background: var(--project, var(--signal));
-  color: var(--project-ink, var(--on-signal));
+  padding: var(--sp-5) var(--sp-6);
+  background: #0B0B0C;
+  color: #F7F5F1;
 }
 .project-face-num {
-  font-family: var(--font-mono);
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  /* Sits back so it frames rather than competes; every pairing still
-     clears AA at full strength, so this is stylistic headroom only. */
-  opacity: 0.85;
+  font-family: var(--font-display);
+  font-weight: 600;
+  /* Up from a 3.6rem mono numeral. Display face, not mono: the mono set
+     is for labels and data, and this is meant to be the loudest thing on
+     the card. */
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
 }
-/* The numeral used to be the card's only ornament and now has a block of
-   its own, so the old inline treatment goes. */
 .work-card-body { padding-top: var(--sp-6); }
 
 /* The featured band and the case study hero take a rule along the top

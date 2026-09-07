@@ -1073,6 +1073,17 @@
   letter-spacing: -0.03em;
   line-height: 0.95;
 }
+/* Between the two-column breakpoint and roughly 1100px the tier tracks
+   are about 272px, and "€10,800" at --step-4 needs ~230px before the
+   panel's own padding — which pushed the chosen panel past its cell and
+   scrolled the whole document sideways. A step down in that window
+   only; it returns to full size once there is room. */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .price-row.head .tier-price { font-size: var(--step-3); }
+}
+.price-row.head .tier-col { min-width: 0; }
+.price-row.head .tier-col > div { max-width: 100%; }
+
 .price-row.head .tier-tag {
   display: inline-block;
   margin-top: var(--sp-3);
@@ -1095,7 +1106,11 @@
      paper in light and paper on ink in dark, with no second rule. */
   background: var(--text);
   color: var(--canvas);
-  margin: calc(var(--sp-4) * -1) calc(var(--sp-4) * -1);
+  /* Vertical bleed only. The horizontal negative margin pulled the
+     panel 24px past its own grid cell, which is invisible at 1440px and
+     pushes the document 15px wider around 960px — the page scrolled
+     sideways. It gains its width from padding now, inside the cell. */
+  margin-block: calc(var(--sp-4) * -1);
   padding: var(--sp-5) var(--sp-4);
   border-radius: var(--radius-md);
 }
@@ -1107,7 +1122,7 @@
    tracking, which is what marks it out. */
 .price-row.head .is-chosen .tier-tag { color: var(--canvas); opacity: 0.72; }
 @media (min-width: 768px) {
-  .price-row.head .is-chosen { margin: calc(var(--sp-6) * -1) calc(var(--sp-4) * -1); padding: var(--sp-6) var(--sp-5); }
+  .price-row.head .is-chosen { margin-block: calc(var(--sp-6) * -1); padding: var(--sp-6) var(--sp-5); }
 }
 
 /* The rows carried the detail people actually compare on and were set
@@ -1416,6 +1431,12 @@
   background: var(--signal);
   --text: var(--on-signal);
   --text-secondary: var(--on-signal-secondary);
+  /* --canvas means "the ground behind me", and on this band the ground
+     is the band. Without this it stayed page-paper while --text became
+     --on-signal, so anything pairing the two — a checked pill, most
+     obviously — rendered paper on paper. Caught it on .bg-ink first and
+     patched only that band, which left the identical trap here. */
+  --canvas: var(--signal);
   --hairline-color: var(--on-signal-hairline);
   color: var(--text);
 }
@@ -1491,6 +1512,8 @@
      never text). */
   --text: #F7F5F1;
   --text-secondary: rgba(247, 245, 241, 0.7);
+  /* Same reasoning as .bg-alt, hardcoded like the rest of this block. */
+  --canvas: #0B0B0C;
   --hairline-color: rgba(247, 245, 241, 0.2);
 }
 /* base.css sets a direct h1-h6 color rule, and a direct rule always
@@ -2606,17 +2629,10 @@
 .pick input:active ~ .pick-face { transform: scale(0.97); }
 .pick input:focus-visible ~ .pick-face { outline: 2px solid var(--signal); outline-offset: 3px; }
 
-/* That assumption was wrong, and it made the checked pill invisible.
-   .bg-ink re-scopes --text and --text-secondary but not --canvas, so
-   `color: var(--canvas)` stayed paper on this band and a selected pill
-   rendered paper type on a paper fill at 1:1. Both values are hardcoded
-   here because the band is always ink in either theme. 18.1:1. */
+/* The checked-pill fix that used to live here is gone: .bg-ink now
+   re-scopes --canvas, so the generic rule resolves correctly on its own.
+   Only the resting border needs lifting against this band. */
 .config-band .pick-face { border-color: rgba(247, 245, 241, 0.28); }
-.config-band .pick input:checked ~ .pick-face {
-  background: #F7F5F1;
-  border-color: #F7F5F1;
-  color: #0B0B0C;
-}
 
 .config-group input[type="range"] { width: 100%; margin-top: var(--sp-2); }
 .config-group output {

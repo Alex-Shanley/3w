@@ -2502,6 +2502,120 @@
 .config-result.is-swapping .config-monthly,
 .config-result.is-swapping .config-includes { opacity: 0.4; filter: blur(3px); }
 
+/* ── Pricing: budget matcher ──────────────────────────────────────── */
+/* Replaces a static three-row price list in the intro. "Can I afford
+   this" is the first question anyone brings to a pricing page, and it
+   was previously answered by reading. Now it answers back. */
+.budget-match { border-top: var(--hairline); padding-top: var(--sp-5); }
+.budget-figure {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: var(--sp-3) 0 var(--sp-4);
+}
+.budget-match input[type="range"] { width: 100%; }
+.budget-verdict {
+  margin-top: var(--sp-4);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+  min-height: 3.2em; /* holds its space so the layout doesn't jump between verdicts */
+}
+.budget-verdict strong { color: var(--text); font-weight: 600; }
+
+/* ── Pricing: project timeline ────────────────────────────────────── */
+/* The closest honest answer to "a UI that shows you building a website".
+   Five stages of a real project, every one of them a fact already
+   published on this site. It replaces three static rows that said the
+   same things without ever being touched. */
+.timeline-heading {
+  font-size: var(--step-3);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  max-width: 20ch;
+  margin-top: var(--sp-4);
+}
+.timeline { margin-top: var(--sp-8); }
+
+.timeline-track {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--sp-2);
+  position: relative;
+}
+/* The rail the nodes sit on, behind them. */
+.timeline-track::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: var(--hairline-color);
+}
+
+.tl-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-bottom: var(--sp-2);
+  cursor: pointer;
+  text-align: center;
+}
+.tl-step input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.tl-node {
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  border: 1px solid var(--text-secondary);
+  background: var(--canvas);
+  transition: background var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out);
+}
+.tl-label {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.tl-step.is-passed .tl-node { background: var(--text-secondary); border-color: var(--text-secondary); }
+.tl-step input:checked ~ .tl-node { background: var(--text); border-color: var(--text); transform: scale(1.35); }
+.tl-step input:checked ~ .tl-label { color: var(--text); }
+@media (hover: hover) and (pointer: fine) {
+  .tl-step:hover .tl-node { border-color: var(--text); }
+  .tl-step:hover .tl-label { color: var(--text); }
+}
+.tl-step input:focus-visible ~ .tl-node { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+.timeline-panel {
+  margin-top: var(--sp-7);
+  padding-top: var(--sp-6);
+  border-top: var(--hairline);
+  /* Reserved so stepping through stages of different lengths does not
+     shunt the section below up and down. */
+  min-height: 11rem;
+}
+.timeline-panel h3 {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: var(--sp-3);
+}
+.timeline-panel p { margin-top: var(--sp-4); color: var(--text-secondary); max-width: 56ch; }
+
+/* ── Pricing: the year-one choice ─────────────────────────────────── */
+/* Two options the site already commits to, so this compares rather than
+   frightens: stay on a Care plan, or take a clean handover. */
+.care-switch { display: flex; flex-direction: column; gap: var(--sp-4); }
+.care-switch .care-blurb { margin: 0; }
+.care-switch ul { min-height: 5.5rem; }
+
 /* ── Contact form ─────────────────────────────────────────────────── */
 
 .contact-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-9); align-items: start; padding-block: var(--sp-9); }

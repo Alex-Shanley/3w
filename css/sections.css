@@ -1068,20 +1068,30 @@
 .price-row.head .tier-price {
   color: var(--text);
   font-family: var(--font-display);
-  font-size: var(--step-4);
+  /* --step-4 does not fit. "€10,800" set at 80px measures 310px against
+     a 283px content box inside the Grow panel, so the last digit sat
+     outside the panel's own background — visible at every width, and my
+     first attempt at this only patched a viewport range because I was
+     testing document overflow, which text spilling inside a container
+     never triggers. --step-3 measures ~212px in the same box.
+
+     It also restores the hierarchy: the configurator's number is the
+     one the page is built around and should stay the largest figure
+     on it.
+
+     Sized in cqw against the column rather than vw against the window,
+     because the column is what it has to fit inside and the two are not
+     proportional — the feature-name track takes 4fr of the row, so at
+     800px the tier column is only ~179px while the viewport suggests
+     far more. Every viewport-based value I tried fitted at one width and
+     spilled at another. --step-3 stays as the ceiling. */
+  font-size: min(var(--step-3), 18cqw);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 0.95;
 }
-/* Between the two-column breakpoint and roughly 1100px the tier tracks
-   are about 272px, and "€10,800" at --step-4 needs ~230px before the
-   panel's own padding — which pushed the chosen panel past its cell and
-   scrolled the whole document sideways. A step down in that window
-   only; it returns to full size once there is room. */
-@media (min-width: 768px) and (max-width: 1099px) {
-  .price-row.head .tier-price { font-size: var(--step-3); }
-}
-.price-row.head .tier-col { min-width: 0; }
+/* The container the price is measured against. */
+.price-row.head .tier-col { min-width: 0; container-type: inline-size; }
 .price-row.head .tier-col > div { max-width: 100%; }
 
 .price-row.head .tier-tag {
@@ -1122,7 +1132,7 @@
    tracking, which is what marks it out. */
 .price-row.head .is-chosen .tier-tag { color: var(--canvas); opacity: 0.72; }
 @media (min-width: 768px) {
-  .price-row.head .is-chosen { margin-block: calc(var(--sp-6) * -1); padding: var(--sp-6) var(--sp-5); }
+  .price-row.head .is-chosen { margin-block: calc(var(--sp-6) * -1); padding: var(--sp-6) var(--sp-4); }
 }
 
 /* The rows carried the detail people actually compare on and were set

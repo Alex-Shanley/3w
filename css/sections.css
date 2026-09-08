@@ -1557,6 +1557,14 @@
 }
 .bg-alt .work-card { background: var(--surface); }
 
+/* --signal is tuned against the page canvas, not against a card sitting
+   on the blue band. On the dark-mode card surface (#1B1B1E) it measures
+   4.34:1 — under the 4.5 floor, on five labels on the homepage.
+   --signal-hover is the same hue one step further from that surface:
+   5.92:1 in dark, and darker again in light, so the label stays blue and
+   becomes legible in both. */
+.bg-alt .work-card-lg .mono-label { color: var(--signal-hover); }
+
 /* ── Dark section (case-study hero, stat bands) ──────────────────── */
 
 /* Deliberately theme-invariant: this is an always-dark editorial
@@ -1706,7 +1714,14 @@
 .team-info .link-arrow { margin-top: var(--sp-4); }
 
 /* ── Testimonial ──────────────────────────────────────────────────── */
-/* .testimonial-card alone (no .testimonial-grid ancestor) is a single
+/* CURRENTLY UNUSED. The three quotes on the homepage were placeholder
+   copy — they credited "Webs Design 3W", a name that appears nowhere
+   else, and named clients who appear nowhere in the Work section — so
+   the section was removed rather than left standing on a page asking for
+   five figures. The component is kept ready for real quotes: drop a
+   .testimonial-grid of .testimonial-card back into index.html.
+
+   .testimonial-card alone (no .testimonial-grid ancestor) is a single
    large centred pull-quote, for whenever there's just one to feature.
    Nested in .testimonial-grid it's a smaller card in a 3-up row — the
    quotes are full paragraphs, not one-liners, so the standalone
@@ -1862,7 +1877,9 @@
   padding: var(--sp-3) var(--sp-4);
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  /* Was 0.72rem, which rendered at 11.5px — under the size small print
+     stays comfortable at, on all three panels. */
+  font-size: 0.8rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   /* Fixed, not tokenised: this bar sits on its own black ground in both
@@ -1930,6 +1947,40 @@
     font-size: clamp(2.25rem, 10cqw, 3.9rem);
     max-width: 15ch;
   }
+}
+
+/* ── Touch target sizing ──────────────────────────────────────────── */
+/* These all clear WCAG 2.2 AA's 24px floor already. This lifts them to
+   the 44px a finger actually wants, and only where there is a finger:
+   scoped to coarse pointers so the desktop layout keeps its density and
+   nothing moves for mouse users. Measured at 375px before: 30 targets
+   under 44px on the homepage, 21 of them in the footer at 25px.
+   Padding rather than height, so no box changes size on screen. */
+@media (pointer: coarse) {
+  .footer-col a { padding-block: 12px; }
+  .link-arrow { min-height: 44px; }
+  .wordmark { display: inline-flex; align-items: center; min-height: 44px; }
+  .hero-chip { min-height: 44px; }
+  .footer-bottom a { display: inline-flex; align-items: center; min-height: 44px; }
+  .theme-toggle { min-height: 44px; min-width: 44px; }
+  .footer-mark { display: inline-flex; align-items: center; min-height: 44px; }
+  .footer-email { display: inline-flex; align-items: center; min-height: 44px; }
+  .email-link { display: inline-flex; align-items: center; min-height: 44px; }
+  .feature-why { min-height: 44px; }
+  .cs-more-all { display: inline-flex; align-items: center; min-height: 44px; }
+  /* The work list's project titles are the link, inside an h3. */
+  .work-card-body h3 a { display: inline-flex; align-items: center; min-height: 44px; }
+}
+
+/* ── 404 ──────────────────────────────────────────────────────────── */
+/* GitHub Pages served its own generic 404 before this: no nav, no
+   footer, no way back. Uses the standard button components so every
+   target is a full 44px. */
+.not-found-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-7);
 }
 
 /* ── Services page rhythm ─────────────────────────────────────────── */

@@ -1334,10 +1334,58 @@
   color: var(--signal);
 }
 
-.site-footer { border-top: var(--hairline); padding-block: var(--sp-8); }
+/* The footer was four identical columns of small grey links with the
+   wordmark shrunk to body size at the very bottom — a sitemap, not a
+   footer. It has an anchor now: the mark at display scale, one line
+   saying what the studio does, and the email as a real destination
+   rather than the last item in the fourth column. The columns stay, but
+   as support underneath rather than as the whole thing. */
+.site-footer { border-top: var(--hairline); padding-block: var(--sp-9) var(--sp-7); }
+
+.footer-lead {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-5);
+  padding-bottom: var(--sp-8);
+  margin-bottom: var(--sp-8);
+  border-bottom: var(--hairline);
+}
+@media (min-width: 900px) {
+  .footer-lead {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--sp-8);
+  }
+}
+.footer-mark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--step-4);
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+  color: var(--text);
+  text-decoration: none;
+}
+.footer-mark .accent { color: var(--signal); }
+.footer-line { color: var(--text-secondary); max-width: 34ch; }
+/* The second conversion path on every page, and it used to be the last
+   link in the fourth column at 13px. */
+.footer-email {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--signal);
+  white-space: nowrap;
+}
+
 .footer-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-6); }
-@media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 640px) { .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .footer-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .footer-col a, .footer-col p { display: block; color: var(--text-secondary); font-size: var(--step--1); margin-top: var(--sp-2); }
+/* 21px line boxes, three short of the minimum target — the same issue
+   the arrow links had, in the densest list of links on the site. */
+.footer-col a { padding-block: 2px; }
 @media (hover: hover) and (pointer: fine) { .footer-col a:hover { color: var(--text); } }
 .footer-col .mono-label { color: var(--text); }
 
@@ -1351,7 +1399,8 @@
   justify-content: space-between;
   gap: var(--sp-3);
 }
-.footer-bottom .wordmark { font-size: var(--step-0); }
+.footer-top { color: var(--text-secondary); text-decoration: none; padding-block: var(--sp-2); }
+@media (hover: hover) and (pointer: fine) { .footer-top:hover { color: var(--text); } }
 .footer-clock { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); }
 
 /* ── Page intro (work/about/contact/privacy headers) ─────────────── */

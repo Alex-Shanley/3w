@@ -189,6 +189,15 @@ body::after {
 
 /* ── Section rhythm ───────────────────────────────────────────────── */
 
+/* Every in-page anchor landed its target underneath the 73px sticky
+   header: scroll-margin was set nowhere, so #website-design and the
+   seven services beside it — linked from the jump-to index and from the
+   footer of all 13 pages, 100+ links — scrolled to the viewport top with
+   the header sitting on top of the heading you had just asked for.
+   scroll-padding on the scrolling element fixes every anchor at once,
+   including the skip link. */
+html { scroll-padding-top: 104px; }
+
 .section {
   padding-block: var(--sp-9);
 }

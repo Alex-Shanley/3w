@@ -10,8 +10,8 @@
 <script>(function(){try{var d=document.documentElement;if(!sessionStorage.getItem('3w-seen')){d.classList.add('is-first-visit');sessionStorage.setItem('3w-seen','1');}var t=sessionStorage.getItem('3w-theme');if(!t)return;d.setAttribute('data-theme',t);var c=t==='dark'?'#08080A':'#F7F5F1';var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){m[i].removeAttribute('media');m[i].setAttribute('content',c);}}catch(e){}})();</script>
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=14">
-<link rel="stylesheet" href="css/base.css?v=21">
-<link rel="stylesheet" href="css/sections.css?v=105">
+<link rel="stylesheet" href="css/base.css?v=22">
+<link rel="stylesheet" href="css/sections.css?v=106">
 </head>
 <body>
 <!-- First-visit intro. Dismissal is a CSS animation, not JS, so it
@@ -255,7 +255,7 @@
      above and are tied here by the form="brief-builder" attribute, so
      the sections don't have to be restructured around a form element.
      JS only adds the live count and selection list on top. -->
-<section class="section bg-ink">
+<section class="section bg-ink" id="your-brief">
   <div class="container">
     <form id="brief-builder" method="get" action="contact.html" class="brief-builder">
       <div class="brief-builder-body">
@@ -274,6 +274,13 @@
     <a href="contact.html" class="btn btn-solid">Get a quote</a>
   </div>
 </section>
+
+<div class="brief-bar" id="brief-bar" aria-hidden="true">
+  <div class="brief-bar-inner">
+    <span class="brief-bar-count" id="bb-count">Nothing picked yet</span>
+    <a class="btn btn-solid" href="#your-brief">Review brief</a>
+  </div>
+</div>
 
 </main>
 
@@ -327,6 +334,6 @@
 
 <script src="js/nav.js?v=9"></script>
 <script src="js/main.js?v=5"></script>
-<script src="js/brief-builder.js?v=3"></script>
+<script src="js/brief-builder.js?v=4"></script>
 </body>
 </html>

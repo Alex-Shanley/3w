@@ -1835,6 +1835,10 @@
    The panel is deliberately dark in both themes, like .bg-ink: the piece
    is built out of light on black, and inverting it in light mode would
    turn a glow into soot. */
+/* On a .bg-ink band the panel's ground is the band's ground, so the
+   border is the only thing separating them. */
+.bg-ink .artpanel { border-color: rgba(255, 255, 255, 0.22); }
+
 .artpanel {
   margin: 0;
   border-radius: 12px;
@@ -1877,29 +1881,29 @@
    same line. Centred, a 250px block of copy sat 183px below the top of a
    651px panel — beside it in the markup, nowhere near it on the page.
 
-   Keyed off .has-art rather than a page class, so any hero that carries
+   Keyed off .is-split rather than a page class, so any hero that carries
    an art panel gets the split without a new rule each time. */
 @media (min-width: 900px) {
-  .page-intro-grid.has-art {
+  .page-intro-grid.is-split {
     grid-template-columns: 1fr 1fr;
     column-gap: var(--sp-9);
     align-items: start;
   }
-  .has-art .page-intro-lead {
+  .is-split .page-intro-lead {
     grid-column: 1;
     /* The headline lives in this half now, so it has to size against
        this column rather than the full container — 8.4cqw of 1312px is
        110px, which is a headline for a full-width row, not a half. */
     container-type: inline-size;
   }
-  .has-art h1 {
+  .is-split h1 {
     font-size: clamp(2.25rem, 10cqw, 3.9rem);
     max-width: 15ch;
   }
   /* .page-intro-grid p zeroes this to close the gap under a full-width
      headline. The headline is inside the grid now, so the gap is back. */
-  .page-intro-grid.has-art p { margin-top: var(--sp-5); }
-  .has-art .artpanel {
+  .page-intro-grid.is-split p { margin-top: var(--sp-5); }
+  .is-split .artpanel {
     grid-column: 2;
     justify-self: end;
     width: 100%;
@@ -1907,6 +1911,24 @@
        hero 1,141px tall and pushed the CTA under the fold on a 1440x900
        screen. */
     max-width: 520px;
+  }
+
+  /* About puts a photograph in the art slot. 300px is right when it is a
+     small aside; in half a hero it has to hold its side. */
+  .is-split .founder-portrait {
+    grid-column: 2;
+    justify-self: end;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  /* Pricing's heading sits on `.config-hero .config-heading`, which ties
+     `.is-split .config-heading` on specificity and wins on source order —
+     it is 800 lines further down the file. Two classes on the grid breaks
+     the tie without depending on where this rule sits. */
+  .page-intro-grid.is-split .config-heading {
+    font-size: clamp(2.25rem, 10cqw, 3.9rem);
+    max-width: 15ch;
   }
 }
 

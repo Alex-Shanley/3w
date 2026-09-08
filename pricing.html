@@ -22,7 +22,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=15">
 <link rel="stylesheet" href="css/base.css?v=23">
-<link rel="stylesheet" href="css/sections.css?v=124">
+<link rel="stylesheet" href="css/sections.css?v=126">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -109,9 +109,25 @@
 
 <section class="section bg-ink config-band config-hero">
   <div class="container">
-    <div class="section-index mono-label"><span class="num">01</span><span>/ Pricing</span></div>
-    <h1 class="config-heading">Plain numbers.<br>Build yours now.</h1>
-    <p class="config-lead">Every project is quoted in writing before a line of it gets built. Set it up here and the number moves as you go.</p>
+    <div class="page-intro-grid is-split">
+      <div class="page-intro-lead">
+        <div class="section-index mono-label"><span class="num">01</span><span>/ Pricing</span></div>
+        <h1 class="config-heading">Plain numbers.<br>Build yours now.</h1>
+        <p class="config-lead">Every project is quoted in writing before a line of it gets built. Set it up here and the number moves as you go.</p>
+      </div>
+
+      <!-- Generative, drawn every frame from a parametric surface — no
+           image file. A rippled sheet here rather than the services
+           bloom or the work knot: same renderer, different shape.
+           Decorative, so aria-hidden. -->
+      <figure class="artpanel" aria-hidden="true">
+        <canvas class="artpanel-canvas" data-surface="sheet"></canvas>
+        <figcaption class="artpanel-bar">
+          <span class="artpanel-file">ascii-art.js</span>
+          <span class="artpanel-note">drawn in your browser, one frame at a time</span>
+        </figcaption>
+      </figure>
+    </div>
 
     <!-- Configurator. Every figure it can show is one already published
          in the table above, so it can recommend a tier but can never
@@ -389,6 +405,7 @@
 
 <script src="js/nav.js?v=9"></script>
 <script src="js/main.js?v=5"></script>
+<script src="js/ascii-art.js?v=7" defer></script>
 <script src="js/configurator.js?v=6"></script>
 <script src="js/pricing-ui.js?v=3"></script>
 </body>

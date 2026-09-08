@@ -118,7 +118,36 @@
     accentFrom: 0.92,
   };
 
-  const SURFACES = { bloom, knot };
+  // A square sheet with a damped concentric ripple. Neither radial like
+  // the bloom nor woven like the knot: it reads as a surface being
+  // measured, which is the job of the page it sits on.
+  const TWO_PI = Math.PI * 2;
+  const sheet = {
+    dist: 3.0,
+    yaw: (t) => t * 0.00018,
+    pitch: (t) => 1.02 + Math.sin(t * 0.00015) * 0.10,
+    pitchMin: 0.92, pitchMax: 1.12,
+    // Both parameters are read as a square domain: the renderer sweeps v
+    // over a full turn, so it is mapped back to -1..1 rather than used as
+    // an angle.
+    pos(u, v, out) {
+      const a = u * 2 - 1;
+      const b = (v / TWO_PI) * 2 - 1;
+      const r = Math.hypot(a, b);
+      out[0] = a;
+      out[1] = b;
+      out[2] = 0.40 * Math.cos(r * 6.2) * Math.exp(-r * 1.15);
+      return out;
+    },
+    glow: () => 0,
+    // Flatter lighting than a bloom or a tube, so the cut has to come
+    // down to pick out the crests at all: 0.90 left it under 1% blue.
+    accentFrom: 0.78,
+    fitAxis: 'y',
+    pad: 0.94,
+  };
+
+  const SURFACES = { bloom, knot, sheet };
 
   // ── Renderer ────────────────────────────────────────────────────────
 
@@ -212,9 +241,20 @@
       }
       if (!isFinite(x0)) { scale = 1; hOffset = cols / 2; vOffset = rows / 2; return; }
       // The bound is the union across every rotation, so at most angles
-      // the shape sits inside it. 0.80 is what keeps a comfortable margin
-      // of black at the widest orientation instead of grazing the edge.
-      scale = Math.min((cols * 0.80) / (x1 - x0), (rows * 0.80) / (y1 - y0));
+      // the shape sits inside it. 0.80 keeps a comfortable margin of black
+      // at the widest orientation. A square sheet needs more: its union
+      // includes the 45-degree diagonal, which is 1.4x its own width, so
+      // the same figure would leave it stranded in the middle of the
+      // panel — it takes the frame right to the edge instead.
+      const pad = surface.pad || 0.80;
+      // A closed shape has to fit both ways or it gets cut off. A plane
+      // does not: fitting the sheet's 45-degree diagonal shrank it to 6%
+      // ink with 125px of dead black above and below. Fitting height only
+      // lets it run off the sides, which is how a surface extending past
+      // the frame is supposed to read.
+      scale = surface.fitAxis === 'y'
+        ? (rows * pad) / (y1 - y0)
+        : Math.min((cols * pad) / (x1 - x0), (rows * pad) / (y1 - y0));
       hOffset = cols / 2 - ((x0 + x1) / 2) * scale;
       vOffset = rows / 2 - ((y0 + y1) / 2) * scale;
     }
@@ -258,9 +298,15 @@
           if (surface.normal) {
             surface.normal(u, v, nrm);
           } else {
-            surface.pos(Math.min(1, u + e), v, pB);
+            // Step backwards at the far edge instead of clamping. Clamping
+            // made du zero on the last row, so the cross product vanished
+            // and a whole edge of the surface came out unlit — invisible
+            // on a bloom, a dark stripe along the rim of a flat sheet.
+            const du = u + e <= 1 ? e : -e;
+            surface.pos(u + du, v, pB);
             surface.pos(u, v + e, pC);
-            const ax = pB[0] - pA[0], ay = pB[1] - pA[1], az = pB[2] - pA[2];
+            const k = 1 / du;
+            const ax = (pB[0] - pA[0]) * k, ay = (pB[1] - pA[1]) * k, az = (pB[2] - pA[2]) * k;
             const bx = pC[0] - pA[0], by = pC[1] - pA[1], bz = pC[2] - pA[2];
             nrm[0] = ay * bz - az * by;
             nrm[1] = az * bx - ax * bz;

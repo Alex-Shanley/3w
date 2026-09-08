@@ -22,7 +22,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=15">
 <link rel="stylesheet" href="css/base.css?v=23">
-<link rel="stylesheet" href="css/sections.css?v=113">
+<link rel="stylesheet" href="css/sections.css?v=121">
 </head>
 <body class="services-page">
 <!-- First-visit intro. Dismissal is a CSS animation, not JS, so it
@@ -85,22 +85,18 @@
         <a href="contact.html" class="btn btn-solid">Get a quote</a>
       </div>
 
-      <!-- Fills what was empty space to the right of the intro, and
-           gives a long page a way in. The anchors already existed for
-           the footer's deep links — this just surfaces them. -->
-      <nav class="service-index" aria-label="Services on this page">
-        <div class="mono-label">Jump to</div>
-        <ol>
-          <li><a href="#website-design"><span class="num tabular">01</span> Website Design</a></li>
-          <li><a href="#web-development"><span class="num tabular">02</span> Web Development</a></li>
-          <li><a href="#ux-ui-design"><span class="num tabular">03</span> UX/UI &amp; Product Design</a></li>
-          <li><a href="#platforms"><span class="num tabular">04</span> Platform Builds</a></li>
-          <li><a href="#seo"><span class="num tabular">05</span> SEO</a></li>
-          <li><a href="#hosting"><span class="num tabular">06</span> Web Hosting</a></li>
-          <li><a href="#security"><span class="num tabular">07</span> Website Security</a></li>
-          <li><a href="#care-plans"><span class="num tabular">08</span> Care Plans</a></li>
-        </ol>
-      </nav>
+      <!-- Generative, drawn every frame into a canvas from a parametric
+           surface — no image file. Decorative, so aria-hidden; the
+           <noscript>/no-canvas case simply leaves an empty panel, which
+           is why nothing the page has to say lives in here. -->
+      <figure class="bloom" aria-hidden="true">
+        <canvas class="bloom-canvas" id="bloom"></canvas>
+        <figcaption class="bloom-bar">
+          <span class="bloom-file">bloom.js</span>
+          <span class="bloom-note">drawn in your browser, one frame at a time</span>
+        </figcaption>
+      </figure>
+
     </div>
   </div>
 </section>
@@ -346,5 +342,6 @@
 <script src="js/nav.js?v=9"></script>
 <script src="js/main.js?v=5"></script>
 <script src="js/brief-builder.js?v=5"></script>
+<script src="js/bloom.js?v=7" defer></script>
 </body>
 </html>

@@ -1459,31 +1459,6 @@
 }
 .page-intro-grid p { margin-top: 0; }
 
-.service-index ol {
-  list-style: none;
-  margin: var(--sp-4) 0 0;
-  padding: 0;
-  border-top: var(--hairline);
-}
-.service-index li { border-bottom: var(--hairline); }
-.service-index a {
-  display: flex;
-  align-items: baseline;
-  gap: var(--sp-4);
-  padding: var(--sp-2) 0;
-  text-decoration: none;
-  color: var(--text);
-  /* Was --step--1: a jump-to nav of eight items set at 15px, which is
-     the size used for captions elsewhere on the site. */
-  font-size: var(--step-0);
-  transition: color var(--dur-fast) var(--ease-out), padding-left var(--dur-fast) var(--ease-out);
-}
-.service-index .num { font-family: var(--font-mono); color: var(--text-secondary); }
-@media (hover: hover) and (pointer: fine) {
-  .service-index a:hover { color: var(--signal); padding-left: var(--sp-2); }
-  .service-index a:hover .num { color: var(--signal); }
-}
-
 /* ── Alternating section background ──────────────────────────────── */
 /* Applied manually to every second plain content section per page —
    not nth-child, since .bg-ink and .cta-band already carry their own
@@ -1792,32 +1767,49 @@
 /* Rows, not cards. This was two columns, and both groups of three
    orphaned their third service beside a full empty cell — 235,504px² in
    "Design & build", 216,480px² again in "Host, secure, maintain". A row
-   cannot orphan anything, it uses the whole 1312px measure instead of
-   half of it, and it puts all eight "Add to brief" buttons in one
-   predictable column rather than burying each one under its paragraph.
+   cannot orphan anything and it uses the whole measure instead of half.
    The body div goes display:contents so its children become grid items
    of the row itself; every child is placed explicitly, because in source
-   order they would otherwise fill columns 2,3,4,5. */
-@media (min-width: 1100px) {
+   order they would otherwise fill columns 2,3,4,5.
+
+   Two row shapes, because the pill is expensive. Giving it a column of
+   its own costs 212px plus a gap, and the first attempt did that from
+   1100px — where it left the description 188px, about 21 characters a
+   line. Below 1280px the pill sits under the title instead, and the
+   description keeps a readable measure. */
+@media (min-width: 1000px) {
   .service-detail {
-    /* Pinned, not max-content. "ADDED TO BRIEF" is 21px wider than "ADD
-       TO BRIEF", so a content-sized column shrank the paragraph beside
-       it by 21px the moment anyone picked a service — the text reflowed
-       under the cursor as a reward for clicking. Both states now measure
-       the same, and the column cannot move. */
-    grid-template-columns: 48px minmax(0, 380px) minmax(0, 1fr) minmax(212px, max-content);
+    grid-template-columns: 48px minmax(0, 300px) minmax(0, 1fr);
     align-items: start;
-    column-gap: var(--sp-7);
+    column-gap: var(--sp-6);
     row-gap: var(--sp-4);
     padding-block: var(--sp-6);
   }
   .service-detail-body { display: contents; }
   .service-detail .num { grid-column: 1; grid-row: 1; }
-  .service-detail-body h3 { grid-column: 2; grid-row: 1 / span 2; margin-bottom: 0; }
+  .service-detail-body h3 { grid-column: 2; grid-row: 1; margin-bottom: 0; }
   .service-detail-body p { grid-column: 3; grid-row: 1; }
   .service-detail-tags { grid-column: 3; grid-row: 2; margin-top: 0; }
-  .service-pick { grid-column: 4; grid-row: 1; margin-top: 0; justify-self: end; }
+  .service-pick { grid-column: 2; grid-row: 2; margin-top: 0; }
+}
+
+/* Wide enough for the pill to have its own column and still leave the
+   description ~50 characters. */
+@media (min-width: 1280px) {
+  .service-detail {
+    /* Pinned, not max-content. "ADDED TO BRIEF" is 21px wider than "ADD
+       TO BRIEF", so a content-sized column shrank the paragraph beside
+       it by 21px the moment anyone picked a service — the text reflowed
+       under the cursor as a reward for clicking. */
+    grid-template-columns: 48px minmax(0, 340px) minmax(0, 1fr) minmax(212px, max-content);
+  }
+  .service-detail-body h3 { grid-row: 1 / span 2; }
+  .service-pick { grid-column: 4; grid-row: 1; justify-self: end; }
   .service-pick-face { min-width: 212px; justify-content: center; }
+}
+
+@media (min-width: 1440px) {
+  .service-detail { column-gap: var(--sp-7); }
 }
 
 .service-detail .num { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); }
@@ -1831,6 +1823,65 @@
   font-family: var(--font-mono);
   font-size: var(--step--1);
   color: var(--text-secondary);
+}
+
+/* ── Hero bloom (services.html) ───────────────────────────────────── */
+/* The hero's left column ran 246px of content down an 864px-wide, 412px-
+   tall cell: 167px of dead height under the button and ~294px of unused
+   width beside a paragraph capped at 52ch. What fills it is generated,
+   not fetched — a parametric surface rasterised to glyphs every frame,
+   so it costs a few KB of JavaScript and no image request at all.
+
+   The panel is deliberately dark in both themes, like .bg-ink: the piece
+   is built out of light on black, and inverting it in light mode would
+   turn a glow into soot. */
+.bloom {
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #08080A;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.bloom-canvas {
+  display: block;
+  width: 100%;
+  /* Square. The bloom is a round thing: in an 862x320 panel it could only
+     ever fill a 320px circle and leave two thirds of the black empty. */
+  aspect-ratio: 1 / 1;
+  background: #08080A;
+}
+.bloom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* Fixed, not tokenised: this bar sits on its own black ground in both
+     themes, so --text-secondary would flip out from under it. 7.2:1. */
+  color: rgba(237, 235, 231, 0.72);
+}
+.bloom-note { text-align: right; }
+
+/* Stacked on a phone it must not grow into a huge square. */
+.bloom { max-width: 420px; }
+@media (max-width: 599px) {
+  .bloom-note { display: none; }
+}
+
+/* Two halves: the copy, and the bloom beside it. */
+@media (min-width: 900px) {
+  .services-page .page-intro-grid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--sp-9);
+    align-items: center;
+  }
+  .services-page .page-intro-lead { grid-column: 1; }
+  .services-page .bloom { grid-column: 2; max-width: none; justify-self: end; width: 100%; }
 }
 
 /* ── Services page rhythm ─────────────────────────────────────────── */

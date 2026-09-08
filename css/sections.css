@@ -2733,7 +2733,9 @@
   color: var(--text-secondary);
   font-size: var(--step-1);
 }
-.config-hero .config { margin-top: var(--sp-9); }
+/* The configurator sits in its own band now rather than under the
+   heading, so its own section padding is the space above it. */
+.config-band .config { margin-top: 0; }
 
 /* The bands were 192px of padding around content that often ran to less
    than that, which is what made the page read as sparse rather than
@@ -2920,9 +2922,10 @@
    survives both themes and any colour. */
 .pick input[type="checkbox"] ~ .pick-face { border-radius: var(--radius-md); }
 
-/* No band override any more. This was a hardcoded light border for a
-   dark band; on paper it is white-on-white. The generic .pick-face rule
-   reads --hairline-color and is correct in both themes on its own. */
+/* .config-band is the ink band again — only the hero above it is paper —
+   so the resting border needs lifting against it. Scoped to the band and
+   not the page, which is what keeps it off the paper hero. */
+.config-band .pick-face { border-color: rgba(247, 245, 241, 0.28); }
 
 .config-group input[type="range"] { width: 100%; margin-top: var(--sp-2); }
 .config-group output {

@@ -22,7 +22,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=15">
 <link rel="stylesheet" href="css/base.css?v=23">
-<link rel="stylesheet" href="css/sections.css?v=127">
+<link rel="stylesheet" href="css/sections.css?v=128">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -107,7 +107,7 @@
 
 <main id="main">
 
-<section class="section config-band config-hero">
+<section class="section config-hero">
   <div class="container">
     <div class="page-intro-grid is-split">
       <div class="page-intro-lead">
@@ -128,7 +128,14 @@
         </figcaption>
       </figure>
     </div>
+  </div>
+</section>
 
+<!-- The configurator keeps the ink band; only the hero above it is
+     paper. The dark ground is what makes the running quote in the right
+     column read as a panel you are working inside. -->
+<section class="section bg-ink config-band">
+  <div class="container">
     <!-- Configurator. Every figure it can show is one already published
          in the table above, so it can recommend a tier but can never
          invent a price. Anything outside the published tiers goes to a

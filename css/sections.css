@@ -1882,7 +1882,20 @@
     column-gap: var(--sp-9);
     align-items: start;
   }
-  .services-page .page-intro-lead { grid-column: 1; }
+  .services-page .page-intro-lead {
+    grid-column: 1;
+    /* The headline lives in this half now, so it has to size against
+       this column rather than the full container — 8.4cqw of 1312px is
+       110px, which is a headline for a full-width row, not a half. */
+    container-type: inline-size;
+  }
+  .services-page .page-intro h1 {
+    font-size: clamp(2.25rem, 10cqw, 3.9rem);
+    max-width: 15ch;
+  }
+  /* .page-intro-grid p zeroes this to close the gap under a full-width
+     headline. The headline is inside the grid now, so the gap is back. */
+  .services-page .page-intro-grid p { margin-top: var(--sp-5); }
   .services-page .bloom {
     grid-column: 2;
     justify-self: end;

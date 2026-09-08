@@ -2858,9 +2858,9 @@
 
 /* The configurator was a bordered box sitting in a paper band — a widget
    dropped into a layout rather than a layout in its own right. It is the
-   band now: full ink, the choices scrolling in the left column and the
-   running quote pinned in the right, so the number stays with you the
-   whole way down instead of waiting at the bottom.
+   band now: the choices scrolling in the left column and the running
+   quote pinned in the right, so the number stays with you the whole way
+   down instead of waiting at the bottom.
 
    The whole point of a configurator is watching the answer move while
    you change your mind. That only works if the answer is always on
@@ -2920,10 +2920,9 @@
    survives both themes and any colour. */
 .pick input[type="checkbox"] ~ .pick-face { border-radius: var(--radius-md); }
 
-/* The checked-pill fix that used to live here is gone: .bg-ink now
-   re-scopes --canvas, so the generic rule resolves correctly on its own.
-   Only the resting border needs lifting against this band. */
-.config-band .pick-face { border-color: rgba(247, 245, 241, 0.28); }
+/* No band override any more. This was a hardcoded light border for a
+   dark band; on paper it is white-on-white. The generic .pick-face rule
+   reads --hairline-color and is correct in both themes on its own. */
 
 .config-group input[type="range"] { width: 100%; margin-top: var(--sp-2); }
 .config-group output {

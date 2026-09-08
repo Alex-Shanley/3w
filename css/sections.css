@@ -1465,7 +1465,9 @@
   padding: var(--sp-2) 0;
   text-decoration: none;
   color: var(--text);
-  font-size: var(--step--1);
+  /* Was --step--1: a jump-to nav of eight items set at 15px, which is
+     the size used for captions elsewhere on the site. */
+  font-size: var(--step-0);
   transition: color var(--dur-fast) var(--ease-out), padding-left var(--dur-fast) var(--ease-out);
 }
 .service-index .num { font-family: var(--font-mono); color: var(--text-secondary); }
@@ -1763,7 +1765,18 @@
    hairline language, but one column of copy instead of a 4-up grid,
    since each entry here carries a full paragraph and a tag list
    rather than a one-line description. */
+/* Eight services ran as one narrow column down the middle-left of a
+   1425px band, each row 383px tall for 254px of content, with the right
+   half of every band empty. Two columns from 900px: the page uses its
+   width, and it is roughly half as long to get through. */
 .service-detail-list { border-top: var(--hairline); }
+@media (min-width: 900px) {
+  .service-detail-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--sp-8);
+  }
+}
 .service-detail {
   display: grid;
   grid-template-columns: 1fr;
@@ -1772,11 +1785,11 @@
   border-bottom: var(--hairline);
 }
 @media (min-width: 768px) {
-  .service-detail { grid-template-columns: 64px minmax(0, 1fr); gap: var(--sp-6); padding-block: var(--sp-8); }
+  .service-detail { grid-template-columns: 48px minmax(0, 1fr); gap: var(--sp-5); padding-block: var(--sp-7); }
 }
 .service-detail .num { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); }
 .service-detail-body h3 { font-size: var(--step-2); font-weight: 500; letter-spacing: -0.02em; margin-bottom: var(--sp-3); }
-.service-detail-body p { color: var(--text-secondary); max-width: 60ch; }
+.service-detail-body p { color: var(--text-secondary); }
 .service-detail-tags {
   display: flex;
   flex-wrap: wrap;
@@ -1788,11 +1801,16 @@
 }
 
 /* ── Service groups + brief builder (services.html) ───────────────── */
+/* "Design & build" and "Website Design" both measured 36.72px — a group
+   heading and one of the things inside it, identical. The group now
+   matches the section headings used across the rest of the site. */
 .service-group-heading {
-  font-size: var(--step-2);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  margin-bottom: var(--sp-6);
+  font-size: var(--step-4);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: var(--sp-7);
+  max-width: 18ch;
 }
 
 /* "Add to brief" toggle. The native checkbox stays in the layout and
@@ -1815,7 +1833,9 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
-  height: 36px;
+  /* 36px on the one control this page is built around, while every
+     other button on the site is 44px. */
+  min-height: 44px;
   padding: 0 var(--sp-5);
   border: var(--hairline);
   border-radius: 999px;
@@ -1873,15 +1893,28 @@
   background: var(--paper-2);
 }
 @media (min-width: 768px) {
-  .brief-builder { flex-direction: row; align-items: center; justify-content: space-between; }
+  .brief-builder { flex-direction: row; align-items: center; justify-content: space-between; gap: var(--sp-8); padding: var(--sp-8); }
+  .brief-builder-body { flex: 1 1 auto; }
 }
 /* On the ink band the --paper-2 fill would be a light card carrying
    .bg-ink's light text — the nested-surface trap. Outlined panel
    instead: transparent, with the band's own re-scoped hairline. */
 .bg-ink .brief-builder { background: transparent; }
 
+/* The tally, at the scale the thing deserves. Ticking eight services
+   used to produce one line of muted grey in a 542px band holding 60px
+   of content. */
+.brief-count {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-top: var(--sp-3);
+  color: var(--text);
+}
 .brief-summary {
-  margin: var(--sp-2) 0 0;
+  margin: var(--sp-4) 0 0;
   color: var(--text-secondary);
   max-width: 60ch;
 }

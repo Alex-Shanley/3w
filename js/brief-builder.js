@@ -6,6 +6,12 @@
   const boxes = Array.from(document.querySelectorAll('input[name="services"]'));
   if (!boxes.length) return;
 
+  // The running count, so the band reads as a tally rather than a
+  // sentence. It was a single line of muted text in a 542px band that
+  // held 60px of content — the payoff for ticking eight things was
+  // almost nothing to look at.
+  const count = document.getElementById('brief-count');
+
   // The empty-state copy is authored in the HTML, so it survives with
   // JS off; hold on to it rather than duplicating the string here.
   const emptyText = summary.textContent;
@@ -17,9 +23,12 @@
 
   function update() {
     const chosen = boxes.filter((b) => b.checked).map((b) => b.value);
-    summary.textContent = chosen.length
-      ? `${chosen.length} selected: ${list(chosen)}.`
-      : emptyText;
+    if (count) {
+      count.textContent = chosen.length
+        ? `${chosen.length} of ${boxes.length} picked`
+        : 'Nothing picked yet';
+    }
+    summary.textContent = chosen.length ? `${list(chosen)}.` : emptyText;
   }
 
   boxes.forEach((b) => b.addEventListener('change', update));

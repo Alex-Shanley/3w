@@ -1873,15 +1873,25 @@
   .bloom-note { display: none; }
 }
 
-/* Two halves: the copy, and the bloom beside it. */
+/* Two halves: the copy, and the bloom beside it, both starting on the
+   same line. Centred, a 250px block of copy sat 183px below the top of a
+   651px panel — beside it in the markup, nowhere near it on the page. */
 @media (min-width: 900px) {
   .services-page .page-intro-grid {
     grid-template-columns: 1fr 1fr;
     column-gap: var(--sp-9);
-    align-items: center;
+    align-items: start;
   }
   .services-page .page-intro-lead { grid-column: 1; }
-  .services-page .bloom { grid-column: 2; max-width: none; justify-self: end; width: 100%; }
+  .services-page .bloom {
+    grid-column: 2;
+    justify-self: end;
+    width: 100%;
+    /* Uncapped it reached 608px square in a half-column, which made the
+       hero 1,141px tall and pushed "Get a quote" under the fold on a
+       1440x900 screen. */
+    max-width: 520px;
+  }
 }
 
 /* ── Services page rhythm ─────────────────────────────────────────── */

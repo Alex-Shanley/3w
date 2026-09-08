@@ -1825,7 +1825,7 @@
   color: var(--text-secondary);
 }
 
-/* ── Hero bloom (services.html) ───────────────────────────────────── */
+/* ── Hero art panel (services.html, work.html) ────────────────────── */
 /* The hero's left column ran 246px of content down an 864px-wide, 412px-
    tall cell: 167px of dead height under the button and ~294px of unused
    width beside a paragraph capped at 52ch. What fills it is generated,
@@ -1835,22 +1835,22 @@
    The panel is deliberately dark in both themes, like .bg-ink: the piece
    is built out of light on black, and inverting it in light mode would
    turn a glow into soot. */
-.bloom {
+.artpanel {
   margin: 0;
   border-radius: 12px;
   overflow: hidden;
   background: #08080A;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
-.bloom-canvas {
+.artpanel-canvas {
   display: block;
   width: 100%;
-  /* Square. The bloom is a round thing: in an 862x320 panel it could only
+  /* Square. These shapes are round things: in an 862x320 panel one could only
      ever fill a 320px circle and leave two thirds of the black empty. */
   aspect-ratio: 1 / 1;
   background: #08080A;
 }
-.bloom-bar {
+.artpanel-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1865,44 +1865,47 @@
      themes, so --text-secondary would flip out from under it. 7.2:1. */
   color: rgba(237, 235, 231, 0.72);
 }
-.bloom-note { text-align: right; }
+.artpanel-note { text-align: right; }
 
 /* Stacked on a phone it must not grow into a huge square. */
-.bloom { max-width: 420px; }
+.artpanel { max-width: 420px; }
 @media (max-width: 599px) {
-  .bloom-note { display: none; }
+  .artpanel-note { display: none; }
 }
 
-/* Two halves: the copy, and the bloom beside it, both starting on the
+/* Two halves: the copy, and the art beside it, both starting on the
    same line. Centred, a 250px block of copy sat 183px below the top of a
-   651px panel — beside it in the markup, nowhere near it on the page. */
+   651px panel — beside it in the markup, nowhere near it on the page.
+
+   Keyed off .has-art rather than a page class, so any hero that carries
+   an art panel gets the split without a new rule each time. */
 @media (min-width: 900px) {
-  .services-page .page-intro-grid {
+  .page-intro-grid.has-art {
     grid-template-columns: 1fr 1fr;
     column-gap: var(--sp-9);
     align-items: start;
   }
-  .services-page .page-intro-lead {
+  .has-art .page-intro-lead {
     grid-column: 1;
     /* The headline lives in this half now, so it has to size against
        this column rather than the full container — 8.4cqw of 1312px is
        110px, which is a headline for a full-width row, not a half. */
     container-type: inline-size;
   }
-  .services-page .page-intro h1 {
+  .has-art h1 {
     font-size: clamp(2.25rem, 10cqw, 3.9rem);
     max-width: 15ch;
   }
   /* .page-intro-grid p zeroes this to close the gap under a full-width
      headline. The headline is inside the grid now, so the gap is back. */
-  .services-page .page-intro-grid p { margin-top: var(--sp-5); }
-  .services-page .bloom {
+  .page-intro-grid.has-art p { margin-top: var(--sp-5); }
+  .has-art .artpanel {
     grid-column: 2;
     justify-self: end;
     width: 100%;
     /* Uncapped it reached 608px square in a half-column, which made the
-       hero 1,141px tall and pushed "Get a quote" under the fold on a
-       1440x900 screen. */
+       hero 1,141px tall and pushed the CTA under the fold on a 1440x900
+       screen. */
     max-width: 520px;
   }
 }

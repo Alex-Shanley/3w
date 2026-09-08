@@ -22,9 +22,9 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=15">
 <link rel="stylesheet" href="css/base.css?v=23">
-<link rel="stylesheet" href="css/sections.css?v=123">
+<link rel="stylesheet" href="css/sections.css?v=124">
 </head>
-<body>
+<body class="work-page">
 <!-- First-visit intro. Dismissal is a CSS animation, not JS, so it
      cannot strand anyone if a script fails; pointer-events stay off
      throughout so it never blocks a click either. Neither string has a
@@ -76,9 +76,26 @@
 
 <section class="page-intro">
   <div class="container">
-    <div class="section-index mono-label"><span class="num">01</span><span>/ Work</span></div>
-    <h1>Recent launches.</h1>
-    <p>Every project here is quoted, built and hosted by the same team: no subcontractors, no handoffs.</p>
+    <div class="page-intro-grid has-art">
+      <div class="page-intro-lead">
+        <div class="section-index mono-label"><span class="num">01</span><span>/ Work</span></div>
+        <h1>Recent launches.</h1>
+        <p>Every project here is quoted, built and hosted by the same team: no subcontractors, no handoffs.</p>
+        <a href="contact.html" class="btn btn-solid">Start a project</a>
+      </div>
+
+      <!-- Generative, drawn every frame from a parametric surface — no
+           image file. A trefoil knot here rather than the services
+           page's bloom: same renderer, different shape. Decorative, so
+           aria-hidden. -->
+      <figure class="artpanel" aria-hidden="true">
+        <canvas class="artpanel-canvas" data-surface="knot"></canvas>
+        <figcaption class="artpanel-bar">
+          <span class="artpanel-file">ascii-art.js</span>
+          <span class="artpanel-note">drawn in your browser, one frame at a time</span>
+        </figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -210,5 +227,6 @@
 
 <script src="js/nav.js?v=9"></script>
 <script src="js/main.js?v=5"></script>
+<script src="js/ascii-art.js?v=4" defer></script>
 </body>
 </html>

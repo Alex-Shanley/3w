@@ -1618,7 +1618,12 @@
 .cs-meta .label { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); display: block; }
 .cs-meta .value { font-size: var(--step--1); margin-top: var(--sp-1); display: block; }
 .cs-hero h1 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 16ch; margin-bottom: var(--sp-8); }
-.cs-hero-shot { aspect-ratio: 21 / 9; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0; }
+/* 16/9, not 21/9. These are device mockups — the site composited onto a
+   monitor in a photographed room — so the subject sits in the middle of
+   the frame with the desk below and the ceiling above. A 21/9 crop cut
+   through the monitor itself. */
+.cs-hero-shot { aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0; margin: 0; }
+.cs-hero-shot img { object-position: center; }
 .cs-hero-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .cs-narrative { max-width: 720px; margin: 0 auto; padding-block: var(--sp-10); }

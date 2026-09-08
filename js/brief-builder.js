@@ -24,6 +24,15 @@
   // JS off; hold on to it rather than duplicating the string here.
   const emptyText = summary.textContent;
 
+  // The bar's whole job is to carry the tally to somewhere the brief
+  // band isn't. Once the band is on screen the bar sat on top of it,
+  // offering "Review brief" as a link to what you were already reading
+  // — and covering the band's own "Send this brief" button while it did.
+  // It stands down from the moment the band appears, and stays down for
+  // everything below it.
+  const briefBand = document.getElementById('your-brief');
+  let bandReached = false;
+
   function list(names) {
     if (names.length === 1) return names[0];
     return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
@@ -37,13 +46,23 @@
     if (count) count.textContent = tally;
     if (barCount) barCount.textContent = tally;
     if (bar) {
-      bar.classList.toggle('is-open', chosen.length > 0);
-      bar.setAttribute('aria-hidden', chosen.length ? 'false' : 'true');
+      const show = chosen.length > 0 && !bandReached;
+      bar.classList.toggle('is-open', show);
+      bar.setAttribute('aria-hidden', show ? 'false' : 'true');
     }
     summary.textContent = chosen.length ? `${list(chosen)}.` : emptyText;
   }
 
   boxes.forEach((b) => b.addEventListener('change', update));
+
+  if (briefBand && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      // Intersecting means it is on screen; a negative top means it has
+      // already scrolled by, which covers the CTA band and footer below.
+      bandReached = entry.isIntersecting || entry.boundingClientRect.top < 0;
+      update();
+    }, { threshold: 0 }).observe(briefBand);
+  }
 
   // Fold the selection into the same `brief` param the estimator uses,
   // so contact-form.js has one prefill path to support rather than two.

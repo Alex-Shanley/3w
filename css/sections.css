@@ -1778,23 +1778,48 @@
    half of every band empty. Two columns from 900px: the page uses its
    width, and it is roughly half as long to get through. */
 .service-detail-list { border-top: var(--hairline); }
-@media (min-width: 900px) {
-  .service-detail-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--sp-8);
-  }
-}
 .service-detail {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--sp-3);
-  padding-block: var(--sp-7);
+  padding-block: var(--sp-6);
   border-bottom: var(--hairline);
 }
 @media (min-width: 768px) {
   .service-detail { grid-template-columns: 48px minmax(0, 1fr); gap: var(--sp-5); padding-block: var(--sp-7); }
 }
+
+/* Rows, not cards. This was two columns, and both groups of three
+   orphaned their third service beside a full empty cell — 235,504px² in
+   "Design & build", 216,480px² again in "Host, secure, maintain". A row
+   cannot orphan anything, it uses the whole 1312px measure instead of
+   half of it, and it puts all eight "Add to brief" buttons in one
+   predictable column rather than burying each one under its paragraph.
+   The body div goes display:contents so its children become grid items
+   of the row itself; every child is placed explicitly, because in source
+   order they would otherwise fill columns 2,3,4,5. */
+@media (min-width: 1100px) {
+  .service-detail {
+    /* Pinned, not max-content. "ADDED TO BRIEF" is 21px wider than "ADD
+       TO BRIEF", so a content-sized column shrank the paragraph beside
+       it by 21px the moment anyone picked a service — the text reflowed
+       under the cursor as a reward for clicking. Both states now measure
+       the same, and the column cannot move. */
+    grid-template-columns: 48px minmax(0, 380px) minmax(0, 1fr) minmax(212px, max-content);
+    align-items: start;
+    column-gap: var(--sp-7);
+    row-gap: var(--sp-4);
+    padding-block: var(--sp-6);
+  }
+  .service-detail-body { display: contents; }
+  .service-detail .num { grid-column: 1; grid-row: 1; }
+  .service-detail-body h3 { grid-column: 2; grid-row: 1 / span 2; margin-bottom: 0; }
+  .service-detail-body p { grid-column: 3; grid-row: 1; }
+  .service-detail-tags { grid-column: 3; grid-row: 2; margin-top: 0; }
+  .service-pick { grid-column: 4; grid-row: 1; margin-top: 0; justify-self: end; }
+  .service-pick-face { min-width: 212px; justify-content: center; }
+}
+
 .service-detail .num { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-secondary); }
 .service-detail-body h3 { font-size: var(--step-2); font-weight: 500; letter-spacing: -0.02em; margin-bottom: var(--sp-3); }
 .service-detail-body p { color: var(--text-secondary); }
@@ -1806,6 +1831,38 @@
   font-family: var(--font-mono);
   font-size: var(--step--1);
   color: var(--text-secondary);
+}
+
+/* ── Services page rhythm ─────────────────────────────────────────── */
+/* --sp-11 top and bottom is the site's section padding, and it is right
+   on pages where a band holds one big idea. This page has four bands
+   holding a heading and three rows each: 384px of padding wrapped around
+   roughly 700px of content, four times over, was 1,536px of the page —
+   a quarter of its whole length — spent on nothing. Scoped to this page
+   so the rest of the site keeps its rhythm. */
+/* Only from 1024px, which is where .section actually takes --sp-11.
+   Below that the site already uses --sp-9 (96px) and this override,
+   left unscoped, was pushing mobile padding UP from 96px to 128px. */
+@media (min-width: 1024px) {
+  .services-page .section { padding-block: var(--sp-10); }
+
+  /* An empty state does not need 384px of room to say "nothing yet". It
+     grows on its own once services are picked, because the summary line
+     fills with their names. */
+  .services-page .section.bg-ink { padding-block: var(--sp-9); }
+}
+
+/* Eight rows that do nothing on hover read as a table. The tint bleeds
+   past the text on both sides so the whole row lights up, while the
+   negative inline margin keeps every column exactly where it was. */
+@media (hover: hover) and (min-width: 1100px) {
+  .service-detail {
+    padding-inline: var(--sp-4);
+    margin-inline: calc(var(--sp-4) * -1);
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+  .service-detail:hover { background: color-mix(in srgb, var(--text) 7%, transparent); }
+  .service-detail:hover .service-pick-face { border-color: currentColor; }
 }
 
 /* ── Service groups + brief builder (services.html) ───────────────── */
@@ -1851,6 +1908,7 @@
   font-size: var(--step--1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: var(--text);
   transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out),
     border-color var(--dur-fast) var(--ease-out);

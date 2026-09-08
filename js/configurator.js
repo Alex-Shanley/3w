@@ -22,6 +22,7 @@
   // don't are named in "quoted separately" without a number.
   const LAUNCH_MAX = 6;
   const GROW_MAX = 15;
+  const PAGES_MAX = 20; // must match the max attribute on #cfg-pages
   const CARE_MONTHLY = 'plus €190 / month';
 
   const TIERS = {
@@ -67,7 +68,11 @@
     if (state.shop) out.push('An online shop');
     if (state.domain) out.push('Domain registration');
     if (state.platform === 'a custom build') out.push('Custom build rather than a platform');
-    if (state.pages > GROW_MAX) out.push(`${state.pages}+ pages, past the Grow tier`);
+    if (state.pages > GROW_MAX) {
+      out.push(state.pages >= PAGES_MAX
+        ? `${PAGES_MAX} or more pages, past the Grow tier`
+        : `${state.pages} pages, past the Grow tier`);
+    }
     return out;
   }
 
@@ -79,7 +84,12 @@
     let opening = state.kind.charAt(0).toUpperCase() + state.kind.slice(1);
     if (state.platform) opening += ` on ${state.platform}`;
     bits.push(opening + '.');
-    bits.push(`Roughly ${state.pages} page${state.pages === 1 ? '' : 's'}.`);
+    // The slider tops out at 20, where the readout says "20+". The brief
+    // has to say the same thing — someone with forty pages must not send
+    // us a brief that quietly claims twenty.
+    bits.push(state.pages >= PAGES_MAX
+      ? `${PAGES_MAX} or more pages.`
+      : `Roughly ${state.pages} page${state.pages === 1 ? '' : 's'}.`);
     if (state.migrate) bits.push('Moving content from an existing site.');
     if (state.shop) bits.push('Needs an online shop.');
     if (state.seo) bits.push('Includes SEO research and page build.');
@@ -165,8 +175,11 @@
       migrate: checked('cfg-migrate'),
     };
 
+    // Only the top of the slider is open-ended. Anything below it is an
+    // exact number someone chose, so "17+" would be putting words in
+    // their mouth — and would not match the brief they end up sending.
     pagesOut.textContent = state.pages === 1 ? '1 page'
-      : state.pages > GROW_MAX ? `${state.pages}+ pages`
+      : state.pages >= PAGES_MAX ? `${PAGES_MAX}+ pages`
       : `${state.pages} pages`;
 
     const key = pickTier(state.pages, state.seo);

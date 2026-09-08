@@ -1,48 +1,7 @@
 (() => {
-  // Everything in this file is driven by figures already published on
-  // the page: €5,400, €10,800, €190/month, two working days, four to
-  // eight weeks, hosting for year one. None of it computes a price or
-  // invents a threshold that isn't one of those numbers.
-
-  const LAUNCH = 5400;
-  const GROW = 10800;
-  const euro = (n) => '€' + n.toLocaleString('en-IE');
-
-  // ── Budget matcher ──────────────────────────────────────────────────
-  // Answers "can I afford this" before anyone scrolls. The bands are the
-  // two published prices, nothing between them is invented, and coming
-  // in under the smallest tier gets an honest answer rather than a wall.
-  (function budgetMatcher() {
-    const range = document.getElementById('budget-range');
-    const figure = document.getElementById('budget-figure');
-    const verdict = document.getElementById('budget-verdict');
-    if (!range || !figure || !verdict) return;
-
-    function say(n) {
-      if (n < LAUNCH) {
-        return `Under our smallest tier. Send the brief anyway and we will tell you straight whether we can help.`;
-      }
-      if (n < GROW) {
-        return `That is <strong>Launch</strong> territory, at ${euro(LAUNCH)}.`;
-      }
-      if (n < GROW * 1.5) {
-        return `That covers <strong>Grow</strong>, at ${euro(GROW)}.`;
-      }
-      return `Above the published tiers. That becomes a <strong>scoped quote</strong>, priced the same way: one number, in writing, before anything is built.`;
-    }
-
-    function update() {
-      const n = Number(range.value);
-      figure.textContent = euro(n);
-      // say() returns only our own markup, never anything derived from
-      // the input value, which is a number the browser has already
-      // clamped to the slider's own range.
-      verdict.innerHTML = say(n);
-    }
-
-    range.addEventListener('input', update);
-    update();
-  })();
+  // Everything in this file is driven by copy already published on the
+  // page: two working days, four to eight weeks, hosting for year one.
+  // None of it computes a price.
 
   // ── Project timeline ────────────────────────────────────────────────
   const STAGES = [

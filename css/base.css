@@ -209,6 +209,11 @@ html { scroll-padding-top: 104px; }
 
 .mono-label {
   font-family: var(--font-mono);
+  /* Owns its weight rather than inheriting. Some of these labels are the
+     visible text of an <h2> (the case-study row labels), and the shared
+     heading rule sets 600 — which would render this micro-label bolder
+     than the identical ones elsewhere on the page. */
+  font-weight: 400;
   font-size: var(--step--1);
   letter-spacing: 0.14em;
   text-transform: uppercase;

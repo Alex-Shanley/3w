@@ -624,22 +624,30 @@
 /* Range input: styled explicitly on both engines because the default
    thumb/track render nothing like each other, and this control is the
    main thing people will actually grab. */
-#est-pages {
+/* Renamed from #est-pages, which stopped existing when the estimator
+   became the configurator — every rule in this block had been matching
+   nothing, so the slider was rendering as an unstyled browser default.
+
+   The padding is the other half of the original finding: a 2px track is
+   a 2px target, so the input carries a 44px box around it and the track
+   is drawn inside that. */
+#cfg-pages {
   width: 100%;
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
   cursor: pointer;
+  height: 44px;
 }
-#est-pages::-webkit-slider-runnable-track {
+#cfg-pages::-webkit-slider-runnable-track {
   height: 2px;
   background: var(--hairline-color);
 }
-#est-pages::-moz-range-track {
+#cfg-pages::-moz-range-track {
   height: 2px;
   background: var(--hairline-color);
 }
-#est-pages::-webkit-slider-thumb {
+#cfg-pages::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 20px;
   height: 20px;
@@ -649,7 +657,7 @@
   border: 0;
   transition: transform var(--dur-fast) var(--ease-out);
 }
-#est-pages::-moz-range-thumb {
+#cfg-pages::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 999px;
@@ -657,12 +665,12 @@
   border: 0;
   transition: transform var(--dur-fast) var(--ease-out);
 }
-#est-pages:hover::-webkit-slider-thumb,
-#est-pages:focus-visible::-webkit-slider-thumb { transform: scale(1.15); }
-#est-pages:hover::-moz-range-thumb,
-#est-pages:focus-visible::-moz-range-thumb { transform: scale(1.15); }
+#cfg-pages:hover::-webkit-slider-thumb,
+#cfg-pages:focus-visible::-webkit-slider-thumb { transform: scale(1.15); }
+#cfg-pages:hover::-moz-range-thumb,
+#cfg-pages:focus-visible::-moz-range-thumb { transform: scale(1.15); }
 
-#est-pages-out {
+#cfg-pages-out {
   display: block;
   margin-top: var(--sp-3);
   font-family: var(--font-mono);
@@ -2894,27 +2902,6 @@
 }
 .config-price { transition: opacity var(--dur-fast) var(--ease-out), filter var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out); }
 
-/* ── Pricing: budget matcher ──────────────────────────────────────── */
-/* Replaces a static three-row price list in the intro. "Can I afford
-   this" is the first question anyone brings to a pricing page, and it
-   was previously answered by reading. Now it answers back. */
-.budget-match { border-top: var(--hairline); padding-top: var(--sp-5); }
-.budget-figure {
-  font-family: var(--font-display);
-  font-size: var(--step-3);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  margin: var(--sp-3) 0 var(--sp-4);
-}
-.budget-match input[type="range"] { width: 100%; }
-.budget-verdict {
-  margin-top: var(--sp-4);
-  font-size: var(--step--1);
-  color: var(--text-secondary);
-  min-height: 3.2em; /* holds its space so the layout doesn't jump between verdicts */
-}
-.budget-verdict strong { color: var(--text); font-weight: 600; }
 
 /* ── Pricing: project timeline ────────────────────────────────────── */
 /* The closest honest answer to "a UI that shows you building a website".

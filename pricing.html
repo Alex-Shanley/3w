@@ -22,7 +22,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/tokens.css?v=15">
 <link rel="stylesheet" href="css/base.css?v=23">
-<link rel="stylesheet" href="css/sections.css?v=136">
+<link rel="stylesheet" href="css/sections.css?v=137">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -111,9 +111,10 @@
   <div class="container">
     <div class="page-intro-grid is-split">
       <div class="page-intro-lead">
-        <div class="section-index mono-label"><span class="num">01</span><span>/ Pricing</span></div>
+        <div class="section-index mono-label"><span>Pricing</span></div>
         <h1 class="config-heading">Plain numbers.<br>Build yours now.</h1>
         <p class="config-lead">Every project is quoted in writing before a line of it gets built. Set it up here and the number moves as you go.</p>
+        <a class="link-arrow config-jump" href="#configurator">Build your quote <span class="arrow">&darr;</span></a>
       </div>
 
       <!-- Generative, drawn every frame from a parametric surface — no
@@ -207,7 +208,7 @@
           <p id="cfg-brief">A new site. Roughly 6 pages.</p>
         </div>
 
-        <a href="contact.html" class="btn btn-solid" id="cfg-cta">Send this brief</a>
+        <a href="contact.html" class="btn btn-solid" id="cfg-cta">Send your brief</a>
         <p class="est-note">
           Indicative, not a quote. Every project gets a fixed price in
           writing before we start any work.
@@ -219,7 +220,7 @@
 
 <section class="section">
   <div class="container">
-    <div class="section-index mono-label"><span class="num">02</span><span>/ What each tier includes</span></div>
+    <h2 class="section-index mono-label"><span>What each tier includes</span></h2>
 
     <div class="table-tools">
       <label class="pick"><input type="checkbox" id="diff-only"><span class="pick-face">Show only what differs</span></label>
@@ -290,7 +291,7 @@
 
 <section class="section bg-alt">
   <div class="container">
-    <div class="section-index mono-label"><span class="num">03</span><span>/ How quoting works</span></div>
+    <div class="section-index mono-label"><span>How quoting works</span></div>
     <h2 class="timeline-heading">From your brief to a year after launch.</h2>
 
     <!-- Radios rather than buttons: the track is a single-choice control,
@@ -308,7 +309,7 @@
         <div class="mono-label" id="tl-when">Day zero</div>
         <h3 id="tl-title">You send the brief</h3>
         <p id="tl-body">Tell us what the site needs to do. No discovery call required first, though you are welcome to one.</p>
-        <a class="link-arrow tl-cta" href="contact.html">Start the two working days <span class="arrow">&rarr;</span></a>
+        <a class="link-arrow tl-cta" href="contact.html">Send your brief <span class="arrow">&rarr;</span></a>
       </div>
     </div>
   </div>
@@ -316,7 +317,7 @@
 
 <section class="section">
   <div class="container">
-    <div class="section-index mono-label"><span class="num">04</span><span>/ After launch</span></div>
+    <h2 class="section-index mono-label"><span>After launch</span></h2>
     <div class="care-band">
       <div>
         <div class="tier-name">Care</div>
@@ -341,7 +342,7 @@
 
 <section class="cta-band bg-ink">
   <div class="container">
-    <h2>You have the number. Send the brief.</h2>
+    <h2>You have the number. Send your brief.</h2>
     <p class="cta-sub">A fixed price in writing within two working days. No discovery call unless you want one.</p>
     <div class="cta-actions">
       <a href="contact.html" class="btn btn-on-ink" id="final-cta">Send your brief</a>
@@ -356,7 +357,7 @@
       <div class="quote-bar-tier" id="qb-tier">Launch</div>
       <div class="quote-bar-price tabular" id="qb-price">&euro;5,400</div>
     </div>
-    <a class="btn btn-solid" id="qb-cta" href="contact.html">Send this brief</a>
+    <a class="btn btn-solid" id="qb-cta" href="contact.html">Send your brief</a>
   </div>
 </div>
 
@@ -373,6 +374,7 @@
     <div class="footer-grid">
       <div class="footer-col">
         <div class="mono-label">Services</div>
+        <a href="pricing.html" aria-current="page">Pricing</a>
         <a href="services.html#website-design">Website Design</a>
         <a href="services.html#web-development">Web Development</a>
         <a href="services.html#ux-ui-design">UX/UI Design</a>
@@ -394,13 +396,7 @@
       <div class="footer-col">
         <div class="mono-label">Company</div>
         <a href="about.html">About</a>
-        <a href="pricing.html" aria-current="page">Pricing</a>
         <a href="privacy.html">Privacy</a>
-      </div>
-      <div class="footer-col">
-        <div class="mono-label">Contact</div>
-        <p>Dublin, Ireland</p>
-        <a href="mailto:hello@3w.studio">hello@3w.studio</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -413,7 +409,7 @@
 <script src="js/nav.js?v=9"></script>
 <script src="js/main.js?v=5"></script>
 <script src="js/ascii-art.js?v=7" defer></script>
-<script src="js/configurator.js?v=6"></script>
+<script src="js/configurator.js?v=7"></script>
 <script src="js/pricing-ui.js?v=3"></script>
 </body>
 </html>

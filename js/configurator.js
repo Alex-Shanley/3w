@@ -125,9 +125,10 @@
   const barCta = document.getElementById('qb-cta');
   // The CTA at the foot of the page used to reset to a generic "Get a
   // quote", throwing away everything someone had just configured at the
-  // top of it. It carries the same brief as the builder now, and names
-  // the tier, so the last thing on the page continues the conversation
-  // rather than restarting it.
+  // top of it. It carries the same brief as the builder now, so the last
+  // thing on the page continues the conversation rather than restarting
+  // it. Its label stays "Send your brief", the same as every other brief
+  // button on the site, rather than changing with the tier.
   const finalCta = document.getElementById('final-cta');
 
   if (bar && 'IntersectionObserver' in window) {
@@ -142,11 +143,6 @@
 
     if (barTier) barTier.textContent = tier.name;
     if (barPrice) barPrice.textContent = tier.price;
-    if (finalCta) {
-      finalCta.textContent = tier.name === 'Launch' || tier.name === 'Grow'
-        ? `Send your ${tier.name} brief`
-        : 'Send your brief';
-    }
 
     monthlyEl.hidden = !state.care;
     monthlyEl.textContent = CARE_MONTHLY;

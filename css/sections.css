@@ -1334,7 +1334,10 @@
    it: this heading inherited the body line-height (~1.55), which at 65px
    put a 101px line box around the type — 36px of dead space per line,
    and this heading runs to two lines on every page that uses it. */
-.cta-band h2 { font-size: var(--step-4); font-weight: 600; letter-spacing: -0.03em; max-width: 14ch; line-height: 1.05; }
+/* --step-3, not --step-4. At --step-4 this closing line measured 80px on
+   Services, Work, Pricing and About, where the page title measures 61px:
+   the last band on the page outranked the first heading on it. */
+.cta-band h2 { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.03em; max-width: 14ch; line-height: 1.05; }
 .cta-band .email-link {
   font-family: var(--font-display);
   font-weight: 500;
@@ -1389,7 +1392,7 @@
 
 .footer-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-6); }
 @media (min-width: 640px) { .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 900px) { .footer-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .footer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .footer-col a, .footer-col p { display: block; color: var(--text-secondary); font-size: var(--step--1); margin-top: var(--sp-2); }
 /* 21px line boxes, three short of the minimum target — the same issue
    the arrow links had, in the densest list of links on the site. */
@@ -1439,7 +1442,10 @@
    below the fold. The hero sets 0.95 for the same reason. */
 .page-intro h1 { line-height: 1.03; }
 @media (min-width: 1024px) {
-  .page-intro h1 { font-size: clamp(2.75rem, 8.4cqw, 7rem); max-width: 18ch; }
+  /* Capped at --step-4's ceiling rather than 7rem. Contact's title reached
+   110px, bigger than every page except the homepage, and the case-study
+   titles top out at this same 5.2rem. */
+  .page-intro h1 { font-size: clamp(2.75rem, 8.4cqw, 5.2rem); max-width: 18ch; }
 }
 .page-intro .btn { margin-top: var(--sp-7); }
 
@@ -1458,6 +1464,14 @@
   }
 }
 .page-intro-grid p { margin-top: 0; }
+/* Split heroes hold the label, headline and copy inside the grid, so the
+   grid's top margin and the paragraph reset above both land inside the
+   hero. Both unscoped from the 900px query: below it the reset put the
+   paragraph 8px into the headline on Services, Work and About (0px on
+   Pricing), and the margin set the eyebrow 48px lower than on every
+   other page. */
+.page-intro-grid.is-split { margin-top: 0; }
+.page-intro-grid.is-split p { margin-top: var(--sp-5); }
 
 /* ── Alternating section background ──────────────────────────────── */
 /* Applied manually to every second plain content section per page —
@@ -1625,6 +1639,10 @@
 .cs-hero-shot { aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0; margin: 0; }
 .cs-hero-shot img { object-position: center; }
 .cs-hero-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* 2/1 from 1024px. At 16/9 across the full measure these heroes ran
+   1,449-1,487px and the first chapter started two screens down. The
+   mockups have desk and ceiling to spare above and below the monitor. */
+@media (min-width: 1024px) { .cs-hero-shot { aspect-ratio: 2 / 1; } }
 
 .cs-narrative { max-width: 720px; margin: 0 auto; padding-block: var(--sp-10); }
 .cs-block + .cs-block { margin-top: var(--sp-9); }
@@ -1922,9 +1940,6 @@
     font-size: clamp(2.25rem, 10cqw, 3.9rem);
     max-width: 15ch;
   }
-  /* .page-intro-grid p zeroes this to close the gap under a full-width
-     headline. The headline is inside the grid now, so the gap is back. */
-  .page-intro-grid.is-split p { margin-top: var(--sp-5); }
   .is-split .artpanel {
     grid-column: 2;
     justify-self: end;
@@ -1953,6 +1968,22 @@
     max-width: 15ch;
   }
 }
+
+/* ── Current-page CTA ─────────────────────────────────────────────── */
+/* On Contact, the header's "Get a quote" points at the page you are on.
+   It keeps aria-current for assistive tech and steps back to an outline,
+   so it stops asking you to go where you already are. */
+.site-header .btn[aria-current="page"] { background: transparent; color: var(--text); border-color: var(--hairline-color); }
+@media (hover: hover) and (pointer: fine) {
+  .site-header .btn[aria-current="page"]:hover { background: transparent; color: var(--text); border-color: var(--text); }
+}
+
+/* Homepage closing band carries the page's last ask. */
+.statement .btn { margin-top: var(--sp-8); }
+
+/* Pricing hero: points at the builder, which sits 2,620px down on a phone. */
+.config-jump { margin-top: var(--sp-6); }
+@media (hover: hover) and (pointer: fine) { .config-jump:hover .arrow { transform: translateY(3px); } }
 
 /* ── Touch target sizing ──────────────────────────────────────────── */
 /* These all clear WCAG 2.2 AA's 24px floor already. This lifts them to
@@ -2022,10 +2053,11 @@
 
 /* ── Service groups + brief builder (services.html) ───────────────── */
 /* "Design & build" and "Website Design" both measured 36.72px — a group
-   heading and one of the things inside it, identical. The group now
-   matches the section headings used across the rest of the site. */
+   heading and one of the things inside it, identical. --step-4 fixed that
+   but overshot: 80px groups under a 61px page title. --step-3 sits between
+   the two, so title > group > service reads in order. */
 .service-group-heading {
-  font-size: var(--step-4);
+  font-size: var(--step-3);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.05;
@@ -2776,7 +2808,7 @@
    and you control it. */
 /* Scoped to match .pricing-page .section, which would otherwise
    outrank it and put the generic band padding back on the hero. */
-.pricing-page .config-hero { padding-block: var(--sp-9) var(--sp-10); }
+.pricing-page .section.config-hero { padding-block: var(--sp-9) var(--sp-8); }
 .config-hero .config-heading {
   font-size: var(--step-4);
   line-height: 0.98;
@@ -3255,7 +3287,9 @@
 
 /* ── Contact form ─────────────────────────────────────────────────── */
 
-.contact-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-9); align-items: start; padding-block: var(--sp-9); }
+/* No padding of its own: the .section it sits in already pads, and the
+   two stacked to 192px of empty blue above the first field on a phone. */
+.contact-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-9); align-items: start; }
 @media (min-width: 1024px) { .contact-grid { grid-template-columns: minmax(0,7fr) minmax(0,5fr); gap: var(--sp-10); } }
 
 .contact-form { display: flex; flex-direction: column; gap: var(--sp-6); }

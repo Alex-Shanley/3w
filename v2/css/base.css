@@ -1,0 +1,465 @@
+/* 3w — reset, type application, grid
+   Depends on tokens.css being loaded first. */
+
+@font-face {
+  font-family: 'Inter Tight';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../assets/fonts/inter-tight-var.woff2') format('woff2-variations'),
+       url('../assets/fonts/inter-tight-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('../assets/fonts/geist-mono-var.woff2') format('woff2-variations'),
+       url('../assets/fonts/geist-mono-var.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/instrument-serif.woff2') format('woff2');
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+
+img, svg, video { display: block; max-width: 100%; }
+
+h1, h2, h3, h4, h5, h6, p, blockquote, figure { margin: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+p { max-width: 62ch; }
+p:not([class]) { text-wrap: pretty; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Underline-wipe: a background-image gradient sliding in from the left,
+   not a border — border-bottom can't animate its own thickness/position
+   without also shifting layout, background-size can. */
+.link-underline {
+  background-image: linear-gradient(var(--signal), var(--signal));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size var(--dur-base) var(--ease-out);
+}
+.link-underline:hover,
+.link-underline:focus-visible { background-size: 100% 1px; }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+::selection { background: var(--signal-tint); color: var(--ink-900); }
+
+input, textarea, select, button { font-family: inherit; }
+
+/* ── Skip link ────────────────────────────────────────────────────── */
+
+.skip-link {
+  position: fixed;
+  top: var(--sp-2);
+  left: var(--sp-2);
+  z-index: 10000;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface);
+  color: var(--text);
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  transform: translateY(-150%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* ── Page transition overlay ──────────────────────────────────────── */
+/* Static markup (first thing in <body> on every page), opaque by
+   default with no JS dependency — this is what a real navigation
+   wipes to and reveals from. main.js only ever toggles .is-hidden; if
+   it never runs (motion off, or the script fails to load) the overlay
+   would stay opaque forever, which is why base.css doesn't gate this
+   default state on prefers-reduced-motion — main.js's own no-motion
+   branch hides it immediately instead. */
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  background: var(--canvas);
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 420ms var(--ease-out);
+}
+.page-transition-overlay.is-hidden { opacity: 0; }
+
+/* ── Film grain ───────────────────────────────────────────────────── */
+/* A fixed, viewport-sized noise layer over the whole page — the flat
+   paper/blue/ink fills read as slightly tactile instead of perfectly
+   digital. Deliberately subtle: at this opacity it's felt, not seen.
+
+   Generated with SVG feTurbulence as a data URI rather than shipping a
+   texture file — no extra request, and it tiles seamlessly because
+   stitchTiles handles the edges.
+
+   pointer-events:none is load-bearing: this covers the entire viewport
+   including the header and every link, so without it the whole site
+   would be unclickable. z-index sits below the page-transition overlay
+   (10002) and the skip link (10000) so neither picks up grain, but
+   above ordinary content. It's a static texture, not motion, so it
+   isn't gated on prefers-reduced-motion. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Layout: container, 12/6/4-col grid ──────────────────────────── */
+
+.container {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-left: var(--page-pad);
+  padding-right: var(--page-pad);
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+}
+
+/* Column-span utilities addressed against the 12-col desktop grid.
+   Below 1024px, --grid-columns drops to 6/4 and spans clamp to the
+   full row rather than overflow — most sections opt into a simpler
+   span at each breakpoint explicitly instead of relying on this. */
+.col-span-12 { grid-column: span min(12, var(--grid-columns)); }
+.col-span-9  { grid-column: span min(9, var(--grid-columns)); }
+.col-span-8  { grid-column: span min(8, var(--grid-columns)); }
+.col-span-6  { grid-column: span min(6, var(--grid-columns)); }
+.col-span-5  { grid-column: span min(5, var(--grid-columns)); }
+.col-span-4  { grid-column: span min(4, var(--grid-columns)); }
+.col-span-3  { grid-column: span min(3, var(--grid-columns)); }
+
+/* ── Section rhythm ───────────────────────────────────────────────── */
+
+/* Every in-page anchor landed its target underneath the 73px sticky
+   header: scroll-margin was set nowhere, so #website-design and the
+   seven services beside it — linked from the jump-to index and from the
+   footer of all 13 pages, 100+ links — scrolled to the viewport top with
+   the header sitting on top of the heading you had just asked for.
+   scroll-padding on the scrolling element fixes every anchor at once,
+   including the skip link. */
+html { scroll-padding-top: 104px; }
+
+.section {
+  padding-block: var(--sp-9);
+}
+@media (min-width: 1024px) {
+  .section { padding-block: var(--sp-11); }
+}
+
+/* ── Mono micro-labels ────────────────────────────────────────────── */
+
+.mono-label {
+  font-family: var(--font-mono);
+  /* Owns its weight rather than inheriting. Some of these labels are the
+     visible text of an <h2> (the case-study row labels), and the shared
+     heading rule sets 600 — which would render this micro-label bolder
+     than the identical ones elsewhere on the page. */
+  font-weight: 400;
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* ── Grid debug overlay (?grid) ───────────────────────────────────── */
+/* Toggled by nav.js reading location.search — CSS-only rendering so
+   there is zero runtime cost once the class is present. Column fills
+   mirror .container/.grid-12 exactly, so what you see here is the real
+   grid every section is built against, not an approximation. */
+
+.debug-grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+.debug-grid-overlay .container {
+  height: 100%;
+}
+.debug-grid-overlay .grid-12 {
+  height: 100%;
+}
+.debug-grid-overlay .col {
+  height: 100%;
+  background: color-mix(in srgb, var(--signal) 8%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--signal) 25%, transparent);
+}
+.debug-grid-baseline {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--positive) 30%, transparent) 0,
+    color-mix(in srgb, var(--positive) 30%, transparent) 1px,
+    transparent 1px,
+    transparent 16px
+  );
+}
+
+/* ── Cross-document view transitions ──────────────────────────────── */
+/* Native page morphing between same-origin documents. This replaces the
+   JS overlay wipe, which had to hold every navigation open for 420ms
+   before it could even start loading the next page; the browser now
+   runs the transition itself, on the compositor, with no delay added.
+
+   The opt-in has to sit at the top level. Wrapping it in a
+   prefers-reduced-motion media query looked tidier and silently did
+   nothing — Chrome does not honour @view-transition inside a
+   conditional group rule, so navigations simply never transitioned.
+   Reduced motion is handled below by cancelling the animations, which
+   gives those visitors an instant swap rather than a slow one.
+
+   Browsers without support just navigate, and main.js keeps the old
+   overlay wipe for them. */
+@view-transition { navigation: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
+
+/* Deliberately understated: a short dissolve with a fraction of a
+   percent of scale. The old wipe covered the whole viewport in ink,
+   which is a big gesture to repeat on every single click. Literal
+   easing rather than var(), since these pseudo-elements live in the
+   view transition layer rather than the document tree. */
+::view-transition-old(root) {
+  animation: vt-fade-out 220ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+  animation: vt-fade-in 300ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+@keyframes vt-fade-out { to { opacity: 0; transform: scale(0.995); } }
+@keyframes vt-fade-in { from { opacity: 0; transform: scale(1.004); } }
+
+/* Shared elements: a project's card on the index morphs into that
+   project's hero band on its case study. Paired by a data-vt slug on
+   both ends — view-transition-name has to be a literal, and it has to
+   be unique per document, which a slug per project satisfies since each
+   name appears once on any given page. */
+[data-vt="avoca"]      { view-transition-name: case-avoca; }
+[data-vt="platinum"]   { view-transition-name: case-platinum; }
+[data-vt="engage"]     { view-transition-name: case-engage; }
+[data-vt="healy"]      { view-transition-name: case-healy; }
+[data-vt="northbrook"] { view-transition-name: case-northbrook; }
+
+/* ── Scroll-driven animations ─────────────────────────────────────── */
+/* Reading progress, driven entirely by the scroll position rather than
+   a scroll listener — it runs on the compositor, so it cannot jank the
+   way a JS rail does, and it costs no main-thread work at all.
+
+   The base state is scaleX(0), so where animation-timeline isn't
+   supported the rail simply never appears. That is the right fallback:
+   an unanimated full-width bar would read as a border nobody asked for. */
+.scroll-rail {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  z-index: 300;
+  pointer-events: none;
+}
+@keyframes rail-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes numeral-drift {
+  from { transform: translateY(-24%); }
+  to   { transform: translateY(-76%); }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-rail {
+      animation: rail-grow linear both;
+      animation-timeline: scroll(root block);
+    }
+
+    /* The oversized ghost numerals drift as their band crosses the
+       viewport. This is the thing IntersectionObserver does badly:
+       it can tell you an element entered, but not how far through the
+       viewport it is, so a continuous parallax needs a scroll handler.
+       view() gives it for free, tied to each element's own progress.
+       Centred on the -50% the static rule already sets, so the resting
+       position is unchanged. */
+    .has-numeral::before {
+      animation: numeral-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+/* ── First-visit intro ────────────────────────────────────────────── */
+/* Shown once per session, not per page — an intro that replays on every
+   navigation stops being an intro and becomes a toll. .is-first-visit is
+   set by the inline <head> script before first paint, so the panel never
+   flashes on pages that shouldn't show it.
+
+   Four beats, overlapping rather than queued, which is what stops it
+   reading as a progress bar: the wordmark masks up, the label follows a
+   beat later, a blue rule wipes through under them, then the whole panel
+   lifts away like a curtain. Total 1.06s.
+
+   Always ink, in both themes. The intro is a brand moment rather than a
+   loading screen, so it commits to one look and the page underneath
+   arrives in whatever theme the visitor is on — which also removes any
+   possibility of flashing the wrong palette before the theme resolves.
+   Colours are hardcoded for the same reason .bg-ink hardcodes its own:
+   --paper and --signal both flip, this panel never does.
+
+   Everything about the dismissal is CSS, so a failed or blocked script
+   cannot leave anyone stuck behind it, and pointer-events are off the
+   whole time so it never eats a click even while visible. */
+.site-preload { display: none; }
+
+.is-first-visit .site-preload {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--sp-4);
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: #0B0B0C;
+  pointer-events: none;
+  overflow: hidden;
+  animation: preload-lift 360ms cubic-bezier(0.76, 0, 0.24, 1) 700ms both;
+}
+/* The curtain: the panel itself leaves upward, so the page is revealed
+   rather than faded to. */
+@keyframes preload-lift {
+  to { transform: translateY(-100%); visibility: hidden; }
+}
+
+.site-preload-stage { display: grid; gap: var(--sp-3); justify-items: center; }
+
+/* Each line is its own mask — the same slide-up-out-of-a-clipped-box
+   the section headings use, so the intro is made of the site's own
+   device rather than a separate idea. */
+.site-preload-line { display: block; overflow: hidden; }
+.site-preload-line > span { display: block; }
+
+.site-preload-mark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3.2rem, 11vw, 6rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #F7F5F1;
+  /* Two axes at once: the mark rises, and its weight settles from 400 to
+     600 as it lands. Inter Tight is variable across exactly that range,
+     and nothing else on the site touches its axes.
+
+     Deliberately here and not on the hero headline, which was the
+     obvious place for it. font-weight animates layout rather than
+     compositing, so it costs a reflow per frame — affordable on two
+     glyphs at 96px that play once a session, not on 12rem display type
+     that every visitor sees. The effect goes where it is cheap. */
+  animation: preload-rise 400ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both,
+             preload-weight 520ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both;
+}
+@keyframes preload-weight {
+  from { font-variation-settings: "wght" 400; }
+  to   { font-variation-settings: "wght" 600; }
+}
+/* The lifted blue, not --signal: the darker light-mode blue is close to
+   invisible on this panel. */
+.site-preload-mark .accent { color: #5C72FF; }
+
+.site-preload-label {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: rgba(247, 245, 241, 0.68);
+  animation: preload-rise 360ms cubic-bezier(0.16, 1, 0.3, 1) 140ms both;
+}
+@keyframes preload-rise { from { transform: translateY(110%); } to { transform: translateY(0); } }
+
+/* A rule that wipes through rather than fills up. A bar that fills to
+   100% is a progress bar, and it would be lying — nothing here measures
+   real load progress. A wipe just marks time passing. */
+.site-preload-sweep {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background: #5C72FF;
+  animation: preload-sweep 420ms cubic-bezier(0.65, 0, 0.35, 1) 360ms both;
+}
+@keyframes preload-sweep {
+  from { clip-path: inset(0 100% 0 0); }
+  60%  { clip-path: inset(0 0 0 0); }
+  to   { clip-path: inset(0 0 0 100%); }
+}
+
+/* Asked for less motion means asked for less waiting, too. */
+@media (prefers-reduced-motion: reduce) {
+  .is-first-visit .site-preload { display: none; }
+}

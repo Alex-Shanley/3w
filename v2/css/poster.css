@@ -1,0 +1,438 @@
+/* ══════════════════════════════════════════════════════════════════════
+   Direction A — "Poster"
+   Loaded after sections.css on every page. The existing stylesheet keeps
+   doing the structural and functional work (configurator, brief builder,
+   forms, FAQ, timeline); this layer changes what the site looks like:
+   blue poster heroes with the header sitting on them, pill buttons,
+   heavy rules, giant section heads, ink footer.
+
+   Theme: every paper surface still reads --canvas/--text, so the light/
+   dark toggle keeps working. The blue heroes and ink bands are
+   theme-invariant on purpose (same approach .bg-ink already takes): the
+   brand blue is the page's identity in both themes.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --poster-blue: #1B34F0;
+  --poster-paper: #F7F5F1;
+  --poster-ink: #0B0B0C;
+  --poster-ink-band: #0B0B0C;
+  /* currentColor, not var(--text): a var() inside a custom property is
+     resolved once on :root, so the rule stayed ink on blue and ink bands. */
+  --rule: 2px solid currentColor;
+}
+/* In dark mode the canvas is #08080A, so an #0B0B0C ink band would be
+   indistinguishable from the page around it. Lifted just enough to read
+   as its own band. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --poster-ink-band: #16161A; }
+}
+:root[data-theme="dark"] { --poster-ink-band: #16161A; }
+
+.bg-ink { background: var(--poster-ink-band); --canvas: var(--poster-ink-band); }
+
+/* ── Buttons: pills, heavier ─────────────────────────────────────────── */
+.btn {
+  height: 52px;
+  padding: 0 28px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
+  letter-spacing: -0.01em;
+}
+.site-header .btn { height: 44px; padding: 0 22px; }
+.theme-toggle { border-radius: 999px; }
+
+/* ── Blue poster surfaces ────────────────────────────────────────────── */
+/* Every hero on the site, plus the homepage's pricing and closing bands.
+   Tokens re-scoped the way .bg-ink does it, hardcoded so they hold in
+   both themes: paper on #1B34F0 is 6.9:1, paper at 80% is 5.0:1. */
+.poster-blue,
+.poster-hero,
+.page-intro,
+.config-hero,
+.cs-hero.bg-ink {
+  background: var(--poster-blue);
+  color: var(--poster-paper);
+  --text: #F7F5F1;
+  --text-secondary: rgba(247, 245, 241, 0.8);
+  --hairline-color: rgba(247, 245, 241, 0.32);
+  --canvas: #1B34F0;
+  --signal: #F7F5F1;
+  --signal-hover: #FFFFFF;
+  --rule: 2px solid rgba(247, 245, 241, 0.4);
+}
+.poster-blue .mono-label,
+.poster-hero .mono-label,
+.page-intro .mono-label,
+.config-hero .mono-label,
+.cs-hero.bg-ink .mono-label { color: rgba(247, 245, 241, 0.8); }
+/* On blue the primary button is paper with ink text. --paper flips in
+   dark mode, so this is hardcoded rather than tokenised. */
+.poster-blue .btn-solid,
+.poster-hero .btn-solid,
+.page-intro .btn-solid,
+.config-hero .btn-solid,
+.cs-hero .btn-solid,
+.bg-alt .btn-solid { background: #F7F5F1; color: #0B0B0C; }
+@media (hover: hover) and (pointer: fine) {
+  .poster-blue .btn-solid:hover,
+  .poster-hero .btn-solid:hover,
+  .page-intro .btn-solid:hover,
+  .config-hero .btn-solid:hover,
+  .cs-hero .btn-solid:hover,
+  .bg-alt .btn-solid:hover { background: #FFFFFF; }
+}
+
+/* The inner pages' blue bands (.bg-alt) paint var(--signal), which lifts
+   to periwinkle #5C72FF with ink text in dark mode — so in dark mode the
+   heroes were poster blue and the bands below them a different, lighter
+   blue. Pinned to the same blue as the heroes in both themes. Only the
+   --on-signal family is redefined: .bg-alt derives --text, --canvas and
+   its hairlines from those on the same element, so every existing .bg-alt
+   rule (links, focus ring, picks, ticks) follows without being rewritten.
+   The form error colour is 4.9:1 on #1B34F0. */
+.bg-alt {
+  background: var(--poster-blue);
+  --canvas: #1B34F0;
+  --on-signal: #F7F5F1;
+  --on-signal-secondary: rgba(247, 245, 241, 0.8);
+  --on-signal-hairline: rgba(247, 245, 241, 0.32);
+  --on-signal-error: #FFC2BA;
+}
+
+/* --hairline is `1px solid var(--hairline-color)` declared on :root, and a
+   var() inside a custom property resolves where it is declared — so every
+   hairline on a coloured band kept the page's colour (ink pill outlines on
+   blue). Re-declared on each band so it picks up the band's own colour. */
+.bg-alt,
+.bg-ink,
+.poster-blue,
+.poster-hero,
+.page-intro,
+.config-hero,
+.site-footer { --hairline: 1px solid var(--hairline-color); }
+
+/* ── Header sits on the blue until you scroll ────────────────────────── */
+.site-header:not(.is-scrolled)::before {
+  background: var(--poster-blue);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.site-header:not(.is-scrolled) .nav-row > .wordmark,
+.site-header:not(.is-scrolled) .nav-row > .wordmark .accent { color: #F7F5F1; }
+.site-header:not(.is-scrolled) .nav-row > .main-nav a { color: rgba(247, 245, 241, 0.78); }
+.site-header:not(.is-scrolled) .nav-row > .main-nav a[aria-current="page"] { color: #F7F5F1; }
+@media (hover: hover) and (pointer: fine) {
+  .site-header:not(.is-scrolled) .nav-row > .main-nav a:hover { color: #F7F5F1; }
+}
+.site-header:not(.is-scrolled) .nav-actions > .theme-toggle { color: #F7F5F1; border-color: rgba(247, 245, 241, 0.45); }
+.site-header:not(.is-scrolled) .nav-actions > .btn-solid { background: #F7F5F1; color: #0B0B0C; }
+.site-header:not(.is-scrolled) .nav-actions > .btn[aria-current="page"] { background: transparent; color: #F7F5F1; border-color: rgba(247, 245, 241, 0.55); }
+.site-header:not(.is-scrolled) .nav-actions > .mobile-menu > summary { color: #F7F5F1; }
+.site-header:not(.is-scrolled) .mobile-menu > summary .icon span { background: currentColor; }
+.wordmark { font-size: 30px; letter-spacing: -0.05em; }
+
+/* ── Inner-page heroes ───────────────────────────────────────────────── */
+.page-intro { padding-bottom: var(--sp-9); }
+@media (min-width: 1024px) {
+  .page-intro h1 { font-size: clamp(2.75rem, 9cqw, 8rem); letter-spacing: -0.055em; line-height: 0.9; }
+}
+/* Split heroes lean 3:2 toward the copy so the headline can grow; the
+   art panel is capped at 520px anyway. */
+@media (min-width: 900px) {
+  .page-intro-grid.is-split { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .is-split h1 { font-size: clamp(2.6rem, 11cqw, 5.8rem); letter-spacing: -0.055em; line-height: 0.92; max-width: 14ch; }
+  .page-intro-grid.is-split .config-heading { font-size: clamp(2.6rem, 11cqw, 5.8rem); letter-spacing: -0.055em; max-width: 14ch; }
+}
+.cs-hero h1 { font-size: clamp(2.6rem, 7.4vw, 8rem); letter-spacing: -0.055em; line-height: 0.9; max-width: 15ch; }
+
+/* ── Rules and bands ─────────────────────────────────────────────────── */
+.cta-band h2 { letter-spacing: -0.05em; }
+.section-index { margin-bottom: var(--sp-5); }
+
+/* ── Footer: ink, giant mark ─────────────────────────────────────────── */
+.site-footer {
+  background: var(--poster-ink-band);
+  color: #F7F5F1;
+  border-top: 0;
+  --text: #F7F5F1;
+  --text-secondary: rgba(247, 245, 241, 0.68);
+  --hairline-color: rgba(247, 245, 241, 0.18);
+  --canvas: var(--poster-ink-band);
+  --signal: #8C9CFF;
+}
+.site-footer .mono-label { color: #F7F5F1; }
+.footer-mark { font-size: clamp(4.5rem, 15vw, 13rem); letter-spacing: -0.075em; line-height: 0.78; }
+.footer-mark .accent { color: #7C8FFF; }
+.footer-email { color: #F7F5F1; font-size: clamp(1.5rem, 2.8vw, 2.8rem); letter-spacing: -0.035em; }
+@media (hover: hover) and (pointer: fine) { .footer-email:hover { color: #8C9CFF; } }
+
+/* ══════════════════════════════════════════════════════════════════════
+   Homepage
+   ══════════════════════════════════════════════════════════════════════ */
+
+.poster-hero {
+  /* Fills the first screen on laptops and phones, but stops growing on
+     very tall displays, where an uncapped 100svh became a wall of empty
+     blue above the headline. */
+  min-height: min(calc(100svh - 72px), 980px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(40px, 6vw, 96px) 0 clamp(28px, 4vw, 56px);
+}
+.poster-hero > .container { width: 100%; }
+.poster-h1 {
+  font-weight: 600;
+  font-size: clamp(3.1rem, 12.1vw, 11.2rem);
+  line-height: 0.84;
+  letter-spacing: -0.062em;
+  margin: clamp(18px, 2vw, 28px) 0 clamp(32px, 4vw, 56px);
+  color: #F7F5F1;
+  max-width: none;
+}
+.poster-h1 span { display: block; }
+.poster-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: clamp(24px, 3vw, 48px);
+  flex-wrap: wrap;
+  border-top: 2px solid rgba(247, 245, 241, 0.38);
+  padding-top: clamp(20px, 2.4vw, 32px);
+}
+.poster-foot p { font-size: clamp(1.15rem, 1.7vw, 1.7rem); max-width: 30ch; line-height: 1.28; font-weight: 500; color: #F7F5F1; margin: 0; }
+.poster-ctas { display: flex; align-items: center; gap: clamp(16px, 2vw, 28px); flex-wrap: wrap; }
+.btn.btn-poster { height: auto; min-height: 64px; padding: 0 clamp(26px, 2.6vw, 40px); font-size: clamp(1.05rem, 1.5vw, 1.45rem); background: #F7F5F1; color: #0B0B0C; }
+.poster-ctas .link-arrow { color: #F7F5F1; font-size: clamp(1rem, 1.2vw, 1.15rem); }
+.poster-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(16px, 1.6vw, 22px); }
+.poster-chips a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1.5px solid rgba(247, 245, 241, 0.45);
+  border-radius: 999px;
+  color: #F7F5F1;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) { .poster-chips a:hover { background: #F7F5F1; color: #0B0B0C; } }
+
+/* Giant section heads */
+.poster-head {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(16px, 3vw, 56px);
+  margin-bottom: clamp(44px, 6vw, 100px);
+}
+.poster-head .mono-label { padding-top: 1.3em; min-width: 11ch; margin: 0; flex-shrink: 0; }
+.poster-head h2 {
+  font-weight: 600;
+  font-size: clamp(2.7rem, 8vw, 8.8rem);
+  line-height: 0.86;
+  letter-spacing: -0.058em;
+  max-width: none;
+}
+
+/* Services as a giant index */
+.poster-svc { list-style: none; margin: 0; padding: 0; border-bottom: var(--rule); }
+.poster-svc li {
+  display: grid;
+  grid-template-columns: minmax(36px, 84px) minmax(0, 1fr) minmax(0, 34ch) minmax(0, 150px);
+  align-items: center;
+  gap: clamp(14px, 2vw, 32px);
+  padding: clamp(14px, 1.5vw, 22px) 14px;
+  border-top: var(--rule);
+  transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out), padding var(--dur-base) var(--ease-out);
+}
+.poster-svc b { font-weight: 600; font-size: clamp(1.8rem, 4.5vw, 4.8rem); letter-spacing: -0.05em; line-height: 1; }
+.poster-svc em { font-style: normal; color: var(--text-secondary); line-height: 1.42; font-size: clamp(0.95rem, 1.05vw, 1.08rem); }
+.poster-svc .chip { justify-self: end; text-align: right; }
+@media (hover: hover) and (pointer: fine) {
+  .poster-svc li:hover { background: var(--poster-blue); color: #F7F5F1; padding-left: 28px; }
+  .poster-svc li:hover em,
+  .poster-svc li:hover .mono-label { color: rgba(247, 245, 241, 0.85); }
+}
+.poster-more { margin-top: clamp(28px, 3vw, 44px); }
+
+/* Work as image tiles */
+.poster-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 2vw, 28px); }
+.poster-tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 20px;
+  min-height: clamp(300px, 32vw, 500px);
+  background: #1B1B1E;
+  color: #F7F5F1;
+  text-decoration: none;
+}
+.poster-tile.wide { grid-column: span 2; min-height: clamp(300px, 40vw, 620px); }
+.poster-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .poster-tile:hover img { transform: scale(1.05); } }
+.poster-tile .cap {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  padding: clamp(20px, 2.4vw, 36px);
+  background: linear-gradient(transparent, rgba(8, 8, 10, 0.9));
+}
+.poster-tile .cap b { font-weight: 600; font-size: clamp(1.6rem, 3.1vw, 3.3rem); letter-spacing: -0.045em; line-height: 1; }
+.poster-tile .mono-label { color: rgba(247, 245, 241, 0.82); }
+.poster-tile.text {
+  background: var(--poster-blue);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(24px, 3vw, 44px);
+}
+.poster-tile.text b { font-weight: 600; font-size: clamp(2.2rem, 4.4vw, 4.6rem); letter-spacing: -0.05em; line-height: 0.92; }
+.poster-tile.text p { font-size: clamp(1.02rem, 1.25vw, 1.25rem); line-height: 1.4; max-width: 34ch; color: rgba(247, 245, 241, 0.9); margin-top: 16px; }
+.poster-tile.text .go { font-weight: 600; font-size: clamp(1rem, 1.2vw, 1.15rem); }
+.poster-tile:focus-visible { outline: 3px solid #7C8FFF; outline-offset: 3px; }
+
+/* Pricing: giant numbers on blue */
+.poster-prices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 2px solid rgba(247, 245, 241, 0.45); }
+.poster-prices .p { padding: clamp(24px, 2.6vw, 36px) clamp(12px, 2vw, 28px) 0 0; }
+.poster-prices .p + .p { padding-left: clamp(12px, 2vw, 28px); border-left: 2px solid rgba(247, 245, 241, 0.25); }
+.poster-prices strong { display: block; font-weight: 600; font-size: clamp(2.6rem, 7vw, 8rem); letter-spacing: -0.065em; line-height: 0.9; margin-bottom: 16px; }
+.poster-note { margin-top: clamp(32px, 4vw, 56px); font-size: clamp(1.05rem, 1.4vw, 1.4rem); max-width: 52ch; font-weight: 500; }
+.poster-blue .link-arrow { margin-top: clamp(20px, 2vw, 28px); }
+
+/* Process on paper, heavy rules */
+.process .process-step { border-top: var(--rule); border-radius: 0; box-shadow: none; }
+.process .process-step-num { color: var(--signal); font-weight: 600; letter-spacing: -0.06em; }
+
+/* FAQ at poster size */
+.poster-faq .faq-item summary { font-size: clamp(1.25rem, 2.3vw, 2.3rem); font-weight: 600; letter-spacing: -0.035em; }
+
+/* Closer */
+.poster-closer { padding-block: clamp(96px, 12vw, 200px); }
+.poster-giant {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.12em;
+  margin-top: 24px;
+  font-weight: 600;
+  font-size: clamp(3.2rem, 13.2vw, 12.4rem);
+  letter-spacing: -0.07em;
+  line-height: 0.86;
+  color: #F7F5F1;
+  text-decoration: none;
+}
+.poster-giant i { font-style: normal; display: inline-block; transition: transform 0.35s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .poster-giant:hover i { transform: translateX(0.14em); } }
+.poster-giant:focus-visible { outline: 3px solid #F7F5F1; outline-offset: 6px; }
+
+@media (max-width: 820px) {
+  .poster-head { flex-direction: column; gap: 12px; }
+  .poster-head .mono-label { padding-top: 0; }
+  .poster-svc li { grid-template-columns: 34px minmax(0, 1fr); }
+  .poster-svc em, .poster-svc .chip { grid-column: 2; justify-self: start; text-align: left; }
+  .poster-tiles { grid-template-columns: 1fr; }
+  .poster-tile.wide { grid-column: auto; }
+  .poster-prices { grid-template-columns: 1fr; }
+  .poster-prices .p + .p { padding-left: 0; border-left: 0; border-top: 2px solid rgba(247, 245, 241, 0.25); margin-top: 24px; }
+}
+
+/* About's statement band sized itself at 80vh with no ceiling, so on a tall
+   display it ran to thousands of pixels of mostly empty band. */
+.statement { min-height: min(80vh, 760px); }
+
+/* ══════════════════════════════════════════════════════════════════════
+   Inner pages — the same heavy rules and display type as the homepage,
+   so About, Work, Contact and the case studies stop reading as the old
+   site underneath a new hero.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Rules: 2px in the text colour everywhere a hairline divided content */
+.faq-list,
+.stack-list { border-top: var(--rule); }
+.faq-item,
+.stack-list-row,
+.service-detail { border-bottom: var(--rule); }
+.about-credentials,
+.next-steps { border-top: var(--rule); }
+.faq-item summary { font-weight: 600; font-size: clamp(1.2rem, 2vw, 2rem); letter-spacing: -0.03em; }
+
+/* CTA band */
+.cta-band h2 { font-weight: 600; font-size: clamp(2.4rem, 6vw, 6.2rem); line-height: 0.92; max-width: 16ch; }
+
+/* About: "What we do" as a display index, numbers at poster size */
+.stack-list-row { align-items: center; padding-block: clamp(20px, 2.4vw, 36px); }
+.stack-list dt { font-weight: 600; font-size: clamp(1.9rem, 4.2vw, 4.4rem); letter-spacing: -0.05em; line-height: 1; }
+.stack-list dd { font-size: clamp(1rem, 1.15vw, 1.15rem); }
+.stat-band .num { font-size: clamp(3.6rem, 9vw, 9rem); letter-spacing: -0.065em; line-height: 0.9; }
+
+/* Services page rows */
+.service-detail-list { border-top: var(--rule); }
+/* On hover-capable desktops the rows bleed 16px past the column for the
+   hover tint, which pushed their rules 16px past the list's top rule. The
+   rule is drawn as a background instead, inset back to the column. The
+   base :hover rule uses the background shorthand, so the hover state
+   restates the image rather than losing it. */
+@media (hover: hover) and (min-width: 1100px) {
+  .service-detail,
+  .service-detail:hover {
+    border-bottom: 0;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: calc(100% - 2 * var(--sp-4)) 2px;
+    background-position: 50% 100%;
+  }
+  .service-detail:hover { background-color: color-mix(in srgb, var(--text) 7%, transparent); }
+}
+.service-detail-body h3 { font-weight: 600; font-size: clamp(1.8rem, 3.2vw, 3.3rem); letter-spacing: -0.05em; line-height: 1; }
+
+/* Work index: lead project at poster scale, the rest as screenshot cards */
+.work-featured .work-featured-num { font-family: var(--font-display); font-weight: 600; font-size: clamp(5rem, 14vw, 13rem); letter-spacing: -0.07em; line-height: 0.8; color: #7C8FFF; opacity: 1; }
+.work-featured-body h2 { font-weight: 600; font-size: clamp(2.6rem, 6.4vw, 6.4rem); letter-spacing: -0.055em; line-height: 0.92; }
+/* Cards share a row height with a wider neighbour, so the screenshot grows
+   to take up the slack instead of leaving white space under the copy. */
+.work-card { border: 0; border-radius: 20px; display: flex; flex-direction: column; }
+.work-card-shot { position: relative; flex: 1 1 auto; aspect-ratio: auto; min-height: clamp(220px, 22vw, 360px); background: #1B1B1E; }
+.work-card-shot img { position: absolute; inset: 0; }
+.work-card-shot-num {
+  position: absolute;
+  left: clamp(18px, 2vw, 28px);
+  bottom: clamp(14px, 1.6vw, 22px);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  letter-spacing: -0.06em;
+  line-height: 0.8;
+  color: #F7F5F1;
+  text-shadow: 0 2px 24px rgba(8, 8, 10, 0.55);
+}
+.work-card-body h3 { font-weight: 600; font-size: clamp(1.8rem, 3vw, 3rem); letter-spacing: -0.045em; line-height: 1; }
+@media (hover: hover) and (pointer: fine) { .work-card:hover .work-card-shot img { transform: scale(1.05); } }
+
+/* Case studies: deliverables as ruled columns instead of thin boxes */
+.cs-cards { column-gap: clamp(20px, 3vw, 48px); row-gap: clamp(36px, 4vw, 60px); }
+.cs-card { border: 0; border-top: var(--rule); border-radius: 0; background: transparent; padding: clamp(18px, 1.8vw, 26px) 0 0; }
+.cs-card h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.3rem, 1.9vw, 1.9rem); letter-spacing: -0.035em; line-height: 1.05; text-transform: none; border-bottom: 0; padding-bottom: 0; }
+.cs-card p { font-size: var(--step-0); }
+.cs-table th { border-bottom: var(--rule); }
+
+/* Contact form: heavier fields to match the pill buttons */
+.field input,
+.field select,
+.field textarea { border-width: 2px; border-radius: 14px; }
+.field input,
+.field select { height: 56px; }
+
+/* Version switch sitting on the blue header */
+.version-switch a { font-weight: 600; }
+.site-header:not(.is-scrolled) .nav-actions > .version-switch { border-color: rgba(247, 245, 241, 0.45); }
+.site-header:not(.is-scrolled) .nav-actions > .version-switch a { color: rgba(247, 245, 241, 0.78); }
+.site-header:not(.is-scrolled) .nav-actions > .version-switch a[aria-current="true"] { background: #F7F5F1; color: #0B0B0C; }
+@media (hover: hover) and (pointer: fine) {
+  .site-header:not(.is-scrolled) .nav-actions > .version-switch a:not([aria-current]):hover { color: #F7F5F1; }
+}

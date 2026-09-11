@@ -436,3 +436,6 @@
 @media (hover: hover) and (pointer: fine) {
   .site-header:not(.is-scrolled) .nav-actions > .version-switch a:not([aria-current]):hover { color: #F7F5F1; }
 }
+
+/* Menu-panel CTA: match the redesign's button type (see sections.css) */
+.mobile-menu-panel .btn { font-weight: 600; font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem); letter-spacing: -0.01em; }

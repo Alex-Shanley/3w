@@ -83,6 +83,14 @@
 .nav-actions { display: flex; align-items: center; gap: var(--sp-4); }
 .nav-actions .btn { display: none; }
 @media (min-width: 600px) { .nav-actions .btn { display: inline-flex; } }
+/* The rule above hides the header CTA below 600px, where there is no room
+   for it, but the mobile menu panel sits inside .nav-actions too, so its
+   "Get a quote" was hidden on exactly the screens that need the menu. */
+/* .mobile-menu-panel a (0,1,1) outranks .btn and .btn-solid, so the button
+   also picked up the panel's display-size link type and --text colour:
+   ink on blue. Restated at (0,2,0). */
+.mobile-menu-panel .btn { display: inline-flex; font-family: var(--font-body); font-weight: 500; font-size: var(--step--1); letter-spacing: normal; padding-block: 0; }
+.mobile-menu-panel .btn-solid { color: var(--paper); }
 
 /* ── Theme toggle ─────────────────────────────────────────────────── */
 /* nav.js reads/writes data-theme and sessionStorage; this only styles
